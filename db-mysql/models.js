@@ -14,20 +14,19 @@ var queryName = function(cb) {
     } else {
       cb(null, results);
     }
-	
 	});
 }
 */
 
-// Test models 
+// Test models
 var selectAllFromTest = (cb) => {
   connection.query('SELECT * FROM test', (err, results) => {
     if (err) {
       cb(err, null);
     } else {
-      cb(null, results)
+      cb(null, results);
     }
-  })
+  });
 };
 
 var insertValueIntoTest = (val, cb) => {
@@ -37,7 +36,8 @@ var insertValueIntoTest = (val, cb) => {
       if (err) {
         cb(err, null);
       } else {
-        // do nothing since successful
+        // call the callback
+        cb();
       }
     });
 };
