@@ -1,7 +1,11 @@
 var mysql = require('mysql');
 var mysqlConfig = require ('./config.js');
 
-var connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL) || mysql.createConnection(mysqlConfig);
+var connection = mysql.createConnection(mysqlConfig);
+
+if (process.env.NODE_ENV === 'production') {
+  connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
+}
 
 
 // to run: mysql -u username -p database_name < file.sql
