@@ -6,6 +6,7 @@ import { createLogger } from 'redux-logger';
 import reducer from './app/reducers';
 import { AppRegistry } from 'react-native';
 import AppContainer from './app/containers/AppContainer';
+//import App from './app/index';
 
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 

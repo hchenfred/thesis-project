@@ -1,5 +1,4 @@
 {
-<<<<<<< fa5e4fe8476511f042c8fc8d77721ac3b76ad714
   "name": "ThesisProject",
   "version": "0.0.1",
   "private": true,
@@ -17,6 +16,10 @@
     "nodemon": "^1.11.0",
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.2",
+    "react-native-elements": "^0.10.3",
+    "react-native-icons": "^0.7.1",
+    "react-native-vector-icons": "^4.0.1",
+    "react-navigation": "git+https://github.com/react-community/react-navigation.git",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
@@ -38,26 +41,3 @@
     "preset": "react-native"
   }
 }
-=======
-	"name": "ThesisProject",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest"
-	},
-	"dependencies": {
-		"react": "16.0.0-alpha.6",
-		"react-native": "0.43.2"
-	},
-	"devDependencies": {
-		"babel-jest": "19.0.0",
-		"babel-preset-react-native": "1.9.1",
-		"jest": "19.0.2",
-		"react-test-renderer": "16.0.0-alpha.6"
-	},
-	"jest": {
-		"preset": "react-native"
-	}
-}
->>>>>>> (feat) create a new react-native project without Redux
