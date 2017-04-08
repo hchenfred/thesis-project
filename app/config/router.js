@@ -1,13 +1,22 @@
 import React from 'react';
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
 import Feed from '../screens/Feed';
 import Me from '../screens/Me';
 
-export const Tabs = TabNavigator({
+export const FeedStack = StackNavigator({
   Feed: {
     screen: Feed,
+    navigationOptions: {
+      title: 'Feed',
+    },
+  },
+});
+
+export const Tabs = TabNavigator({
+  Feed: {
+    screen: FeedStack,
     navigationOptions: {
       tabBar: {
         label: 'Feed',
@@ -20,7 +29,7 @@ export const Tabs = TabNavigator({
     navigationOptions: {
       tabBar: {
         label: 'Me',
-        icon: ({ tintColor }) => <Icon name="rowing" size={35} color={tintColor} />
+        icon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />
       },
     },
   },
