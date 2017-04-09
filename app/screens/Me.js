@@ -27,7 +27,6 @@ class Me extends Component {
         <TouchableHighlight onPress={() => {this.props.addCount() }}>
           <Text>click to add</Text>
         </TouchableHighlight>
-        <Login />
       </View>
   }
 }

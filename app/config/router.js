@@ -10,7 +10,7 @@ export const FeedStack = StackNavigator({
   Feed: {
     screen: Feed,
     navigationOptions: {
-      title: 'Feed',
+      title: 'Home',
     },
   },
 });
