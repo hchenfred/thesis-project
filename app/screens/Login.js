@@ -28,7 +28,7 @@ class Login extends Component {
   componentWillMount() {
     // Create a graph request asking for user information with a callback to handle the response.
     const infoRequest = new GraphRequest(
-      '/me?fields=name,picture,email',
+      '/me?fields=name,picture,email,friends',
       null,
       this.responseInfoCallback,
     );
