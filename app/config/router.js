@@ -2,24 +2,24 @@ import React from 'react';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-import Feed from '../screens/Feed';
 import Me from '../screens/Me';
+import Login from '../screens/Login';
 
-export const FeedStack = StackNavigator({
-  Feed: {
-    screen: Feed,
+export const LoginStack = StackNavigator({
+  Login: {
+    screen: Login,
     navigationOptions: {
-      title: 'Feed',
+      title: 'Login',
     },
   },
 });
 
 export const Tabs = TabNavigator({
-  Feed: {
-    screen: FeedStack,
+  Login: {
+    screen: LoginStack,
     navigationOptions: {
       tabBar: {
-        label: 'Feed',
+        label: 'Login',
         icon: ({ tintColor }) => <Icon name="list" size={35} color={tintColor} />
       },
     },

@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
-import ReactNative from 'react-native';
-
-const {
+import { SocialIcon } from 'react-native-elements';
+import {
+  StyleSheet,
   View,
-} = ReactNative;
+} from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+});
 
 const FBSDK = require('react-native-fbsdk');
 
@@ -20,10 +29,10 @@ class Login extends Component {
     this.state = {
       name: '',
       pic: '',
+      isLoggedIn: false,
     };
     this.responseInfoCallback = this.responseInfoCallback.bind(this);
   }
-
 
   componentWillMount() {
     // Create a graph request asking for user information with a callback to handle the response.
@@ -46,8 +55,9 @@ class Login extends Component {
   }
 
   render() {
+    const context = this;
     return (
-      <View>
+      <View style={styles.container}>
         <LoginButton
           publishPermissions={['publish_actions']}
           onLoginFinished={
@@ -60,9 +70,9 @@ class Login extends Component {
                 console.log('result is ' + result);
                 AccessToken.getCurrentAccessToken().then(
                   (data) => {
+                    console.log('-=-----------', context.props);
                     console.log('hi, data is ', data);
-                    {/*alert('hello there', data);*/}
-                    {/*alert('hello', data.accessToken.toString());*/}
+                    context.props.navigation.navigate('Me');
                   },
                 );
               }

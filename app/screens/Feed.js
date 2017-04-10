@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 
 class Feed extends Component {
   moreInfo() {
+    console.log(this.props.navigation);
     this.props.navigation.navigate('Me');
   }
  
@@ -28,6 +29,13 @@ class Feed extends Component {
         Feed;
       </Text>
       <Login />
+      <SocialIcon
+        title='Sign In With Facebook'
+        button
+        type='sign-in'
+        iconSize={50}
+        onPress={() => this.moreInfo()}
+      />
       </View>
     );
   }
