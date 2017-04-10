@@ -1,5 +1,6 @@
-import { View, StyleSheet, TextInput, Text } from 'react-native';
+import { View, StyleSheet, TextInput, Text, KeyboardAvoidingView } from 'react-native';
 import React, { Component } from 'react';
+import MyDatePicker from './MyDatePicker';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,11 +39,11 @@ class Event extends Component {
           Your Event with Friends Starts from Here!
         </Text>
       </View>
-      <View style={styles.formContainer}>
+      <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
         <TextInput style={styles.place} placeholder="enter a place/event" />
         <TextInput style={styles.place} placeholder="enter dates" />
-
-      </View>
+        <MyDatePicker />
+      </KeyboardAvoidingView>
     </View>
     );
   }
