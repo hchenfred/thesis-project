@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, TextInput, Text, KeyboardAvoidingView, Image, TouchableOpacity } from 'react-native';
 import React, { Component } from 'react';
 import MyDatePicker from './MyDatePicker';
 
@@ -20,21 +20,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: 'black',
-    opacity: 0.8,
+    color: 'white',
+    opacity: 1,
     fontSize: 15,
+    fontWeight: '500',
   },
   formContainer: {
     padding: 20,
-  }
-
+  },
+  buttonContainer: {
+    backgroundColor: '#27ae60',
+    marginBottom: 5,
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontWeight: '700',
+    color: 'white',
+  },
 });
 
 class Event extends Component {
   render() {
     return (
-    <View style={styles.container}>
+    <View style={styles.container}>    
       <View style={styles.titleContainer}>
+        <Image
+          style={{ width: 100, height: 100 }}
+          source={require('../img/congratulations.png')}  
+        />
         <Text style={styles.title}>
           Your Event with Friends Starts from Here!
         </Text>
@@ -42,6 +55,9 @@ class Event extends Component {
       <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
         <TextInput style={styles.place} placeholder="enter a place/event" />
         <MyDatePicker />
+        <TouchableOpacity style={styles.buttonContainer}>
+          <Text style={styles.buttonText}>SUBMIT</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
     );

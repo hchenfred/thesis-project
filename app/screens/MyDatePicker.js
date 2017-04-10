@@ -45,6 +45,9 @@ export default class MyDatePicker extends Component {
             dateInput: {
               marginLeft: 36,
             },
+            dateText: {
+              color: 'white',
+            },
             // ... You can check the source to find the other keys.
           }}
           onDateChange={(date) => { this.setState({ date: date })}}
@@ -66,6 +69,9 @@ export default class MyDatePicker extends Component {
             },
             dateInput: {
               marginLeft: 36,
+            },
+            dateText: {
+              color: 'white',
             },
             // ... You can check the source to find the other keys.
           }}
