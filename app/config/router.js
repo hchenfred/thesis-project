@@ -21,7 +21,7 @@ export const Tabs = TabNavigator({
     navigationOptions: {
       tabBar: {
         label: 'Login',
-        icon: ({ tintColor }) => <Icon type="font-awesome" name="facebook" size={30} color={tintColor} />
+        icon: ({ tintColor }) => <Icon type="foundation" name="social-facebook" size={30} color={tintColor} />
       },
     },
   },
@@ -29,8 +29,8 @@ export const Tabs = TabNavigator({
     screen: Me,
     navigationOptions: {
       tabBar: {
-        label: 'Me',
-        icon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />
+        label: 'Profile',
+        icon: ({ tintColor }) => <Icon name="account-circle" size={30} color={tintColor} />
       },
     },
   },
@@ -39,7 +39,7 @@ export const Tabs = TabNavigator({
     navigationOptions: {
       tabBar: {
         label: 'Event',
-        icon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />
+        icon: ({ tintColor }) => <Icon type="font-awesome" name="group" size={25} color={tintColor} />
       },
     },
   },
