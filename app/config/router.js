@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 
 import Me from '../screens/Me';
 import Login from '../screens/Login';
+import Event from '../screens/Event';
 
 export const LoginStack = StackNavigator({
   Login: {
@@ -29,6 +30,15 @@ export const Tabs = TabNavigator({
     navigationOptions: {
       tabBar: {
         label: 'Me',
+        icon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />
+      },
+    },
+  },
+  Event: {
+    screen: Event,
+    navigationOptions: {
+      tabBar: {
+        label: 'Event',
         icon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />
       },
     },
