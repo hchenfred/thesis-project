@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    marginTop: 50,
     alignItems: 'center',
   },
   title: {
@@ -26,13 +27,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   formContainer: {
+    marginTop: 10,
     padding: 20,
+    flexGrow: 2,
   },
   buttonContainer: {
     backgroundColor: '#27ae60',
-    marginBottom: 5,
+    height: 40,
   },
   buttonText: {
+    paddingTop: 10,
     textAlign: 'center',
     fontWeight: '700',
     color: 'white',
@@ -55,7 +59,7 @@ class Event extends Component {
       <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
         <TextInput style={styles.place} placeholder="enter a place/event" />
         <MyDatePicker />
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity onPress={this.onPressButton} style={styles.buttonContainer}>
           <Text style={styles.buttonText}>SUBMIT</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
