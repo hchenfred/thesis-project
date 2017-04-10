@@ -7,6 +7,7 @@ import {
   View,
   Text,
   Button,
+  Image,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -67,6 +68,10 @@ class Login extends Component {
     const context = this;
     return (
       <View style={styles.container}>
+        <Image
+          style={{ width: 50, height: 50 }}
+          source={{ uri: this.props.user.pic }}
+        />
         <Text> 
           Welcome back { this.props.user.name || '' }
         </Text>
