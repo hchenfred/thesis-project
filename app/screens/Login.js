@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
-import { SocialIcon } from 'react-native-elements';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../actions';
 import {
   StyleSheet,
   View,
+  Text,
+  Button,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -23,14 +27,14 @@ const {
   GraphRequestManager,
 } = FBSDK;
 
+const propTypes = {
+  getUserProfile: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+};
+
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      pic: '',
-      isLoggedIn: false,
-    };
     this.responseInfoCallback = this.responseInfoCallback.bind(this);
   }
 
@@ -41,7 +45,6 @@ class Login extends Component {
       null,
       this.responseInfoCallback,
     );
-    // Start the graph request.
     new GraphRequestManager().addRequest(infoRequest).start();
   }
 
@@ -49,8 +52,9 @@ class Login extends Component {
     if (error) {
       alert('Error fetching data: ' + error.toString());
     } else {
-      console.log('hihihi=======>', result);
-      this.setState({ name: result.name, pic: result.picture.data.url });
+      console.log('Facebook user profile=======>');
+      this.props.getUserProfile({ name: result.name, pic: result.picture.data.url });
+      //this.setState({ name: result.name, pic: result.picture.data.url });
     }
   }
 
@@ -58,6 +62,9 @@ class Login extends Component {
     const context = this;
     return (
       <View style={styles.container}>
+        <Text> 
+          Welcome back { this.props.user.name || '' }
+        </Text>
         <LoginButton
           publishPermissions={['publish_actions']}
           onLoginFinished={
@@ -67,21 +74,31 @@ class Login extends Component {
               } else if (result.isCancelled) {
                 alert("login is cancelled.");
               } else {
-                console.log('result is ' + result);
                 AccessToken.getCurrentAccessToken().then(
                   (data) => {
-                    console.log('-=-----------', context.props);
-                    console.log('hi, data is ', data);
                     context.props.navigation.navigate('Me');
                   },
                 );
               }
             }
           }
-          onLogoutFinished={() => alert("logout.")} />
+          onLogoutFinished={() => alert('logout.')}
+        />
+        <Button title="testbutton(willBeRemoved)" onPress={() => this.props.getUserProfile({})} />
       </View>
     );
   }
 }
 
-export default Login;
+Login.propTypes = propTypes;
+
+function mapStateToProps(state) {
+  return { user: state.user };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+

@@ -20,7 +20,7 @@ export const Tabs = TabNavigator({
     navigationOptions: {
       tabBar: {
         label: 'Login',
-        icon: ({ tintColor }) => <Icon name="list" size={35} color={tintColor} />
+        icon: ({ tintColor }) => <Icon type="font-awesome" name="facebook" size={30} color={tintColor} />
       },
     },
   },
