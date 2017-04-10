@@ -41,7 +41,6 @@ class Event extends Component {
       </View>
       <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
         <TextInput style={styles.place} placeholder="enter a place/event" />
-        <TextInput style={styles.place} placeholder="enter dates" />
         <MyDatePicker />
       </KeyboardAvoidingView>
     </View>
