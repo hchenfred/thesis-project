@@ -1,5 +1,8 @@
 import { View, StyleSheet, TextInput, Text, KeyboardAvoidingView, Image, TouchableOpacity } from 'react-native';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../actions';
 import MyDatePicker from './MyDatePicker';
 
 const styles = StyleSheet.create({
@@ -44,6 +47,11 @@ const styles = StyleSheet.create({
 });
 
 class Event extends Component {
+  onPressButton() {
+    alert('hello, there');
+    
+  }
+
   render() {
     return (
     <View style={styles.container}>    
@@ -68,5 +76,14 @@ class Event extends Component {
   }
 }
 
-export default Event;
+function mapStateToProps(state) {
+  return { event: state.event };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Event);
+
 

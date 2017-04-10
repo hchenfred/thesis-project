@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-native-datepicker';
 import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../actions';
 
 const styles = StyleSheet.create({
   datePicker: {
@@ -15,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class MyDatePicker extends Component {
+class MyDatePicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,9 +51,8 @@ export default class MyDatePicker extends Component {
             dateText: {
               color: 'white',
             },
-            // ... You can check the source to find the other keys.
           }}
-          onDateChange={(date) => { this.setState({ date: date })}}
+          onDateChange={(date) => this.props.saveDate(date)}
         />
         <DatePicker
           style={styles.timePicker}
@@ -73,11 +75,20 @@ export default class MyDatePicker extends Component {
             dateText: {
               color: 'white',
             },
-            // ... You can check the source to find the other keys.
           }}
-          onDateChange={(time) => { this.setState({ time: time }); }}
+          onDateChange={(time) => this.props.saveTime(time)}       
         />
       </View>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return { event: state.event };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyDatePicker);
