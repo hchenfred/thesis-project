@@ -52,8 +52,13 @@ class Login extends Component {
     if (error) {
       alert('Error fetching data: ' + error.toString());
     } else {
-      console.log('Facebook user profile=======>');
-      this.props.getUserProfile({ name: result.name, pic: result.picture.data.url });
+      console.log('Facebook user profile=======>', result);
+      this.props.getUserProfile({
+        name: result.name,
+        pic: result.picture.data.url,
+        email: result.email,
+        friends: result.friends,
+      });
       //this.setState({ name: result.name, pic: result.picture.data.url });
     }
   }
