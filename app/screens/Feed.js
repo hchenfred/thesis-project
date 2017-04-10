@@ -5,6 +5,7 @@ import {
   Text,
 } from 'react-native';
 import { SocialIcon } from 'react-native-elements';
+import Login from './Login';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,6 +18,7 @@ const styles = StyleSheet.create({
 
 class Feed extends Component {
   moreInfo() {
+    console.log(this.props.navigation);
     this.props.navigation.navigate('Me');
   }
  
@@ -26,14 +28,14 @@ class Feed extends Component {
       <Text>
         Feed;
       </Text>
+      <Login />
       <SocialIcon
         title='Sign In With Facebook'
         button
-        type='facebook'
+        type='sign-in'
         iconSize={50}
         onPress={() => this.moreInfo()}
       />
-
       </View>
     );
   }
