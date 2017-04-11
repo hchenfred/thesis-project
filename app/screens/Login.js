@@ -84,7 +84,7 @@ class Login extends Component {
           Welcome back { this.props.user.name || '' }
         </Text>
         <LoginButton
-          readPermissions={['public_profile']}
+          readPermissions={['public_profile', 'email', 'user_friends']}
           onLoginFinished={
             (error, result) => {
               if (error) {
