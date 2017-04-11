@@ -25,6 +25,7 @@ app.get('/test', (req, res) => {
     }
   })
 });
+
 app.post('/test', (req, res) =>{
   var value = req.body.value;
   db.insertValueIntoTest(value , (err, value) => {
@@ -35,6 +36,28 @@ app.post('/test', (req, res) =>{
       res.send('insert into test table successful');
     }
   });
+});
+
+app.post('/users', (req, res) => {
+  console.log(req.body);
+  db.addUserToDatabase(req.body)
+  .then((results) => {
+    console.log(results);
+    res.send('insert into users table successful');
+  })
+  .catch((err) => {
+    console.log('hello err======>');
+    res.send(err);
+  });
+  // db.addUserToDatabase('', (err, results) => {
+  //    if (err) {
+  //     console.log(err);
+  //     res.send(err);
+  //   } else {
+  //     console.log(results);
+  //     res.send('insert into users table successful');
+  //   }
+  // });
 });
 
 

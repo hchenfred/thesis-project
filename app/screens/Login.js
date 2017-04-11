@@ -68,6 +68,20 @@ class Login extends Component {
         email: result.email,
         friends: result.friends,
       });
+      fetch('http:/127.0.0.1:5000/users', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: result.name,
+          email: result.email,
+          photourl: result.picture.data.url,
+        }),
+      })
+      .then((data) => console.log('save user to DB'))
+      .catch((err) => console.log(err));
       //this.setState({ name: result.name, pic: result.picture.data.url });
     }
   }
