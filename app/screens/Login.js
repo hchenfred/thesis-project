@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
+import Event from '../screens/Event';
 import {
   StyleSheet,
   View,
@@ -31,6 +32,7 @@ const {
 const propTypes = {
   getUserProfile: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
 };
 
 class Login extends Component {
@@ -86,7 +88,7 @@ class Login extends Component {
               } else {
                 AccessToken.getCurrentAccessToken().then(
                   (data) => {
-                    context.props.navigation.navigate('Me');
+                    context.props.navigation.navigate('Event');
                   },
                 );
               }
@@ -94,7 +96,7 @@ class Login extends Component {
           }
           onLogoutFinished={() => alert('logout.')}
         />
-        <Button title="testbutton(willBeRemoved)" onPress={() => this.props.getUserProfile({})} />
+        <Button title="testbutton(willBeRemoved)" onPress={() => this.props.navigation.navigate('Event')}/>
       </View>
     );
   }

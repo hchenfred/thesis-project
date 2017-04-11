@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 
 import Me from '../screens/Me';
 import Login from '../screens/Login';
+import Event from '../screens/Event';
 
 export const LoginStack = StackNavigator({
   Login: {
@@ -20,7 +21,7 @@ export const Tabs = TabNavigator({
     navigationOptions: {
       tabBar: {
         label: 'Login',
-        icon: ({ tintColor }) => <Icon type="font-awesome" name="facebook" size={30} color={tintColor} />
+        icon: ({ tintColor }) => <Icon type="foundation" name="social-facebook" size={30} color={tintColor} />
       },
     },
   },
@@ -28,8 +29,17 @@ export const Tabs = TabNavigator({
     screen: Me,
     navigationOptions: {
       tabBar: {
-        label: 'Me',
-        icon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />
+        label: 'Profile',
+        icon: ({ tintColor }) => <Icon name="account-circle" size={30} color={tintColor} />
+      },
+    },
+  },
+  Event: {
+    screen: Event,
+    navigationOptions: {
+      tabBar: {
+        label: 'Event',
+        icon: ({ tintColor }) => <Icon type="font-awesome" name="group" size={25} color={tintColor} />
       },
     },
   },
