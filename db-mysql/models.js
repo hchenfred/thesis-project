@@ -1,7 +1,9 @@
-var mysql = require('mysql');
-var mysqlConfig = require ('./config.js');
 
+var mysql = require('mysql');
+var mysqlConfig = require('./config.js');
 var connection = mysql.createConnection(mysqlConfig);
+var Bluebird = require('bluebird');
+const db = Bluebird.promisifyAll(connection);
 
 if (process.env.NODE_ENV === 'production') {
   connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
@@ -41,9 +43,10 @@ var getUserActivities = (username, cb) => {
 // make join table  for interests/users and predefine choices for interests?
 
 // Add a user to the database
-var addUserToDatabase = (user) => {
-  
-}
+const addUserToDatabase = (user) => {
+  const queryStr = 'INSERT INTO users SET ?';
+  return db.queryAsync(queryStr, user);
+};
 
 // Test models
 var selectAllFromTest = (cb) => {
@@ -67,7 +70,8 @@ var insertValueIntoTest = (val, cb) => {
 };
 
 
-// export functions below
-
-module.exports.selectAllFromTest = selectAllFromTest;
-module.exports.insertValueIntoTest = insertValueIntoTest;
+module.exports = {
+  selectAllFromTest,
+  insertValueIntoTest,
+  addUserToDatabase,
+};

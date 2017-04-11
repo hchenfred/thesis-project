@@ -54,13 +54,15 @@ class Event extends Component {
   }
 
   onPressButton() {
-    alert('hello, there');
+    //alert('hello, there');
+    console.log(this.props);
     const event = {
       location: this.state.location,
       date: this.props.event.date,
       time: this.props.event.time,
     }
     this.props.saveEvent(event);
+    this.props.navigation.navigate('AddFriends');
   }
 
   render() {
