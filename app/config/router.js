@@ -5,6 +5,23 @@ import Me from '../screens/Me';
 import Login from '../screens/Login';
 import Event from '../screens/Event';
 import FetchTest from '../screens/FetchTest';
+import AddFriends from '../screens/AddFriends';
+
+export const eventStack = StackNavigator({
+  Event: {
+    screen: Event,
+    navigationOptions: {
+      title: 'Event',
+    },
+  },
+  AddFriends: {
+    screen: AddFriends,
+    navigationOptions: {
+      title: 'Invite Friends',
+    },
+  },
+
+});
 
 
 export const Tabs = TabNavigator({
@@ -27,7 +44,7 @@ export const Tabs = TabNavigator({
     },
   },
   Event: {
-    screen: Event,
+    screen: eventStack,
     navigationOptions: {
       tabBar: {
         label: 'Event',
@@ -44,5 +61,14 @@ export const Tabs = TabNavigator({
       },
     },
   },
+  // AddFriends: {
+  //   screen: AddFriends,
+  //   navigationOptions: {
+  //     tabBar: {
+  //       visible: false,
+  //       showIcon: false,
+  //     },
+  //   },
+  // },
 });
 

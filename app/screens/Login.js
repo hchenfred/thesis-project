@@ -39,16 +39,22 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.responseInfoCallback = this.responseInfoCallback.bind(this);
-  }
-
-  componentWillMount() {
-    // Create a graph request asking for user information with a callback to handle the response.
     const infoRequest = new GraphRequest(
       '/me?fields=name,picture,email,friends',
       null,
       this.responseInfoCallback,
     );
     new GraphRequestManager().addRequest(infoRequest).start();
+  }
+
+  componentWillMount() {
+    // Create a graph request asking for user information with a callback to handle the response.
+    // const infoRequest = new GraphRequest(
+    //   '/me?fields=name,picture,email,friends',
+    //   null,
+    //   this.responseInfoCallback,
+    // );
+    // new GraphRequestManager().addRequest(infoRequest).start();
   }
 
   responseInfoCallback(error, result) {
@@ -71,23 +77,29 @@ class Login extends Component {
     return (
       <View style={styles.container}>
         <Image
-          style={{ width: 50, height: 50 }}
+          style={{ width: 80, height: 80, borderRadius: 40 }}
           source={{ uri: this.props.user.pic }}
         />
         <Text> 
           Welcome back { this.props.user.name || '' }
         </Text>
         <LoginButton
-          publishPermissions={['publish_actions']}
+          readPermissions={['public_profile']}
           onLoginFinished={
             (error, result) => {
               if (error) {
-                alert("login has error: " + result.error);
+                console.log("login has error: " + result.error);
               } else if (result.isCancelled) {
-                alert("login is cancelled.");
+                //console.log("login is cancelled.");
               } else {
                 AccessToken.getCurrentAccessToken().then(
                   (data) => {
+                    const infoRequest = new GraphRequest(
+                      '/me?fields=name,picture,email,friends',
+                      null,
+                      this.responseInfoCallback,
+                    );
+                    new GraphRequestManager().addRequest(infoRequest).start();
                     context.props.navigation.navigate('Event');
                   },
                 );
