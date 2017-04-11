@@ -65,7 +65,12 @@ app.post('/users', (req, res) => {
 io.on('connection', (socket) => {
   console.log('A client just joined on', socket.id);
   socket.emit('news', { hi: 'there' });
+  socket.emit('refresh feed', { activity: 'trying to send an activity to activity feed' });
+  socket.on('user logged in', (data) => {
+    console.log(data);
+  });
 });
+
 
 
 http.listen(PORT, () => {

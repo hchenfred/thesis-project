@@ -5,6 +5,7 @@ import Me from '../screens/Me';
 import Login from '../screens/Login';
 import Event from '../screens/Event';
 import FetchTest from '../screens/FetchTest';
+import ActivityStream from '../screens/ActivityStream';
 import AddFriends from '../screens/AddFriends';
 
 export const eventStack = StackNavigator({
