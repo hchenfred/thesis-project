@@ -71,7 +71,7 @@ export const Tabs = TabNavigator({
   //   },
   // },
   Feed: {
-    screen: Me,
+    screen: ActivityStream,
     navigationOptions: {
       tabBar: {
         label: 'Feed',
