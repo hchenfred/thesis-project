@@ -1,6 +1,12 @@
 import * as types from '../actions/types';
 
-export const event = function(state = {}, action) {
+const initalState = {
+  location: '',
+  date: null,
+  time: null,
+}
+
+export const event = function(state = initalState, action) {
   switch (action.type) {
     case 'SAVE_EVENT':
       return action.payload;

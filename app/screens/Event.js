@@ -47,9 +47,20 @@ const styles = StyleSheet.create({
 });
 
 class Event extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { location: '' };
+    this.onPressButton = this.onPressButton.bind(this);
+  }
+
   onPressButton() {
     alert('hello, there');
-    
+    const event = {
+      location: this.state.location,
+      date: this.props.event.date,
+      time: this.props.event.time,
+    }
+    this.props.saveEvent(event);
   }
 
   render() {
@@ -65,7 +76,11 @@ class Event extends Component {
         </Text>
       </View>
       <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
-        <TextInput style={styles.place} placeholder="enter a place/event" />
+        <TextInput
+          onChangeText={(location) => this.setState({location})}
+          style={styles.place}
+          placeholder="enter a place/event"
+        />
         <MyDatePicker />
         <TouchableOpacity onPress={this.onPressButton} style={styles.buttonContainer}>
           <Text style={styles.buttonText}>SUBMIT</Text>
