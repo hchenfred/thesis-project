@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: '#27ae60',
     height: 40,
+    marginBottom: 10,
   },
   buttonText: {
     paddingTop: 10,
@@ -70,10 +71,14 @@ class AddFriends extends React.Component {
             placeholder="friend's email"
           />
           <TouchableOpacity onPress={this.onPressAddButton} style={styles.buttonContainer}>
-            <Text style={styles.buttonText}>Add to Invite List</Text>
+            <Text style={styles.buttonText}>ADD TO INVITATION LIST</Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={this.onPressAddButton} style={styles.buttonContainer}>
+            <Text style={styles.buttonText}>DONE</Text>
+          </TouchableOpacity>
+          <Text>A notification email will be sent to friends.</Text>
         </View>
-        <View style={{ flexGrow: 4, marginTop: 0 }}>
+        <View style={{ flexGrow: 10, marginTop: 0, padding: 10 }}>
           <ListView
             enableEmptySections={true}
             style={{ height: 600, width: 600 }}
