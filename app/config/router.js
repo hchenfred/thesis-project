@@ -70,5 +70,14 @@ export const Tabs = TabNavigator({
   //     },
   //   },
   // },
+  Feed: {
+    screen: Me,
+    navigationOptions: {
+      tabBar: {
+        label: 'Feed',
+        icon: ({ tintColor }) => <Icon name="list" size={35} color={tintColor} />
+      },
+    },
+  },
 });
 
