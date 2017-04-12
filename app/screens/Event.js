@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   formContainer: {
     marginTop: 10,
     padding: 20,
-    flexGrow: 2,
+    flexGrow: 10,
   },
   buttonContainer: {
     backgroundColor: '#27ae60',
@@ -49,19 +49,21 @@ const styles = StyleSheet.create({
 class Event extends Component {
   constructor(props) {
     super(props);
-    this.state = { location: '' };
+    this.state = { location: '', description: '' };
     this.onPressButton = this.onPressButton.bind(this);
   }
 
   onPressButton() {
-    //alert('hello, there');
-    console.log(this.props);
     const event = {
       location: this.state.location,
-      date: this.props.event.date,
-      time: this.props.event.time,
+      description: this.state.description,
+      // date and time are retrieved from Redux store
+      eventDate: this.props.event.date,
+      startTime: this.props.event.startTime,
+      endTime: this.props.event.endTime,
     }
     this.props.saveEvent(event);
+    // navigate to AddFriends page after saving event to Redux
     this.props.navigation.navigate('AddFriends');
   }
 
@@ -79,9 +81,14 @@ class Event extends Component {
       </View>
       <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
         <TextInput
-          onChangeText={(location) => this.setState({location})}
+          onChangeText={location => this.setState({ location })}
           style={styles.place}
           placeholder="enter a place/event"
+        />
+        <TextInput
+          onChangeText={description => this.setState({ description })}
+          style={styles.place}
+          placeholder="Short Description"
         />
         <MyDatePicker />
         <TouchableOpacity onPress={this.onPressButton} style={styles.buttonContainer}>
