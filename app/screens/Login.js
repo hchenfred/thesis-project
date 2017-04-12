@@ -1,8 +1,9 @@
+'use-strict';
+
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../actions';
-import Event from '../screens/Event';
+import SocketIOClient from 'socket.io-client';
 import {
   StyleSheet,
   View,
@@ -10,6 +11,19 @@ import {
   Button,
   Image,
 } from 'react-native';
+import { ActionCreators } from '../actions';
+import Event from '../screens/Event';
+
+let baseURL;
+
+if (process.env.NODE_ENV === 'production') {
+  baseURL = 'https://hst-friend-ly.herokuapp.com';
+} else if (process.env.NODE_ENV === 'staging') {
+  baseURL = 'https://hst-friend-ly-staging.herokuapp.com';
+} else {
+  baseURL = 'localhost:5000';
+}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -39,6 +53,14 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.responseInfoCallback = this.responseInfoCallback.bind(this);
+    this.socket = SocketIOClient(baseURL, { jsonp: false });
+    this.socket.on('news', (data) => {
+      console.log(data);
+    });
+  }
+
+  componentWillMount() {
+    // Create a graph request asking for user information with a callback to handle the response.
     const infoRequest = new GraphRequest(
       '/me?fields=name,picture,email,friends',
       null,
@@ -82,6 +104,7 @@ class Login extends Component {
       })
       .then((data) => console.log('save user to DB'))
       .catch((err) => console.log(err));
+      this.socket.emit('user logged in', { username: this.props.user });
       //this.setState({ name: result.name, pic: result.picture.data.url });
     }
   }

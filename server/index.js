@@ -1,9 +1,12 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var db = require('../db-mysql/models.js');
+const express = require('express');
+const bodyParser = require('body-parser');
+const db = require('../db-mysql/models.js');
 
-var app = express();
-var PORT = process.env.PORT || 5000;
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+const PORT = process.env.PORT || 5000;
 
 // app.user(express.static('../index.ios.js'));
 // TODO setup an html doc to store web version?
@@ -58,9 +61,18 @@ app.post('/users', (req, res) => {
   //     res.send('insert into users table successful');
   //   }
   // });
+
+io.on('connection', (socket) => {
+  console.log('A client just joined on', socket.id);
+  socket.emit('news', { hi: 'there' });
+  socket.emit('refresh feed', { activity: 'trying to send an activity to activity feed' });
+  socket.on('user logged in', (data) => {
+    console.log(data);
+  });
 });
 
 
-app.listen(PORT, () => {
+
+http.listen(PORT, () => {
 	console.log(`Listening to web server on port ${PORT}`);
 });

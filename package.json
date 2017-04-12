@@ -27,7 +27,9 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0",
-    "sequelize": "^3.30.4"
+    "sequelize": "^3.30.4",
+    "socket.io": "^1.7.3",
+    "socket.io-client": "^1.7.3"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
