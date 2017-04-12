@@ -69,16 +69,6 @@ class Login extends Component {
     new GraphRequestManager().addRequest(infoRequest).start();
   }
 
-  componentWillMount() {
-    // Create a graph request asking for user information with a callback to handle the response.
-    // const infoRequest = new GraphRequest(
-    //   '/me?fields=name,picture,email,friends',
-    //   null,
-    //   this.responseInfoCallback,
-    // );
-    // new GraphRequestManager().addRequest(infoRequest).start();
-  }
-
   responseInfoCallback(error, result) {
     if (error) {
       alert('Error fetching data: ' + error.toString());
@@ -90,20 +80,38 @@ class Login extends Component {
         email: result.email,
         friends: result.friends,
       });
-      fetch('http:/127.0.0.1:5000/users', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: result.name,
-          email: result.email,
-          photourl: result.picture.data.url,
-        }),
+
+      const saveUserToDB = () => {
+        fetch('http:/127.0.0.1:5000/users', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: result.name,
+            email: result.email,
+            photourl: result.picture.data.url,
+          }),
+        })
+        .then((data) => console.log('save user to DB'))
+        .catch((err) => console.log(err));
+      };
+
+      fetch('http:/127.0.0.1:5000/users/' + result.email)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (Object.keys(responseJson).length === 0 && responseJson.constructor === Object) {
+          console.log('no user found, needs to save to database');
+          saveUserToDB();
+        } else {
+          console.log('user already exists in DB, no need to save again');
+        }
       })
-      .then((data) => console.log('save user to DB'))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error(err);
+      });
+
       this.socket.emit('user logged in', { username: this.props.user });
       //this.setState({ name: result.name, pic: result.picture.data.url });
     }
