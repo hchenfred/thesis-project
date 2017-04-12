@@ -59,6 +59,7 @@ app.post('/suggestion', (req, res) => {
 });
 
 
+
 app.get('/test', (req, res) => {
   db.selectAllFromTest((err, results) => {
     if (err) {
@@ -83,21 +84,30 @@ app.post('/test', (req, res) =>{
 });
 
 app.post('/users', (req, res) => {
-  console.log(req.body);
   db.addUserToDatabase(req.body)
   .then((results) => {
-    console.log(results);
     res.send('insert into users table successful');
     cSocket.emit('refresh feed', { activity: `${req.body.username}  is logged in`, authorImage: req.body.photourl });
   })
   .catch((err) => {
-    console.log('hello err======>');
     res.send(err);
   });
 });
 
+app.post('/events', (req, res) => {
+  db.addEvent(req.body)
+  .then((results) => {
+    console.log('saving event to DB');
+    res.send('insert into events table successful');
+  })
+  .catch((err) => {
+    console.log('there is an error');
+    res.send(err);
+  });
+});
+
+
 app.get('/users/:email', (req, res) => {
-  console.log('here here, get user by email');
   const email = req.params.email;
   db.getUserByEmail(email)
   .then((result) => {
@@ -107,6 +117,16 @@ app.get('/users/:email', (req, res) => {
   .catch((err) => {
     console.log('cannot get user info by email from DB');
     res.send(err);
+  });
+});
+
+
+io.on('connection', (socket) => {
+  console.log('A client just joined on', socket.id);
+  socket.emit('news', { hi: 'there' });
+  socket.emit('refresh feed', { activity: 'trying to send an activity to activity feed' });
+  socket.on('user logged in', (data) => {
+    console.log(data);
   });
 });
 

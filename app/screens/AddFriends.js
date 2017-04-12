@@ -3,6 +3,7 @@ import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity } from 'r
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
+import util from '../lib/utility';
 
 const styles = StyleSheet.create({
   container: {
@@ -61,6 +62,23 @@ class AddFriends extends React.Component {
   onPressDoneButton() {
     console.log('Done button is pressed', this.props.event);
     // event will be saved to DB in here
+    fetch('http:127.0.0.1:5000/events', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        creator_id: 1,
+        location: this.props.event.location,
+        eventDate: this.props.event.eventDate,
+        description: this.props.event.description,
+        startTime: util.formatTime(this.props.event.startTime),
+        endTime: util.formatTime(this.props.event.endTime),
+      }),
+    })
+    .then((data) => console.log('save event to DB'))
+    .catch((err) => console.log(err));
   }
 
   render() {
