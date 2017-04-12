@@ -58,15 +58,20 @@ app.post('/users', (req, res) => {
     res.send(err);
   });
 });
-  // db.addUserToDatabase('', (err, results) => {
-  //    if (err) {
-  //     console.log(err);
-  //     res.send(err);
-  //   } else {
-  //     console.log(results);
-  //     res.send('insert into users table successful');
-  //   }
-  // });
+
+app.get('/users/:email', (req, res) => {
+  console.log('here here, get user by email');
+  const email = req.params.email;
+  db.getUserByEmail(email)
+  .then((result) => {
+    console.log('get user by email ', result[0].username);
+    res.json(result[0].username);
+  })
+  .catch((err) => {
+    console.log('cannot get user info by email from DB');
+    res.send(err);
+  });
+});
 
 io.on('connection', (socket) => {
   console.log('A client just joined on', socket.id);

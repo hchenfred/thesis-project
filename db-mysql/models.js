@@ -58,6 +58,12 @@ var getAllEventComments = (eventName, cb) => {
   });
 }
 
+const getUserByEmail = (email) => {
+  console.log('here');
+  const queryStr = `SELECT * FROM users WHERE email = ? LIMIT 1`;
+  return db.queryAsync(queryStr, [email]);
+};
+
 // make join table  for interests/users and predefine choices for interests?
 
 // Add a user to the database
@@ -65,14 +71,6 @@ const addUserToDatabase = (user) => {
   const queryStr = 'INSERT INTO users SET ?';
   return db.queryAsync(queryStr, user);
 };
-
-var addUserToDatabaseFromLogin = (user) => {
-  var name = user.name;
-  var pic = user.pic;
-  var email = user. email;
-
-  connection.query('')
-}
 
 var getPublicEvents = (cb) => {
   connection.query('SELECT * FROM events WHERE private = 0;', (err, results) => {
@@ -111,4 +109,5 @@ module.exports = {
   selectAllFromTest,
   insertValueIntoTest,
   addUserToDatabase,
+  getUserByEmail,
 };

@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS users (
   email varchar(50),
   phone varchar(20),
   photourl varchar(250),
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+	UNIQUE KEY (email)
 );
 
 INSERT INTO users (username, email, phone, photourl) VALUES ('Test Person', 'smmakowski@yahoo.com', '9736538792', 'https://s-media-cache-ak0.pinimg.com/736x/dd/03/7e/dd037e42b51536f31171309c73372805.jpg');
