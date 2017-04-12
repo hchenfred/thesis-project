@@ -23,7 +23,8 @@ class MyDatePicker extends Component {
     super(props);
     this.state = {
       date: null,
-      time: null,
+      startTime: null,
+      endTime: null,
     };
   }
 
@@ -77,7 +78,7 @@ class MyDatePicker extends Component {
               color: 'white',
             },
           }}
-          onDateChange={(time) => this.props.saveTime(time)}       
+          onDateChange={(startTime) => this.props.saveStartTime(startTime)}
         />
         <DatePicker
           style={styles.timePicker}
@@ -102,7 +103,7 @@ class MyDatePicker extends Component {
               color: 'white',
             },
           }}
-          onDateChange={(time) => this.props.saveTime(time)}       
+          onDateChange={(endTime) => this.props.saveEndTime(endTime)}       
         />
       </View>
     );

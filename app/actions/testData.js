@@ -7,9 +7,9 @@ export function getTestData(payload) {
   };
 }
 
-export function getGeolocation(payload){
-	return {
-		type: types.GET_LOCATION,
-		payload, 
-	}
+export function getGeolocation(payload) {
+  return {
+    type: types.GET_LOCATION,
+    payload,
+  };
 }

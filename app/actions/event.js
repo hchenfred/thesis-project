@@ -14,9 +14,16 @@ export function saveDate(date) {
   };
 }
 
-export function saveTime(time) {
+export function saveStartTime(time) {
   return {
-    type: types.SAVE_TIME,
+    type: types.SAVE_START_TIME,
+    time,
+  };
+}
+
+export function saveEndTime(time) {
+  return {
+    type: types.SAVE_END_TIME,
     time,
   };
 }
