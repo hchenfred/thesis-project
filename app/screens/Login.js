@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
 } else if (process.env.NODE_ENV === 'staging') {
   baseURL = 'https://hst-friend-ly-staging.herokuapp.com';
 } else {
-  baseURL = 'localhost:5000';
+  baseURL = 'http:/127.0.0.1:5000';
 }
 
 
@@ -82,7 +82,7 @@ class Login extends Component {
       });
 
       const saveUserToDB = () => {
-        fetch('http:/127.0.0.1:5000/users', {
+        fetch(baseURL + '/users', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -98,7 +98,7 @@ class Login extends Component {
         .catch((err) => console.log(err));
       };
 
-      fetch('http:/127.0.0.1:5000/users/' + result.email)
+      fetch(baseURL + '/users/' + result.email)
       .then((response) => response.json())
       .then((responseJson) => {
         if (Object.keys(responseJson).length === 0 && responseJson.constructor === Object) {
