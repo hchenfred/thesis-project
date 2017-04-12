@@ -35,9 +35,9 @@ class MyDatePicker extends Component {
           style={styles.datePicker}
           date={this.state.date}
           mode="date"
-          placeholder="SELECT A DATE"
           format="YYYY-MM-DD"
           confirmBtnText="Confirm"
+          placeholder="Pick a date"
           cancelBtnText="Cancel"
           customStyles={{
             dateIcon: {
@@ -53,16 +53,16 @@ class MyDatePicker extends Component {
               color: 'white',
             },
           }}
-          onDateChange={(date) => this.props.saveDate(date)}
+          onDateChange={(date) => {this.props.saveDate(date);
+          this.setState({date: date});}}
         />
         <DatePicker
           style={styles.timePicker}
-          date={this.state.time}
+          date={this.state.startTime}
           mode="time"
-          format="HH:mm"
+          format="HH:mm A"
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
-          placeholder="SELECT START TIME"
           minuteInterval={10}
           customStyles={{
             dateIcon: {
@@ -78,13 +78,15 @@ class MyDatePicker extends Component {
               color: 'white',
             },
           }}
-          onDateChange={(startTime) => this.props.saveStartTime(startTime)}
+          onDateChange={(startTime) => {this.props.saveStartTime(startTime);
+          this.setState({startTime: startTime});
+          }}
         />
         <DatePicker
           style={styles.timePicker}
-          date={this.state.time}
+          date={this.state.endTime}
           mode="time"
-          format="HH:mm"
+          format="HH:mm A"
           confirmBtnText="Confirm"
           placeholder="SELECT END TIME"
           cancelBtnText="Cancel"
@@ -103,7 +105,9 @@ class MyDatePicker extends Component {
               color: 'white',
             },
           }}
-          onDateChange={(endTime) => this.props.saveEndTime(endTime)}       
+          onDateChange={(endTime) => {this.props.saveEndTime(endTime);
+            this.setState({endTime: endTime});
+          }}      
         />
       </View>
     );
