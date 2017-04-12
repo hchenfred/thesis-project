@@ -1,5 +1,8 @@
 import React from 'react';
 import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../actions';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,6 +46,7 @@ class AddFriends extends React.Component {
       friendEmail: '',
     };
     this.onPressAddButton = this.onPressAddButton.bind(this);
+    this.onPressDoneButton = this.onPressDoneButton.bind(this);
   }
 
   onPressAddButton() {
@@ -52,6 +56,11 @@ class AddFriends extends React.Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(temp),
     });
+  }
+
+  onPressDoneButton() {
+    console.log('Done button is pressed', this.props.event);
+    // event will be saved to DB in here
   }
 
   render() {
@@ -73,7 +82,7 @@ class AddFriends extends React.Component {
           <TouchableOpacity onPress={this.onPressAddButton} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>ADD TO INVITATION LIST</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.onPressAddButton} style={styles.buttonContainer}>
+          <TouchableOpacity onPress={this.onPressDoneButton} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>DONE</Text>
           </TouchableOpacity>
           <Text>A notification email will be sent to friends.</Text>
@@ -91,7 +100,15 @@ class AddFriends extends React.Component {
   }
 }
 
-export default AddFriends;
+function mapStateToProps(state) {
+  return { event: state.event };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddFriends);
 
 
 
