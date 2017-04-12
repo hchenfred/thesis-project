@@ -22,7 +22,7 @@ class MyDatePicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date(),
+      date: null,
       time: null,
     };
   }
@@ -34,7 +34,7 @@ class MyDatePicker extends Component {
           style={styles.datePicker}
           date={this.state.date}
           mode="date"
-          placeholder="select date"
+          placeholder="SELECT A DATE"
           format="YYYY-MM-DD"
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
@@ -60,6 +60,32 @@ class MyDatePicker extends Component {
           mode="time"
           format="HH:mm"
           confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          placeholder="SELECT START TIME"
+          minuteInterval={10}
+          customStyles={{
+            dateIcon: {
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+            },
+            dateText: {
+              color: 'white',
+            },
+          }}
+          onDateChange={(time) => this.props.saveTime(time)}       
+        />
+        <DatePicker
+          style={styles.timePicker}
+          date={this.state.time}
+          mode="time"
+          format="HH:mm"
+          confirmBtnText="Confirm"
+          placeholder="SELECT END TIME"
           cancelBtnText="Cancel"
           minuteInterval={10}
           customStyles={{

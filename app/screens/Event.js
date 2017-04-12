@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   formContainer: {
     marginTop: 10,
     padding: 20,
-    flexGrow: 2,
+    flexGrow: 10,
   },
   buttonContainer: {
     backgroundColor: '#27ae60',
@@ -82,6 +82,11 @@ class Event extends Component {
           onChangeText={(location) => this.setState({location})}
           style={styles.place}
           placeholder="enter a place/event"
+        />
+        <TextInput
+          onChangeText={(location) => this.setState({location})}
+          style={styles.place}
+          placeholder="Short Description"
         />
         <MyDatePicker />
         <TouchableOpacity onPress={this.onPressButton} style={styles.buttonContainer}>
