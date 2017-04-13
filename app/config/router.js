@@ -84,6 +84,8 @@ export const SuggesterStack = StackNavigator({
     screen: SuggesterResultsItem,
     navigatorOptions: {
       title: 'More Info',
+    navigationOptions: {
+      title: ({ state }) => `${state.params.name.toUpperCase()}`,
     },
   },
 });

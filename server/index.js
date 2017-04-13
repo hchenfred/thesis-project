@@ -81,7 +81,7 @@ app.post('/users', (req, res) => {
     res.send('insert into users table successful');
   })
   .error((err) => {
-
+    // TO DO
   })
   .catch((err) => {
     res.send(err);
@@ -179,6 +179,17 @@ app.get('/users/:email', (req, res) => {
   });
 });
 
+app.get('/events', (req, res) => {
+  db.getPublicEvents((err, results) => {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
+      console.log(results);
+      res.json(results);
+    }
+  });
+});
 
 app.get('/events', (req, res) => {
   db.getPublicEvents((err, results) => {
