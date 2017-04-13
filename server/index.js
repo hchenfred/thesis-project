@@ -112,7 +112,7 @@ app.get('/users/:email', (req, res) => {
   db.getUserByEmail(email)
   .then((result) => {
     console.log('get user by email ', result[0].username);
-    res.json(result[0].username);
+    res.json(result[0]);
   })
   .catch((err) => {
     console.log('cannot get user info by email from DB');

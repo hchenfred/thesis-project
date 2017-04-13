@@ -7,3 +7,10 @@ export function getUserProfile(payload) {
   };
 }
 
+export function saveUserId(id) {
+  return {
+    type: types.SAVE_USER_ID,
+    id,
+  };
+}
+

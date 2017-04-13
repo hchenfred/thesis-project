@@ -12,7 +12,6 @@ import {
   Image,
 } from 'react-native';
 import { ActionCreators } from '../actions';
-import Event from '../screens/Event';
 
 let baseURL;
 
@@ -47,6 +46,7 @@ const propTypes = {
   getUserProfile: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
+  saveUserId: PropTypes.func.isRequired,
 };
 
 class Login extends Component {
@@ -108,6 +108,8 @@ class Login extends Component {
           console.log('no user found, needs to save to database');
           saveUserToDB();
         } else {
+          console.log('========', responseJson.id);
+          this.props.saveUserId(responseJson.id);
           console.log('user already exists in DB, no need to save again');
         }
       })
