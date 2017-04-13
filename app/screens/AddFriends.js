@@ -60,16 +60,18 @@ class AddFriends extends React.Component {
   }
 
   onPressDoneButton() {
-    console.log('Done button is pressed', this.props.event);
+    console.log('Done button is pressed', this.props.user);
     // event will be saved to DB in here
-    fetch('http:127.0.0.1:5000/events', {
+    if (this.props.user.id) {
+      fetch('http:127.0.0.1:5000/events', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        creator_id: 1,
+        name: this.props.event.location,
+        creator_id: this.props.user.id,
         location: this.props.event.location,
         eventDate: this.props.event.eventDate,
         description: this.props.event.description,
@@ -79,6 +81,10 @@ class AddFriends extends React.Component {
     })
     .then((data) => console.log('save event to DB'))
     .catch((err) => console.log(err));
+    } else {
+      alert('user id is not available, please log in again');
+    }
+    
   }
 
   render() {
@@ -119,7 +125,10 @@ class AddFriends extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return { event: state.event };
+  return {
+    event: state.event,
+    user: state.user,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
