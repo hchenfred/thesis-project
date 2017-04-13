@@ -8,6 +8,8 @@ import FetchTest from '../screens/FetchTest';
 import ActivityStream from '../screens/ActivityStream';
 import AddFriends from '../screens/AddFriends';
 import Suggester from '../screens/Suggester';
+import EventsItem from '../screens/EventsItem';
+import EventsList from '../screens/EventsList';
 
 export const eventStack = StackNavigator({
   Event: {
@@ -22,7 +24,21 @@ export const eventStack = StackNavigator({
       title: 'Invite Friends',
     },
   },
+});
 
+export const currentEvents = StackNavigator({
+  EventsList: {
+    screen: EventsList,
+    navigationOptions: {
+      title: 'Current Events',
+    },
+  },
+  EventDetails: {
+    screen: EventsItem,
+    navigationOptions: {
+      title: ({ state }) => `${state.params.name.toUpperCase()}`,
+    },
+  },
 });
 
 export const Tabs = TabNavigator({
@@ -36,10 +52,10 @@ export const Tabs = TabNavigator({
     },
   },
   Me: {
-    screen: Me,
+    screen: currentEvents,
     navigationOptions: {
       tabBar: {
-        label: 'Profile',
+        label: 'Browse Events',
         icon: ({ tintColor }) => <Icon name="account-circle" size={30} color={tintColor} />
       },
     },
