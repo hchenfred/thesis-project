@@ -52,11 +52,17 @@ class AddFriends extends React.Component {
 
   onPressAddButton() {
     const temp = this.state.friendList.slice();
-    temp.push({ name: this.state.friendName, email: this.state.friendEmail });
-    this.setState({ friendList: temp });
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(temp),
-    });
+    if (this.state.friendName === '') {
+      alert(`friend name cannot be empty, please enter a friend's name`);
+    } else if (this.state.friendEmail === '') {
+      alert(`friend email cannot be empty, please enter a friend's email`);
+    } else {
+      temp.push({ name: this.state.friendName, email: this.state.friendEmail });
+      this.setState({ friendList: temp });
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(temp),
+      });
+    }
   }
 
   onPressDoneButton() {
