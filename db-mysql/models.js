@@ -69,7 +69,7 @@ const addEvent = (event) => {
 };
 
 const addUserToDatabase = (user) => {
-  const queryStr = 'INSERT INTO users SET ?';
+  const queryStr = 'INSERT IGNORE INTO users SET ?';
   return db.queryAsync(queryStr, user);
 };
 

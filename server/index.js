@@ -79,8 +79,8 @@ app.post('/users', (req, res) => {
 app.post('/events', (req, res) => {
   db.addEvent(req.body)
   .then((results) => {
-    console.log('saving event to DB');
-    res.send('insert into events table successful');
+    console.log('saving event to DB', results.insertId);
+    res.json(results.insertId);
   })
   .catch((err) => {
     console.log('there is an error');

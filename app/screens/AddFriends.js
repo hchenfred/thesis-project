@@ -70,27 +70,32 @@ class AddFriends extends React.Component {
     // event will be saved to DB in here
     if (this.props.user.id) {
       fetch('http:127.0.0.1:5000/events', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: this.props.event.location,
-        creator_id: this.props.user.id,
-        location: this.props.event.location,
-        eventDate: this.props.event.eventDate,
-        description: this.props.event.description,
-        startTime: util.formatTime(this.props.event.startTime),
-        endTime: util.formatTime(this.props.event.endTime),
-      }),
-    })
-    .then((data) => console.log('save event to DB'))
-    .catch((err) => console.log(err));
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: this.props.event.location,
+          creator_id: this.props.user.id,
+          location: this.props.event.location,
+          eventDate: this.props.event.eventDate,
+          description: this.props.event.description,
+          startTime: util.formatTime(this.props.event.startTime),
+          endTime: util.formatTime(this.props.event.endTime),
+        }),
+      })
+      .then(response => response.json())
+      .then((responseJson) => {
+        const eventId = responseJson;
+        // console.log('==========>>>', responseJson);
+        console.log(this.state.friendList);
+        util.addParticipantsToDB(eventId, this.state.friendList);
+      })
+      .catch(err => console.log(err));
     } else {
       alert('user id is not available, please log in again');
-    }
-    
+    } 
   }
 
   render() {
