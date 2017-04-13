@@ -12,7 +12,6 @@ import {
   Image,
 } from 'react-native';
 import { ActionCreators } from '../actions';
-import Event from '../screens/Event';
 
 let baseURL;
 
@@ -47,6 +46,7 @@ const propTypes = {
   getUserProfile: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
+  saveUserId: PropTypes.func.isRequired,
 };
 
 class Login extends Component {
@@ -71,14 +71,16 @@ class Login extends Component {
 
   responseInfoCallback(error, result) {
     if (error) {
-      alert('Error fetching data: ' + error.toString());
+      alert('Error fetching Facebook data, please log in Facebook again');
     } else {
       console.log('Facebook user profile=======>', result);
+      // save user info to Redux
       this.props.getUserProfile({
         name: result.name,
         pic: result.picture.data.url,
         email: result.email,
         friends: result.friends,
+        facebook_id: result.id,
       });
 
       const saveUserToDB = () => {
@@ -92,6 +94,7 @@ class Login extends Component {
             username: result.name,
             email: result.email,
             photourl: result.picture.data.url,
+            facebook_id: result.id,
           }),
         })
         .then((data) => console.log('save user to DB'))
@@ -105,6 +108,8 @@ class Login extends Component {
           console.log('no user found, needs to save to database');
           saveUserToDB();
         } else {
+          console.log('========', responseJson.id);
+          this.props.saveUserId(responseJson.id);
           console.log('user already exists in DB, no need to save again');
         }
       })

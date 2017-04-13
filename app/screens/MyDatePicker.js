@@ -62,6 +62,7 @@ class MyDatePicker extends Component {
           mode="time"
           format="HH:mm A"
           confirmBtnText="Confirm"
+          placeholder="SELECT START TIME"
           cancelBtnText="Cancel"
           minuteInterval={10}
           customStyles={{

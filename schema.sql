@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS users (
   email varchar(50),
   phone varchar(20),
   photourl varchar(250),
+	facebook_id varchar(20),
   PRIMARY KEY (id),
 	UNIQUE KEY (email)
 );

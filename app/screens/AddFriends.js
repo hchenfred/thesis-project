@@ -1,5 +1,9 @@
 import React from 'react';
 import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../actions';
+import util from '../lib/utility';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,6 +47,7 @@ class AddFriends extends React.Component {
       friendEmail: '',
     };
     this.onPressAddButton = this.onPressAddButton.bind(this);
+    this.onPressDoneButton = this.onPressDoneButton.bind(this);
   }
 
   onPressAddButton() {
@@ -52,6 +57,34 @@ class AddFriends extends React.Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(temp),
     });
+  }
+
+  onPressDoneButton() {
+    console.log('Done button is pressed', this.props.user);
+    // event will be saved to DB in here
+    if (this.props.user.id) {
+      fetch('http:127.0.0.1:5000/events', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: this.props.event.location,
+        creator_id: this.props.user.id,
+        location: this.props.event.location,
+        eventDate: this.props.event.eventDate,
+        description: this.props.event.description,
+        startTime: util.formatTime(this.props.event.startTime),
+        endTime: util.formatTime(this.props.event.endTime),
+      }),
+    })
+    .then((data) => console.log('save event to DB'))
+    .catch((err) => console.log(err));
+    } else {
+      alert('user id is not available, please log in again');
+    }
+    
   }
 
   render() {
@@ -73,7 +106,7 @@ class AddFriends extends React.Component {
           <TouchableOpacity onPress={this.onPressAddButton} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>ADD TO INVITATION LIST</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.onPressAddButton} style={styles.buttonContainer}>
+          <TouchableOpacity onPress={this.onPressDoneButton} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>DONE</Text>
           </TouchableOpacity>
           <Text>A notification email will be sent to friends.</Text>
@@ -91,7 +124,18 @@ class AddFriends extends React.Component {
   }
 }
 
-export default AddFriends;
+function mapStateToProps(state) {
+  return {
+    event: state.event,
+    user: state.user,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddFriends);
 
 
 
