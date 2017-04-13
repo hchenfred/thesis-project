@@ -57,7 +57,7 @@ class AddFriends extends React.Component {
     } else if (this.state.friendEmail === '') {
       alert(`friend email cannot be empty, please enter a friend's email`);
     } else {
-      temp.push({ name: this.state.friendName, email: this.state.friendEmail });
+      temp.push({ username: this.state.friendName, email: this.state.friendEmail });
       this.setState({ friendList: temp });
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(temp),
@@ -127,7 +127,7 @@ class AddFriends extends React.Component {
             enableEmptySections={true}
             style={{ height: 600, width: 600 }}
             dataSource={this.state.dataSource}
-            renderRow={rowData => <Text>{rowData.name}</Text>}
+            renderRow={rowData => <Text>{rowData.username}</Text>}
           />
         </View>
       </View>

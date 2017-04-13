@@ -11,8 +11,8 @@ const addParticipantsToDB = (eventId, friendList) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      eventId: 2,
-      friendList: [{ username: 'goodman', email: 'goodman@hr.com' }],
+      eventId,
+      friendList,
     }),
   })
   .then(data => console.log('successfully save participant data to DB'))
