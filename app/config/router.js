@@ -51,12 +51,12 @@ export const Tabs = TabNavigator({
       },
     },
   },
-  Me: {
+  CurrentEvents: {
     screen: currentEvents,
     navigationOptions: {
       tabBar: {
-        label: 'Browse Events',
-        icon: ({ tintColor }) => <Icon name="account-circle" size={30} color={tintColor} />
+        label: 'Browse',
+        icon: ({ tintColor }) => <Icon type="material" name="event" size={30} color={tintColor} />
       },
     },
   },
