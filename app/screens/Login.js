@@ -74,11 +74,13 @@ class Login extends Component {
       alert('Error fetching data: ' + error.toString());
     } else {
       console.log('Facebook user profile=======>', result);
+      // save user info to Redux
       this.props.getUserProfile({
         name: result.name,
         pic: result.picture.data.url,
         email: result.email,
         friends: result.friends,
+        facebook_id: result.id,
       });
 
       const saveUserToDB = () => {
@@ -92,6 +94,7 @@ class Login extends Component {
             username: result.name,
             email: result.email,
             photourl: result.picture.data.url,
+            facebook_id: result.id,
           }),
         })
         .then((data) => console.log('save user to DB'))
