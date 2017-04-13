@@ -54,17 +54,28 @@ class Event extends Component {
   }
 
   onPressButton() {
-    const event = {
-      location: this.state.location,
-      description: this.state.description,
-      // date and time are retrieved from Redux store
-      eventDate: this.props.event.date,
-      startTime: this.props.event.startTime,
-      endTime: this.props.event.endTime,
+    if (this.props.event.date === null) {
+      alert('date is empty, please pick a date');
+    } else if (this.state.location === '') {
+      alert('event name/location is empty, please enter event name or location');
+    } else if (this.props.event.startTime === null) {
+      alert('please pick event start time');
+    } else if (this.props.event.endTime === null) {
+      alert('please pick event end time');
+    } else {
+      const event = {
+        location: this.state.location,
+        description: this.state.description,
+        // date and time are retrieved from Redux store
+        eventDate: this.props.event.date,
+        startTime: this.props.event.startTime,
+        endTime: this.props.event.endTime,
+      }
+      // save event to Redux
+      this.props.saveEvent(event);
+      // navigate to AddFriends page after saving event to Redux
+      this.props.navigation.navigate('AddFriends');
     }
-    this.props.saveEvent(event);
-    // navigate to AddFriends page after saving event to Redux
-    this.props.navigation.navigate('AddFriends');
   }
 
   render() {
