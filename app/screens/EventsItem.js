@@ -11,8 +11,7 @@ const {
   TouchableHighlight,
 } = ReactNative;
 
-
-class Me extends Component {
+class EventsItem extends Component {
   constructor(props) {
     super(props);
     this.state = { count: 0 };
@@ -69,4 +68,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Me);
+export default connect(mapStateToProps, mapDispatchToProps)(EventsItem);

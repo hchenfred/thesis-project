@@ -105,6 +105,7 @@ class AddFriends extends React.Component {
           <TextInput
             onChangeText={name => this.setState({ friendName: name })}
             style={styles.place}
+            autoCorrect={false}
             placeholder="friend's name"
           />
           <TextInput
@@ -125,9 +126,9 @@ class AddFriends extends React.Component {
         <View style={{ flexGrow: 10, marginTop: 0, padding: 10 }}>
           <ListView
             enableEmptySections={true}
-            style={{ height: 600, width: 600 }}
+            contentContainerStyle={styles.list}
             dataSource={this.state.dataSource}
-            renderRow={rowData => <Text>{rowData.username}</Text>}
+            renderRow={rowData => <Text style={styles.item}>{rowData.username}</Text>}
           />
         </View>
       </View>

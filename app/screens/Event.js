@@ -80,10 +80,10 @@ class Event extends Component {
 
   render() {
     return (
-    <View style={styles.container}>    
+    <View style={styles.container}> 
       <View style={styles.titleContainer}>
         <Image
-          style={{ width: 100, height: 100, justifyContent: 'center'}}
+          style={{ width: 100, height: 100, justifyContent: 'center' }}
           source={require('../img/congratulations.png')}  
         />
         <Text style={styles.title}>
@@ -94,11 +94,13 @@ class Event extends Component {
         <TextInput
           onChangeText={location => this.setState({ location })}
           style={styles.place}
+          autoCorrect={false}
           placeholder="enter a place/event"
         />
         <TextInput
           onChangeText={description => this.setState({ description })}
           style={styles.place}
+          autoCorrect={false}
           placeholder="Short Description"
         />
         <MyDatePicker />

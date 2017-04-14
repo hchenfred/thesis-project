@@ -24,6 +24,12 @@ export const eventStack = StackNavigator({
       title: 'Invite Friends',
     },
   },
+  EventDetails: {
+    screen: EventsItem,
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.name.toUpperCase(),
+    }),
+  },
 });
 
 export const currentEvents = StackNavigator({
