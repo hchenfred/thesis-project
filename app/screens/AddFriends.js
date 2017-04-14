@@ -90,7 +90,22 @@ class AddFriends extends React.Component {
         const eventId = responseJson;
         // console.log('==========>>>', responseJson);
         console.log(this.state.friendList);
+        console.log(this.props.event);
+        const event = {
+          name: this.props.event.location,
+          description: this.props.event.description,
+          eventDate: this.props.event.description,
+          location: this.props.event.location,
+          startTime: this.props.event.startTime,
+          endTime: this.props.event.endTime,
+        }
         util.addParticipantsToDB(eventId, this.state.friendList);
+        this.props.navigation.navigate('EventDetails', { ...event });
+        // .then((result) => {
+        // })
+        // .catch((err) => {
+        //   console.log('err saving participants to DB');
+        // });
       })
       .catch(err => console.log(err));
     } else {
