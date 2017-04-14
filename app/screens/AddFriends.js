@@ -3,6 +3,7 @@ import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity } from 'r
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
+import Row from './Row';
 import util from '../lib/utility';
 
 const styles = StyleSheet.create({
@@ -141,7 +142,7 @@ class AddFriends extends React.Component {
             enableEmptySections={true}
             contentContainerStyle={styles.list}
             dataSource={this.state.dataSource}
-            renderRow={rowData => <Text style={styles.item}>{rowData.username}</Text>}
+            renderRow={(rowData) => <Row {...rowData} />}
           />
         </View>
       </View>
