@@ -1,19 +1,14 @@
 const express = require('express');
-
 const bodyParser = require('body-parser');
-
 const db = require('../db-mysql/models.js');
-
 const Yelp = require('node-yelp-fusion');
-
+const creds = require('../apis/config.js');
+const Promise = require('bluebird');
 const app = express();
-
 const http = require('http').Server(app);
-
 const io = require('socket.io')(http);
 
 let cSocket;
-
 const PORT = process.env.PORT || 5000;
 
 // app.user(express.static('../index.ios.js'));
@@ -79,13 +74,54 @@ app.post('/users', (req, res) => {
 app.post('/events', (req, res) => {
   db.addEvent(req.body)
   .then((results) => {
-    console.log('saving event to DB');
-    res.send('insert into events table successful');
+    console.log('saving event to DB', results.insertId);
+    res.json(results.insertId);
   })
   .catch((err) => {
     console.log('there is an error');
     res.send(err);
   });
+});
+
+app.post('/participants', (req, res) => {
+  console.log('entering participants route');
+  const participants = req.body.friendList;
+  const eventId = req.body.eventId;
+  // console.log(participants);
+  Promise.map(participants, function(participant) {
+    console.log(participant);
+    return db.addUserToDatabase(participant)
+      .then(result => {
+        console.log('saving user to db');
+        return db.addParticipants(eventId, participant.email);
+      })
+      .then(result => {
+        console.log('participant saved to db');
+      })
+  })
+  .then(result => {
+    res.send('participant saved to db');
+  })
+  .catch(err => {
+    res.send('err saving participant to db');
+  })
+  ;
+  // const participant = req.body.friendList[0];
+  // const eventId = req.body.eventId;
+  // console.log('participant is ', participant, eventId);
+  // db.addUserToDatabase(participant)
+  // .then(result => {
+  //   console.log('save user to db');
+  //   return db.addParticipants(eventId, participant.email);
+  // })
+  // .then(result => {
+  //   console.log('participant saved to db');
+  //   res.send('participant saved to db');
+  // })
+  // .catch(err => {
+  //   console.log('err saving participant to db');
+  //   res.send('err saving participant to db');
+  // });
 });
 
 

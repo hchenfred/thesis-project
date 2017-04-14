@@ -68,8 +68,13 @@ const addEvent = (event) => {
   return db.queryAsync(queryStr, event);
 };
 
+const addParticipants = (eventId, email) => {
+  const queryStr = 'INSERT INTO participants(user_id, event_id) SELECT id, ? FROM users WHERE email = ?';
+  return db.queryAsync(queryStr, [eventId, email]);
+};
+
 const addUserToDatabase = (user) => {
-  const queryStr = 'INSERT INTO users SET ?';
+  const queryStr = 'INSERT IGNORE INTO users SET ?';
   return db.queryAsync(queryStr, user);
 };
 
@@ -82,7 +87,6 @@ var getPublicEvents = (cb) => {
     }
   });
 };
-
 
 // Test models
 var selectAllFromTest = (cb) => {
@@ -113,4 +117,5 @@ module.exports = {
   getUserByEmail,
   addEvent,
   getPublicEvents,
+  addParticipants,
 };
