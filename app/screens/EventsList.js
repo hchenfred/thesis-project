@@ -51,8 +51,8 @@ class EventsList extends Component {
       return (
           <ListItem
             key={item.id}
-            title={`${item.name.toUpperCase()}`}
-            subtitle={`${item.description.substring(0, 40)}`}
+            title={item.name.toUpperCase()}
+            subtitle={item.description.substring(0, 40)}
             onPress={() => this.onLearnMore(item)}
           />
         );
