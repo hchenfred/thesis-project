@@ -46,8 +46,9 @@ class EventsList extends Component {
   }
 
   createFeed() {
-      return this.state.events.map((item, i) => {
-        return (
+    return this.state.events.map((item, i) => {
+      console.log(item);
+      return (
           <ListItem
             key={item.id}
             title={`${item.name.toUpperCase()}`}

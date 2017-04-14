@@ -35,9 +35,9 @@ export const currentEvents = StackNavigator({
   },
   EventDetails: {
     screen: EventsItem,
-    navigationOptions: {
-      title: ({ state }) => `${state.params.name.toUpperCase()}`,
-    },
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.name.toUpperCase(),
+    }),
   },
 });
 
@@ -45,37 +45,29 @@ export const Tabs = TabNavigator({
   Login: {
     screen: Login,
     navigationOptions: {
-      tabBar: {
-        label: 'Login',
-        icon: ({ tintColor }) => <Icon type="font-awesome" name="facebook" size={30} color={tintColor} />
-      },
+      tabBarLabel: 'Login',
+      tabBarIcon: ({ tintColor }) => <Icon type="font-awesome" name="facebook" size={30} color={tintColor} />
     },
   },
   CurrentEvents: {
     screen: currentEvents,
-    navigationOptions: {
-      tabBar: {
-        label: 'Browse',
-        icon: ({ tintColor }) => <Icon type="material" name="event" size={30} color={tintColor} />
-      },
+    navigationOptions: {   
+      tabBarLabel: 'Browse',
+      tabBarIcon: ({ tintColor }) => <Icon type="material" name="event" size={30} color={tintColor} />
     },
   },
   Event: {
     screen: eventStack,
     navigationOptions: {
-      tabBar: {
-        label: 'Event',
-        icon: ({ tintColor }) => <Icon type="font-awesome" name="group" size={25} color={tintColor} />
-      },
+      tabBarLabel: 'Event',
+      tabBarIcon: ({ tintColor }) => <Icon type="font-awesome" name="group" size={25} color={tintColor} />
     },
   },
   FetchTest: {
     screen: FetchTest,
     navigationOptions: {
-      tabBar: {
-        label: 'Test',
-        icon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />
-      },
+      tabBarLabel: 'Test',
+      tabBarIcon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />
     },
   },
   // AddFriends: {
@@ -90,19 +82,15 @@ export const Tabs = TabNavigator({
   Feed: {
     screen: ActivityStream,
     navigationOptions: {
-      tabBar: {
-        label: 'Feed',
-        icon: ({ tintColor }) => <Icon name="list" size={35} color={tintColor} />
-      },
+      tabBarLabel: 'Feed',
+      tabBarIcon: ({ tintColor }) => <Icon name="list" size={35} color={tintColor} />
     },
   },
   Suggester: {
     screen: Suggester,
     navigationOptions: {
-      tabBar: {
-        label: 'Suggester',
-        icon: ({ tintColor }) => <Icon name="new-releases" size={35} color={tintColor} />
-      },
+      tabBarLabel: 'Suggester',
+      tabBarIcon: ({ tintColor }) => <Icon name="new-releases" size={35} color={tintColor} />
     },
   },
 });
