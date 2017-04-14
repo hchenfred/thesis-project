@@ -4,10 +4,10 @@ const db = require('../db-mysql/models.js');
 const Yelp = require('node-yelp-fusion');
 const creds = require('../apis/config.js');
 const Promise = require('bluebird');
+const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-const app = express();
 let cSocket;
 const PORT = process.env.PORT || 5000;
 
