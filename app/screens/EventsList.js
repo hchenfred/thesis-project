@@ -6,6 +6,7 @@ import { ActionCreators } from '../actions';
 import { bindActionCreators } from 'redux';
 
 const {
+  Text,
   View,
   Text,
   TouchableHighlight,
@@ -32,16 +33,8 @@ class EventsList extends Component {
     this.state = { activeEventsByCreator: [] };
   }
 
-  componentWillMount() {
-    console.log('========will mount', this.props.user);
-    // request all events from db
-    // fetch(baseURL + '/events')
-    // .then(response => response.json())
-    // .then((responseJSON) => {
-    //   this.setState({ events: responseJSON });
-    // });
-  }
-
+  // when props changes (including props received from Redux store),
+  // this function will be called. (nextProps must be put there)
   componentWillReceiveProps(nextProps) {
     // if (nextProps !== this.props) {
     //   console.log('yeah');
@@ -58,19 +51,6 @@ class EventsList extends Component {
     });
   }
 
-  // componentDidMount() {
-  //   console.log('========eventList did mount', this.props.user);
-  //   fetch('http:127.0.0.1:5000/events/' + this.props.user.email)
-  //   .then((response) => response.json())
-  //   .then((responseJson) => {
-  //     console.log('active events are =========>', responseJson);
-  //     this.setState({ activeEventsByCreator: responseJson });
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
-  // }
- 
   onLearnMore(event) {
     this.props.navigation.navigate('EventDetails', { ...event });
   }
@@ -102,11 +82,14 @@ class EventsList extends Component {
 
   render() {
     return <View>
-      <ScrollView>
-        <List>
-          {this.createFeed()}
-        </List>
-      </ScrollView>
+        {this.state.activeEventsByCreator ?
+          <ScrollView>
+            <Text>My Created Events</Text>
+            <List>
+              {this.createFeed()}
+            </List>
+          </ScrollView> : null
+        }
       </View>
   }
 }
