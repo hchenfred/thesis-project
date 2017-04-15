@@ -9,12 +9,12 @@ const styles = StyleSheet.create({
   datePicker: {
     width: 335,
     backgroundColor: '#27ae60',
-    marginBottom: 20,
+    marginBottom: 18,
   },
   timePicker: {
     width: 335,
     backgroundColor: '#27ae60',
-    marginBottom: 20,
+    marginBottom: 18,
   },
 });
 

@@ -7,6 +7,8 @@ import MyDatePicker from './MyDatePicker';
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 0,
+    paddingTop: 0,
     flex: 1,
     backgroundColor: '#2ecc71',
   },
@@ -15,12 +17,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#27ae60',
     marginBottom: 15,
     color: 'white',
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   titleContainer: {
     flexGrow: 1,
     justifyContent: 'flex-start',
-    marginTop: 50,
+    marginTop: 10,
     alignItems: 'center',
   },
   title: {
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: '#27ae60',
-    height: 40,
+    height: 35,
   },
   buttonText: {
     paddingTop: 10,
@@ -49,7 +51,11 @@ const styles = StyleSheet.create({
 class Event extends Component {
   constructor(props) {
     super(props);
-    this.state = { location: '', description: '' };
+    this.state = {
+      location: '',
+      description: '',
+      name: '',
+    };
     this.onPressButton = this.onPressButton.bind(this);
   }
 
@@ -64,13 +70,14 @@ class Event extends Component {
       alert('please pick event end time');
     } else {
       const event = {
+        name: this.state.name,
         location: this.state.location,
         description: this.state.description,
         // date and time are retrieved from Redux store
         eventDate: this.props.event.date,
         startTime: this.props.event.startTime,
         endTime: this.props.event.endTime,
-      }
+      };
       // save event to Redux
       this.props.saveEvent(event);
       // navigate to AddFriends page after saving event to Redux
@@ -80,33 +87,44 @@ class Event extends Component {
 
   render() {
     return (
-    <View style={styles.container}>    
-      <View style={styles.titleContainer}>
-        <Image
-          style={{ width: 100, height: 100, justifyContent: 'center'}}
-          source={require('../img/congratulations.png')}  
-        />
-        <Text style={styles.title}>
-          Your Event with Friends Starts from Here!
-        </Text>
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Image
+            style={{ width: 100, height: 100, justifyContent: 'center' }}
+            source={require('../img/congratulations.png')}
+          />
+          <Text style={styles.title}>
+            Your Event with Friends Starts from Here!
+          </Text>
+        </View>
+        <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
+          <TextInput
+            clearTextOnFocus="true"
+            onChangeText={name => this.setState({ name })}
+            style={styles.place}
+            autoCorrect={false}
+            placeholder="enter an event name"
+          />
+          <TextInput
+            clearTextOnFocus="true"
+            onChangeText={location => this.setState({ location })}
+            style={styles.place}
+            autoCorrect={false}
+            placeholder="enter a location"
+          />
+          <TextInput
+            clearTextOnFocus="true"
+            onChangeText={description => this.setState({ description })}
+            style={styles.place}
+            autoCorrect={false}
+            placeholder="short description"
+          />
+          <MyDatePicker />
+          <TouchableOpacity onPress={this.onPressButton} style={styles.buttonContainer}>
+            <Text style={styles.buttonText}>SUBMIT</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
       </View>
-      <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
-        <TextInput
-          onChangeText={location => this.setState({ location })}
-          style={styles.place}
-          placeholder="enter a place/event"
-        />
-        <TextInput
-          onChangeText={description => this.setState({ description })}
-          style={styles.place}
-          placeholder="Short Description"
-        />
-        <MyDatePicker />
-        <TouchableOpacity onPress={this.onPressButton} style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>SUBMIT</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </View>
     );
   }
 }

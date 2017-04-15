@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
+import Row from './Row';
 import util from '../lib/utility';
 
 const styles = StyleSheet.create({
@@ -34,6 +35,11 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+const propTypes = {
+  user: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
+};
 
 class AddFriends extends React.Component {
   constructor(props) {
@@ -76,7 +82,7 @@ class AddFriends extends React.Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: this.props.event.location,
+          name: this.props.event.name,
           creator_id: this.props.user.id,
           location: this.props.event.location,
           eventDate: this.props.event.eventDate,
@@ -88,14 +94,22 @@ class AddFriends extends React.Component {
       .then(response => response.json())
       .then((responseJson) => {
         const eventId = responseJson;
-        // console.log('==========>>>', responseJson);
         console.log(this.state.friendList);
+        // const event = {
+        //   name: this.props.event.location,
+        //   description: this.props.event.description,
+        //   eventDate: this.props.event.description,
+        //   location: this.props.event.location,
+        //   startTime: this.props.event.startTime,
+        //   endTime: this.props.event.endTime,
+        // }
         util.addParticipantsToDB(eventId, this.state.friendList);
+        this.props.navigation.navigate('EventDetails', { ...this.props.event });
       })
       .catch(err => console.log(err));
     } else {
       alert('user id is not available, please log in again');
-    } 
+    }
   }
 
   render() {
@@ -103,11 +117,14 @@ class AddFriends extends React.Component {
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <TextInput
+            clearTextOnFocus="true"
             onChangeText={name => this.setState({ friendName: name })}
             style={styles.place}
+            autoCorrect={false}
             placeholder="friend's name"
           />
           <TextInput
+            clearTextOnFocus="true"
             onChangeText={email => this.setState({ friendEmail: email })}
             style={styles.place}
             keyboardType="email-address"
@@ -125,15 +142,17 @@ class AddFriends extends React.Component {
         <View style={{ flexGrow: 10, marginTop: 0, padding: 10 }}>
           <ListView
             enableEmptySections={true}
-            style={{ height: 600, width: 600 }}
+            contentContainerStyle={styles.list}
             dataSource={this.state.dataSource}
-            renderRow={rowData => <Text>{rowData.username}</Text>}
+            renderRow={(rowData) => <Row {...rowData} />}
           />
         </View>
       </View>
     );
   }
 }
+
+AddFriends.propTypes = propTypes;
 
 function mapStateToProps(state) {
   return {

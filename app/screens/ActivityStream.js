@@ -27,6 +27,9 @@ class ActivityStream extends Component {
     super(props);
     this.state = { activities: [], current: '', currentImg: '' };
     this.socket = SocketIOClient(baseURL, { jsonp: false });
+  }
+
+  componentDidMount() {
     this.socket.on('refresh feed', (data) => {
       this.state.activities.push(data);
       this.setState({ current: this.state.activities[this.state.activities.length - 1].activity, currentImg: this.state.activities[this.state.activities.length - 1].authorImage });
