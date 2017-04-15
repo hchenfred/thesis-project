@@ -99,18 +99,21 @@ class Event extends Component {
         </View>
         <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
           <TextInput
+            clearTextOnFocus={true}
             onChangeText={name => this.setState({ name })}
             style={styles.place}
             autoCorrect={false}
             placeholder="enter an event name"
           />
           <TextInput
+            clearTextOnFocus={true}
             onChangeText={location => this.setState({ location })}
             style={styles.place}
             autoCorrect={false}
             placeholder="enter a location"
           />
           <TextInput
+            clearTextOnFocus={true}
             onChangeText={description => this.setState({ description })}
             style={styles.place}
             autoCorrect={false}
