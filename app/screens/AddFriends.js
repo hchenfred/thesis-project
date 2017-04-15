@@ -104,6 +104,7 @@ class AddFriends extends React.Component {
         //   endTime: this.props.event.endTime,
         // }
         util.addParticipantsToDB(eventId, this.state.friendList);
+        this.props.addCount();
         this.props.navigation.navigate('EventDetails', { ...this.props.event });
       })
       .catch(err => console.log(err));
@@ -158,6 +159,7 @@ function mapStateToProps(state) {
   return {
     event: state.event,
     user: state.user,
+    simpleCounter: state.simpleCounter,
   };
 }
 
