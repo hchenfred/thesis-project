@@ -79,10 +79,16 @@ const addUserToDatabase = (user) => {
 };
 
 var getPublicEvents = (cb) => {
-  connection.query('SELECT * FROM events WHERE private = 0;', (err, results) => {
+  connection.query('SELECT events.*, users.username, users.photourl FROM events INNER JOIN users ON events.creator_id = users.id;', (err, results) => {
     if (err) {
       cb(err, null);
     } else {
+      let counter = 1;
+      results.forEach((event) => {
+        event.id = counter;
+        counter += 1;
+      });
+      console.log('getPublicEvents query ----->', results);
       cb(null, results);
     }
   });
