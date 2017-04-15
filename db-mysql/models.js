@@ -115,8 +115,18 @@ var insertValueIntoTest = (val, cb) => {
   });
 };
 
+const updateParticipantResponse = (data, cb) => {
+  connection.query(`UPDATE participants SET status='${data.participantStatus}' WHERE id=${data.participantId}`, (err, results) => {
+    if (err) {
+      cb(err, null);
+    } else {
+      cb(null, results);
+    }
+  });
+};
+
 const getEventParticipants = (eventId, cb) => {
-  connection.query(`SELECT users.username, participants.status FROM participants INNER JOIN events ON participants.event_id = events.id INNER JOIN users ON participants.user_id = users.id WHERE events.id = ${eventId}`, (err, results) => {
+  connection.query(`SELECT users.username, participants.id, participants.status, participants.user_id FROM participants INNER JOIN events ON participants.event_id = events.id INNER JOIN users ON participants.user_id = users.id WHERE events.id = ${eventId}`, (err, results) => {
     if (err) {
       cb(err, null);
     } else {
@@ -135,4 +145,5 @@ module.exports = {
   getPublicEvents,
   addParticipants,
   getEventParticipants,
+  updateParticipantResponse,
 };

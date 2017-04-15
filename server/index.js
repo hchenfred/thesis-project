@@ -163,6 +163,18 @@ app.get('/events/:*', (req, res) => {
     }
   });
 });
+app.post('/events/participants/rsvp', (req, res) => {
+  console.log('request for participant status update --->', req.body);
+  db.updateParticipantResponse(req.body, (err, results) => {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
+      console.log(results);
+      res.send('');
+    }
+  });
+});
 
 io.on('connection', (socket) => {
   console.log('A client just joined on', socket.id);

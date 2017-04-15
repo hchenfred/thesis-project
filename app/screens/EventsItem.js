@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import ModalDropdown from 'react-native-modal-dropdown';
 import { ActionCreators } from '../actions';
-import { ScrollView } from 'react-native';
 
 const {
   View,
   Text,
   TouchableHighlight,
-  Image 
+  Image,
+  ScrollView,
+  StyleSheet,
 } = ReactNative;
 
 let baseURL;
@@ -41,42 +43,46 @@ class EventsItem extends Component {
   }
 
   createParticipants() {
+    const { id } = this.props.navigation.state.params;
     return this.state.participants.map((participant, i) => {
-      console.log(participant);
       return (
-        <Text key={i}>{participant.username}</Text>
+        <View>
+          <Text key={i}>{participant.username}</Text>
+          <ModalDropdown
+            style={{ borderWidth: 0.5, borderRadius: 4, height: 20, width:60, backgroundColor: 'grey', flex: 1, alignItems: 'center'}}
+            textStyle={{color: '#fff' }}
+            adjustFrame={style => this.adjustFrame(style)}
+            options={['yes', 'no', 'maybe']}
+            defaultValue={participant.status}
+            defaultIndex={['yes', 'no', 'maybe'].indexOf(participant.status)}
+            onSelect={(idx, value) => this.changeResponse(idx, value, participant, id)}
+          />
+        </View>
       );
     });
   }
 
-
-  // radioButton(props) {
-  //   return (
-  //     <View
-  //       style={[{
-  //         height: 24,
-  //         width: 24,
-  //         borderRadius: 12,
-  //         borderWidth: 2,
-  //         borderColor: '#000',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }, props.style]}
-  //     >
-  //       {props.selected ?
-  //         <View
-  //           style={{
-  //             height: 12,
-  //             width: 12,
-  //             borderRadius: 6,
-  //             backgroundColor: '#000',
-  //           }}
-  //         />
-  //           : null
-  //       }
-  //     </View>
-  //   );
-  // }
+  adjustFrame(style) {
+    style.height -= 65;
+    return style;
+  }
+  changeResponse(idx, value, participant, eventID) {
+    console.log('changeResponse --->x', idx, value, participant, eventID);
+    fetch( baseURL + '/events/participants/rsvp', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        eventId: eventID,
+        participantId: participant.id,
+        participantStatus: value,
+      }),
+    })
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  }
 
   render() {
     const { name, description, eventDate, location, startTime, endTime, username, photourl } = this.props.navigation.state.params;
@@ -101,6 +107,8 @@ class EventsItem extends Component {
     );
   }
 }
+
+
 
 function mapStateToProps(state) {
   return { simpleCounter: state.simpleCounter };

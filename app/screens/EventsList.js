@@ -9,7 +9,7 @@ const {
   View,
   Text,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
 } = ReactNative;
 
 let baseURL;
