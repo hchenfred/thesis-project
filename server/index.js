@@ -84,7 +84,7 @@ app.post('/events', (req, res) => {
   });
 });
 
-app.get('/events/:creatorEmail', (req, res) => {
+app.get('/events/createdBy/:creatorEmail', (req, res) => {
   const email = req.params.creatorEmail;
   console.log('retrieving events created by ' + email);
   db.getEventByCreatorEmail(email)
@@ -97,6 +97,22 @@ app.get('/events/:creatorEmail', (req, res) => {
     res.send('err getting event by creator');
   });
 });
+
+app.get('/events/:participantId', (req, res) => {
+  const id = req.params.participantId;
+  console.log('retrieving events I get invited to ' + id);
+  db.getEventByParticipantId(id)
+  .then((result) => {
+    console.log(result);
+    res.json(result);
+  })
+  .catch((err) => {
+    console.log('err getting event by participant id');
+    res.send('err getting event by participant id');
+  });
+});
+
+
 
 app.post('/participants', (req, res) => {
   console.log('entering participants route');

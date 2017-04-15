@@ -8,7 +8,6 @@ import { bindActionCreators } from 'redux';
 const {
   Text,
   View,
-  Text,
   TouchableHighlight,
   ScrollView,
 } = ReactNative;
@@ -25,12 +24,15 @@ if (process.env.NODE_ENV === 'production') {
 
 const propTypes = {
   navigation: PropTypes.object.isRequired,
-}
+};
 
 class EventsList extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeEventsByCreator: [] };
+    this.state = {
+      activeEventsByCreator: [],
+      invitedEventsByParticipantId: [],
+    };
   }
 
   // when props changes (including props received from Redux store),
@@ -39,12 +41,20 @@ class EventsList extends Component {
     // if (nextProps !== this.props) {
     //   console.log('yeah');
     // }
-    console.log('========will receive props', this.props.user);
-    fetch('http:127.0.0.1:5000/events/' + this.props.user.email)
+    console.log('========will receive props', this.props.user.id);
+    fetch('http:127.0.0.1:5000/events/createdBy/' + this.props.user.email)
     .then((response) => response.json())
     .then((responseJson) => {
       console.log('active events are =========>', responseJson);
       this.setState({ activeEventsByCreator: responseJson });
+    })
+    .then(() => {
+      return fetch(`http:127.0.0.1:5000/events/${this.props.user.id}`);
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log('invited events are ========>', responseJson);
+      this.setState({ invitedEventsByParticipantId: responseJson });
     })
     .catch((error) => {
       console.error(error);
@@ -55,19 +65,9 @@ class EventsList extends Component {
     this.props.navigation.navigate('EventDetails', { ...event });
   }
 
-  createFeed() {
-/*<<<<<<< 3d6b46c10af24312a46adbad1b6c1b2e0562806b
-    return this.state.events.map((item) => {
-      console.log(item);
-      return (
-          <ListItem
-            key={item.id}
-            title={item.name.toUpperCase()}
-            subtitle={item.description.substring(0, 40)}
-            onPress={() => this.onLearnMore(item)}
-          />
-=======*/
-    return this.state.activeEventsByCreator.map((item, i) => {
+
+  createFeed(events) {
+    return events.map((item, i) => {
       console.log(item);
       return (
         <ListItem
@@ -86,7 +86,16 @@ class EventsList extends Component {
           <ScrollView>
             <Text>My Created Events</Text>
             <List>
-              {this.createFeed()}
+              {this.createFeed(this.state.activeEventsByCreator)}
+            </List>
+          </ScrollView> : null
+        }
+
+        {this.state.invitedEventsByParticipantId ?
+          <ScrollView>
+            <Text>My Invited Events</Text>
+            <List>
+              {this.createFeed(this.state.invitedEventsByParticipantId)}
             </List>
           </ScrollView> : null
         }

@@ -74,6 +74,11 @@ const getEventByCreatorEmail = (email) => {
   return db.queryAsync(queryStr, email);
 };
 
+const getEventByParticipantId = (id) => {
+  const queryStr = 'SELECT DISTINCT * FROM events INNER JOIN participants ON (events.id = participants.event_id) WHERE participants.user_id = ?';
+  return db.queryAsync(queryStr, id);
+};
+
 const addParticipants = (eventId, email) => {
   const queryStr = 'INSERT INTO participants(user_id, event_id) SELECT id, ? FROM users WHERE email = ?';
   return db.queryAsync(queryStr, [eventId, email]);
@@ -153,4 +158,5 @@ module.exports = {
   getEventParticipants,
   updateParticipantResponse,
   getEventByCreatorEmail,
+  getEventByParticipantId,
 };
