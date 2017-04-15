@@ -46,7 +46,7 @@ class EventsList extends Component {
   }
 
   createFeed() {
-    return this.state.events.map((item, i) => {
+    return this.state.events.map((item) => {
       console.log(item);
       return (
           <ListItem

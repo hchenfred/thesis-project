@@ -115,6 +115,16 @@ var insertValueIntoTest = (val, cb) => {
   });
 };
 
+const getEventParticipants = (eventId, cb) => {
+  connection.query(`SELECT users.username, participants.status FROM participants INNER JOIN events ON participants.event_id = events.id INNER JOIN users ON participants.user_id = users.id WHERE events.id = ${eventId}`, (err, results) => {
+    if (err) {
+      cb(err, null);
+    } else {
+      cb(null, results);
+    }
+  });
+};
+
 
 module.exports = {
   selectAllFromTest,
@@ -124,4 +134,5 @@ module.exports = {
   addEvent,
   getPublicEvents,
   addParticipants,
+  getEventParticipants,
 };

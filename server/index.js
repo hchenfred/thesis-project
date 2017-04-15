@@ -138,8 +138,22 @@ app.get('/users/:email', (req, res) => {
   });
 });
 
+
 app.get('/events', (req, res) => {
   db.getPublicEvents((err, results) => {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
+      // console.log(results);
+      res.json(results);
+    }
+  });
+});
+
+app.get('/events/:*', (req, res) => {
+  let id = req.params[0];
+  db.getEventParticipants(id, (err, results) => {
     if (err) {
       console.log(err);
       res.send(err);
