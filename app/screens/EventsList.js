@@ -61,13 +61,6 @@ class EventsList extends Component {
 
   render() {
     return <View>
-      <Text style={{ marginTop: 20 }}>
-        this is the counter for testing(Redux template)!
-        count: {this.props.simpleCounter}
-      </Text>
-      <TouchableHighlight onPress={() => { this.props.addCount(); }}>
-        <Text>click to add</Text>
-      </TouchableHighlight>
       <ScrollView>
         <List>
           {this.createFeed()}

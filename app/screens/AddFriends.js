@@ -117,14 +117,14 @@ class AddFriends extends React.Component {
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <TextInput
-            clearTextOnFocus="true"
+            clearTextOnFocus={true}
             onChangeText={name => this.setState({ friendName: name })}
             style={styles.place}
             autoCorrect={false}
             placeholder="friend's name"
           />
           <TextInput
-            clearTextOnFocus="true"
+            clearTextOnFocus={true}
             onChangeText={email => this.setState({ friendEmail: email })}
             style={styles.place}
             keyboardType="email-address"
