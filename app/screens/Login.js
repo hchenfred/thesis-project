@@ -8,7 +8,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Button,
   Image,
 } from 'react-native';
 import { ActionCreators } from '../actions';
@@ -29,7 +28,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#2ecc71',
+  },
+  welcomeTitle: {
+    color: 'white',
+    margin: 10,
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  title: {
+    color: 'white',
+    margin: 20,
+    fontSize: 60,
   },
 });
 
@@ -45,7 +55,6 @@ const {
 const propTypes = {
   getUserProfile: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
   saveUserId: PropTypes.func.isRequired,
 };
 
@@ -53,10 +62,6 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.responseInfoCallback = this.responseInfoCallback.bind(this);
-    // this.socket = SocketIOClient(baseURL, { jsonp: false });
-    // this.socket.on('news', (data) => {
-    //   console.log(data);
-    // });
   }
 
   componentWillMount() {
@@ -97,8 +102,8 @@ class Login extends Component {
             facebook_id: result.id,
           }),
         })
-        .then((data) => console.log('save user to DB'))
-        .catch((err) => console.log(err));
+        .then(data => console.log('save user to DB'))
+        .catch(err => console.log(err));
       };
 
       fetch(baseURL + '/users/' + result.email)
@@ -108,7 +113,6 @@ class Login extends Component {
           console.log('no user found, needs to save to database');
           saveUserToDB();
         } else {
-          console.log('========', responseJson.id);
           this.props.saveUserId(responseJson.id);
           console.log('user already exists in DB, no need to save again');
         }
@@ -116,8 +120,6 @@ class Login extends Component {
       .catch((err) => {
         console.error(err);
       });
-
-      //this.setState({ name: result.name, pic: result.picture.data.url });
     }
   }
 
@@ -125,11 +127,14 @@ class Login extends Component {
     const context = this;
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>
+          friend.ly
+        </Text>
         <Image
           style={{ width: 80, height: 80, borderRadius: 40 }}
           source={{ uri: this.props.user.pic }}
         />
-        <Text> 
+        <Text style={styles.welcomeTitle}>
           Welcome back { this.props.user.name || '' }
         </Text>
         <LoginButton
@@ -137,7 +142,7 @@ class Login extends Component {
           onLoginFinished={
             (error, result) => {
               if (error) {
-                console.log("login has error: " + result.error);
+                console.log("Facebook Login Error: " + result.error);
               } else if (result.isCancelled) {
                 //console.log("login is cancelled.");
               } else {
@@ -157,7 +162,6 @@ class Login extends Component {
           }
           onLogoutFinished={() => alert('logout.')}
         />
-        <Button title="testbutton(willBeRemoved)" onPress={() => this.props.navigation.navigate('Event')}/>
       </View>
     );
   }
