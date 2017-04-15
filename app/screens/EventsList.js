@@ -9,7 +9,7 @@ const {
   View,
   Text,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
 } = ReactNative;
 
 let baseURL;
@@ -46,13 +46,13 @@ class EventsList extends Component {
   }
 
   createFeed() {
-    return this.state.events.map((item, i) => {
+    return this.state.events.map((item) => {
       console.log(item);
       return (
           <ListItem
             key={item.id}
-            title={`${item.name.toUpperCase()}`}
-            subtitle={`${item.description.substring(0, 40)}`}
+            title={item.name.toUpperCase()}
+            subtitle={item.description.substring(0, 40)}
             onPress={() => this.onLearnMore(item)}
           />
         );

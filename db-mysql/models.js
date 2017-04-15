@@ -79,10 +79,16 @@ const addUserToDatabase = (user) => {
 };
 
 var getPublicEvents = (cb) => {
-  connection.query('SELECT * FROM events WHERE private = 0;', (err, results) => {
+  connection.query('SELECT events.*, users.username, users.photourl FROM events INNER JOIN users ON events.creator_id = users.id;', (err, results) => {
     if (err) {
       cb(err, null);
     } else {
+      let counter = 1;
+      results.forEach((event) => {
+        event.id = counter;
+        counter += 1;
+      });
+      console.log('getPublicEvents query ----->', results);
       cb(null, results);
     }
   });
@@ -109,6 +115,26 @@ var insertValueIntoTest = (val, cb) => {
   });
 };
 
+const updateParticipantResponse = (data, cb) => {
+  connection.query(`UPDATE participants SET status='${data.participantStatus}' WHERE id=${data.participantId}`, (err, results) => {
+    if (err) {
+      cb(err, null);
+    } else {
+      cb(null, results);
+    }
+  });
+};
+
+const getEventParticipants = (eventId, cb) => {
+  connection.query(`SELECT users.username, participants.id, participants.status, participants.user_id FROM participants INNER JOIN events ON participants.event_id = events.id INNER JOIN users ON participants.user_id = users.id WHERE events.id = ${eventId}`, (err, results) => {
+    if (err) {
+      cb(err, null);
+    } else {
+      cb(null, results);
+    }
+  });
+};
+
 
 module.exports = {
   selectAllFromTest,
@@ -118,4 +144,6 @@ module.exports = {
   addEvent,
   getPublicEvents,
   addParticipants,
+  getEventParticipants,
+  updateParticipantResponse,
 };
