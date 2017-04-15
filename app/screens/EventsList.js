@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import ReactNative from 'react-native';
+import ReactNative, { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements';
 import { ActionCreators } from '../actions';
@@ -25,6 +25,16 @@ if (process.env.NODE_ENV === 'production') {
 const propTypes = {
   navigation: PropTypes.object.isRequired,
 };
+
+const styles = StyleSheet.create({
+  title: {
+    textAlign: 'center',
+    marginTop: 15,
+    color: '#2c3e50',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+});
 
 class EventsList extends Component {
   constructor(props) {
@@ -75,6 +85,9 @@ class EventsList extends Component {
           title={`${item.name.toUpperCase()}`}
           subtitle={`${item.description.substring(0, 40)}`}
           onPress={() => this.onLearnMore(item)}
+          containerStyle={{ height: 50 }}
+          avatar={{ uri: item.photourl }}
+          roundAvatar={true}
         />
         );
       });
@@ -84,7 +97,7 @@ class EventsList extends Component {
     return <View>
         {this.state.activeEventsByCreator ?
           <ScrollView>
-            <Text>My Created Events</Text>
+            <Text style={styles.title}>Created Events</Text>
             <List>
               {this.createFeed(this.state.activeEventsByCreator)}
             </List>
@@ -93,7 +106,7 @@ class EventsList extends Component {
 
         {this.state.invitedEventsByParticipantId ?
           <ScrollView>
-            <Text>My Invited Events</Text>
+            <Text style={styles.title}>Invited Events</Text>
             <List>
               {this.createFeed(this.state.invitedEventsByParticipantId)}
             </List>

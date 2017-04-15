@@ -75,7 +75,7 @@ const getEventByCreatorEmail = (email) => {
 };
 
 const getEventByParticipantId = (id) => {
-  const queryStr = 'SELECT DISTINCT * FROM events INNER JOIN participants ON (events.id = participants.event_id) WHERE participants.user_id = ?';
+  const queryStr = 'SELECT DISTINCT * FROM events INNER JOIN participants ON (events.id = participants.event_id) INNER JOIN users ON (users.id = events.creator_id) WHERE participants.user_id = ?';
   return db.queryAsync(queryStr, id);
 };
 
