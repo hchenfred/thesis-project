@@ -104,6 +104,7 @@ class AddFriends extends React.Component {
         //   endTime: this.props.event.endTime,
         // }
         util.addParticipantsToDB(eventId, this.state.friendList);
+        this.props.addCount();
         this.props.navigation.navigate('EventDetails', { ...this.props.event });
       })
       .catch(err => console.log(err));
@@ -117,14 +118,14 @@ class AddFriends extends React.Component {
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <TextInput
-            clearTextOnFocus="true"
+            clearTextOnFocus={true}
             onChangeText={name => this.setState({ friendName: name })}
             style={styles.place}
             autoCorrect={false}
             placeholder="friend's name"
           />
           <TextInput
-            clearTextOnFocus="true"
+            clearTextOnFocus={true}
             onChangeText={email => this.setState({ friendEmail: email })}
             style={styles.place}
             keyboardType="email-address"
@@ -158,6 +159,7 @@ function mapStateToProps(state) {
   return {
     event: state.event,
     user: state.user,
+    simpleCounter: state.simpleCounter,
   };
 }
 

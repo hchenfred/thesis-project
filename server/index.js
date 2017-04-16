@@ -4,6 +4,7 @@ const db = require('../db-mysql/models.js');
 const Yelp = require('node-yelp-fusion');
 const creds = require('../apis/config.js');
 const Promise = require('bluebird');
+
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -83,6 +84,36 @@ app.post('/events', (req, res) => {
   });
 });
 
+app.get('/events/createdBy/:creatorEmail', (req, res) => {
+  const email = req.params.creatorEmail;
+  console.log('retrieving events created by ' + email);
+  db.getEventByCreatorEmail(email)
+  .then((result) => {
+    console.log(result);
+    res.json(result);
+  })
+  .catch((err) => {
+    console.log('err getting event by creator');
+    res.send('err getting event by creator');
+  });
+});
+
+app.get('/events/:participantId', (req, res) => {
+  const id = req.params.participantId;
+  console.log('retrieving events I get invited to ' + id);
+  db.getEventByParticipantId(id)
+  .then((result) => {
+    console.log(result);
+    res.json(result);
+  })
+  .catch((err) => {
+    console.log('err getting event by participant id');
+    res.send('err getting event by participant id');
+  });
+});
+
+
+
 app.post('/participants', (req, res) => {
   console.log('entering participants route');
   const participants = req.body.friendList;
@@ -106,22 +137,6 @@ app.post('/participants', (req, res) => {
     res.send('err saving participant to db');
   })
   ;
-  // const participant = req.body.friendList[0];
-  // const eventId = req.body.eventId;
-  // console.log('participant is ', participant, eventId);
-  // db.addUserToDatabase(participant)
-  // .then(result => {
-  //   console.log('save user to db');
-  //   return db.addParticipants(eventId, participant.email);
-  // })
-  // .then(result => {
-  //   console.log('participant saved to db');
-  //   res.send('participant saved to db');
-  // })
-  // .catch(err => {
-  //   console.log('err saving participant to db');
-  //   res.send('err saving participant to db');
-  // });
 });
 
 

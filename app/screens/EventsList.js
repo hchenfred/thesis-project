@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import ReactNative from 'react-native';
+import ReactNative, { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements';
 import { ActionCreators } from '../actions';
 import { bindActionCreators } from 'redux';
 
 const {
-  View,
   Text,
+  View,
   TouchableHighlight,
   ScrollView,
 } = ReactNative;
@@ -24,20 +24,50 @@ if (process.env.NODE_ENV === 'production') {
 
 const propTypes = {
   navigation: PropTypes.object.isRequired,
-}
+};
+
+const styles = StyleSheet.create({
+  title: {
+    textAlign: 'center',
+    marginTop: 15,
+    color: '#2c3e50',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+});
 
 class EventsList extends Component {
   constructor(props) {
     super(props);
-    this.state = { events: [] };
+    this.state = {
+      activeEventsByCreator: [],
+      invitedEventsByParticipantId: [],
+    };
   }
 
-  componentWillMount() {
-    // request all events from db
-    fetch(baseURL + '/events')
-    .then(response => response.json())
-    .then((responseJSON) => {
-      this.setState({ events: responseJSON });
+  // when props changes (including props received from Redux store),
+  // this function will be called. (nextProps must be put there)
+  componentWillReceiveProps(nextProps) {
+    // if (nextProps !== this.props) {
+    //   console.log('yeah');
+    // }
+    console.log('========will receive props', this.props.user.id);
+    fetch('http:127.0.0.1:5000/events/createdBy/' + this.props.user.email)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log('active events are =========>', responseJson);
+      this.setState({ activeEventsByCreator: responseJson });
+    })
+    .then(() => {
+      return fetch(`http:127.0.0.1:5000/events/${this.props.user.id}`);
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log('invited events are ========>', responseJson);
+      this.setState({ invitedEventsByParticipantId: responseJson });
+    })
+    .catch((error) => {
+      console.error(error);
     });
   }
 
@@ -45,34 +75,43 @@ class EventsList extends Component {
     this.props.navigation.navigate('EventDetails', { ...event });
   }
 
-  createFeed() {
-    return this.state.events.map((item) => {
+
+  createFeed(events) {
+    return events.map((item, i) => {
       console.log(item);
       return (
-          <ListItem
-            key={item.id}
-            title={item.name.toUpperCase()}
-            subtitle={item.description.substring(0, 40)}
-            onPress={() => this.onLearnMore(item)}
-          />
+        <ListItem
+          key={i}
+          title={`${item.name.toUpperCase()}`}
+          subtitle={`${item.description.substring(0, 40)}`}
+          onPress={() => this.onLearnMore(item)}
+          containerStyle={{ height: 50 }}
+          avatar={{ uri: item.photourl }}
+          roundAvatar={true}
+        />
         );
       });
     }
 
   render() {
     return <View>
-      <Text style={{ marginTop: 20 }}>
-        this is the counter for testing(Redux template)!
-        count: {this.props.simpleCounter}
-      </Text>
-      <TouchableHighlight onPress={() => { this.props.addCount(); }}>
-        <Text>click to add</Text>
-      </TouchableHighlight>
-      <ScrollView>
-        <List>
-          {this.createFeed()}
-        </List>
-      </ScrollView>
+        {this.state.activeEventsByCreator ?
+          <ScrollView>
+            <Text style={styles.title}>Created Events</Text>
+            <List>
+              {this.createFeed(this.state.activeEventsByCreator)}
+            </List>
+          </ScrollView> : null
+        }
+
+        {this.state.invitedEventsByParticipantId ?
+          <ScrollView>
+            <Text style={styles.title}>Invited Events</Text>
+            <List>
+              {this.createFeed(this.state.invitedEventsByParticipantId)}
+            </List>
+          </ScrollView> : null
+        }
       </View>
   }
 }
@@ -80,7 +119,11 @@ class EventsList extends Component {
 EventsList.propTypes = propTypes;
 
 function mapStateToProps(state) {
-  return { simpleCounter: state.simpleCounter };
+  return {
+    user: state.user,
+    event: state.event,
+    simpleCounter: state.simpleCounter,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

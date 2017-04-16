@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS users (
 
 INSERT INTO users (username, email, phone, photourl) VALUES ('Test Person', 'smmakowski@yahoo.com', '9736538792', 'https://s-media-cache-ak0.pinimg.com/736x/dd/03/7e/dd037e42b51536f31171309c73372805.jpg');
 INSERT INTO users (username, email, phone, photourl) VALUES ('Test Friend', 'smmakowski@me.com', '9736538792', 'https://s-media-cache-ak0.pinimg.com/736x/dd/03/7e/dd037e42b51536f31171309c73372805.jpg');
+INSERT INTO users (username, email, phone, photourl) VALUES ('Tayo', 'tayo@me.com', '9736538792', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRY296dxsFIhtogq1IMHrdNl9oSZckvMUUceiRfWZC9Jbs280dodA');
+INSERT INTO users (username, email, phone, photourl) VALUES ('Huan', 'mogutounew@yahoo.com', '9736538792', 'https://cdn1.recombu.com/media/mobile/Apps/Neko%20Atsume/neko-atsume-rare-cats-guide-frosty_w670_h377.png');
 
 CREATE TABLE IF NOT EXISTS interests (
 	id int NOT NULL AUTO_INCREMENT,
@@ -72,14 +74,13 @@ CREATE TABLE IF NOT EXISTS events (
 ALTER TABLE events ADD FOREIGN KEY (creator_id) REFERENCES users(id);
 
 INSERT INTO events (name, creator_id, description, eventDate, location, startTime, endTime)
-VALUES ('Test 1', 1, 'First event use to test out algorithm', '2017-04-27', 'San Francisco', '13:13:12', '16:12:12');
+VALUES ('BBQ', 1, 'First event use to test out algorithm', '2017-04-27', 'San Francisco', '13:13:12', '16:12:12');
 INSERT INTO events (name, creator_id, description, eventDate, active, location, startTime, endTime)
-VALUES ('Test 2', 1, 'Second event use to test out algorithm', '2017-01-27', 0, 'San Francisco', '13:13:12', '16:12:12');
+VALUES ('Beers', 3, 'Second event use to test out algorithm', '2017-01-27', 0, 'San Francisco', '13:13:12', '16:12:12');
 INSERT INTO events (name, creator_id, description, eventDate, active, location, startTime, endTime)
-VALUES ('Test 3', 1, 'I\'m n not quite sure event use to test out algorithm', '2017-02-27', 0, 'San Francisco', '13:13:12', '16:12:12');
+VALUES ('All We Can Eat', 2, 'I\'m n not quite sure event use to test out algorithm', '2017-02-27', 0, 'San Francisco', '13:13:12', '16:12:12');
 INSERT INTO events (name, creator_id, description, eventDate, active, location, startTime, endTime)
 VALUES ('Test 4', 1, 'Just testing out the algortithm', '2017-03-27', 0, 'San Francisco', '13:13:12', '16:12:12');
-
 
 CREATE TABLE IF NOT EXISTS participants (
 	id int NOT NULL AUTO_INCREMENT,
@@ -100,6 +101,13 @@ INSERT INTO participants (user_id, event_id, status) VALUES (1, 3, 'yes');
 INSERT INTO participants (user_id, event_id, status) VALUES (2, 3, 'yes');
 INSERT INTO participants (user_id, event_id, status) VALUES (1, 1, 'yes');
 INSERT INTO participants (user_id, event_id, status) VALUES (1, 1, 'yes');
+
+INSERT INTO participants (user_id, event_id, status)
+VALUES (4, 1, 'maybe');
+INSERT INTO participants (user_id, event_id, status)
+VALUES (4, 2, 'maybe');
+INSERT INTO participants (user_id, event_id, status)
+VALUES (4, 3, 'maybe');
 
 
 CREATE TABLE IF NOT EXISTS activities (

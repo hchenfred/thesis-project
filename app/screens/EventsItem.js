@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import { connect } from 'react-redux';
+import { ScrollView } from 'react-native';
 import { bindActionCreators } from 'redux';
 import ModalDropdown from 'react-native-modal-dropdown';
 import { ActionCreators } from '../actions';
