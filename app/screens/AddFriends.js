@@ -111,7 +111,7 @@ class AddFriends extends React.Component {
           id: eventId,
           description: this.props.event.description,
         };
-        console.log('xxxxxxxxx', event);
+        // clear datepicker after done button is clicked
         this.props.saveDate(null);
         this.props.saveStartTime(null);
         this.props.saveEndTime(null);
