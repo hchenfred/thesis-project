@@ -80,6 +80,10 @@ class Event extends Component {
       };
       // save event to Redux
       this.props.saveEvent(event);
+      //clean textInput form
+      this.eventNameInput.setNativeProps({ text: '' });
+      this.eventLocationInput.setNativeProps({ text: '' });
+      this.eventDescriptionInput.setNativeProps({ text: '' });
       // navigate to AddFriends page after saving event to Redux
       this.props.navigation.navigate('AddFriends');
     }
@@ -99,6 +103,7 @@ class Event extends Component {
         </View>
         <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
           <TextInput
+            ref={(input) => { this.eventNameInput = input; }}
             clearTextOnFocus={true}
             onChangeText={name => this.setState({ name })}
             style={styles.place}
@@ -106,6 +111,7 @@ class Event extends Component {
             placeholder="enter an event name"
           />
           <TextInput
+            ref={(input) => { this.eventLocationInput = input; }}
             clearTextOnFocus={true}
             onChangeText={location => this.setState({ location })}
             style={styles.place}
@@ -113,6 +119,7 @@ class Event extends Component {
             placeholder="enter a location"
           />
           <TextInput
+            ref={(input) => { this.eventDescriptionInput = input; }}
             clearTextOnFocus={true}
             onChangeText={description => this.setState({ description })}
             style={styles.place}

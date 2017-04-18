@@ -19,25 +19,16 @@ const styles = StyleSheet.create({
 });
 
 class MyDatePicker extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      date: null,
-      startTime: null,
-      endTime: null,
-    };
-  }
-
   render() {
     return (
       <View>
         <DatePicker
           style={styles.datePicker}
-          date={this.state.date}
+          date={this.props.event.date}
           mode="date"
           format="YYYY-MM-DD"
           confirmBtnText="Confirm"
-          placeholder="Pick a date"
+          placeholder="PICK A DATE"
           cancelBtnText="Cancel"
           customStyles={{
             dateIcon: {
@@ -53,12 +44,11 @@ class MyDatePicker extends Component {
               color: 'white',
             },
           }}
-          onDateChange={(date) => {this.props.saveDate(date);
-          this.setState({date: date});}}
+          onDateChange={(date) => { this.props.saveDate(date); }}
         />
         <DatePicker
           style={styles.timePicker}
-          date={this.state.startTime}
+          date={this.props.event.startTime}
           mode="time"
           format="HH:mm A"
           confirmBtnText="Confirm"
@@ -79,13 +69,11 @@ class MyDatePicker extends Component {
               color: 'white',
             },
           }}
-          onDateChange={(startTime) => {this.props.saveStartTime(startTime);
-          this.setState({startTime: startTime});
-          }}
+          onDateChange={(startTime) => { this.props.saveStartTime(startTime); }}
         />
         <DatePicker
           style={styles.timePicker}
-          date={this.state.endTime}
+          date={this.props.event.endTime}
           mode="time"
           format="HH:mm A"
           confirmBtnText="Confirm"
@@ -106,8 +94,7 @@ class MyDatePicker extends Component {
               color: 'white',
             },
           }}
-          onDateChange={(endTime) => {this.props.saveEndTime(endTime);
-            this.setState({endTime: endTime});
+          onDateChange={(endTime) => {this.props.saveEndTime(endTime); 
           }}      
         />
       </View>
@@ -116,7 +103,9 @@ class MyDatePicker extends Component {
 }
 
 function mapStateToProps(state) {
-  return { event: state.event };
+  return {
+    event: state.event,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
