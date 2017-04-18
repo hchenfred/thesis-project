@@ -69,6 +69,8 @@ class AddFriends extends React.Component {
         dataSource: this.state.dataSource.cloneWithRows(temp),
       });
     }
+    this.friendNameInput.setNativeProps({ text: '' });
+    this.friendEmailInput.setNativeProps({ text: '' });
   }
 
   onPressDoneButton() {
@@ -79,7 +81,6 @@ class AddFriends extends React.Component {
       fetch('http:127.0.0.1:5000/events', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -99,8 +100,7 @@ class AddFriends extends React.Component {
       })
       .then(() => {
         this.props.addCount();
-        //name, description, eventDate, location, startTime, endTime, username, photourl
-        let event = {
+        const event = {
           name: this.props.event.name,
           eventDate: this.props.event.eventDate,
           location: this.props.event.location,
@@ -109,8 +109,12 @@ class AddFriends extends React.Component {
           username: this.props.user.name,
           photourl: this.props.user.pic,
           id: eventId,
+          description: this.props.event.description,
         };
-        console.log('++++++++++++++', event);
+        console.log('xxxxxxxxx', event);
+        this.props.saveDate(null);
+        this.props.saveStartTime(null);
+        this.props.saveEndTime(null);
         this.props.navigation.navigate('EventDetails', { ...event });
       })
       .catch(err => console.log(err));
@@ -124,6 +128,7 @@ class AddFriends extends React.Component {
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <TextInput
+            ref={(input) => { this.friendNameInput = input; }}
             clearTextOnFocus={true}
             onChangeText={name => this.setState({ friendName: name })}
             style={styles.place}
@@ -131,11 +136,13 @@ class AddFriends extends React.Component {
             placeholder="friend's name"
           />
           <TextInput
+            ref={(input) => { this.friendEmailInput = input; }}
             clearTextOnFocus={true}
             onChangeText={email => this.setState({ friendEmail: email })}
             style={styles.place}
             keyboardType="email-address"
             autoCorrect={false}
+            autoCapitalize="none"
             placeholder="friend's email"
           />
           <TouchableOpacity onPress={this.onPressAddButton} style={styles.buttonContainer}>
@@ -151,7 +158,7 @@ class AddFriends extends React.Component {
             enableEmptySections={true}
             contentContainerStyle={styles.list}
             dataSource={this.state.dataSource}
-            renderRow={(rowData) => <Row {...rowData} />}
+            renderRow={rowData => <Row {...rowData} />}
           />
         </View>
       </View>
