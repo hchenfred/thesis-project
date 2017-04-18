@@ -59,10 +59,6 @@ class Event extends Component {
     this.onPressButton = this.onPressButton.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('nextProps is called in Event.js');
-  }
-
   onPressButton() {
     if (this.props.event.date === null) {
       alert('date is empty, please pick a date');
