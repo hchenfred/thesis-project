@@ -102,19 +102,21 @@ class AddFriends extends React.Component {
         this.props.addCount();
         const event = {
           name: this.props.event.name,
-          eventDate: this.props.event.eventDate,
+          eventDate: this.props.event.eventDate.slice(0),
           location: this.props.event.location,
-          startTime: util.formatTime(this.props.event.startTime),
-          endTime: util.formatTime(this.props.event.endTime),
+          startTime: util.formatTime(this.props.event.startTime).slice(0),
+          endTime: util.formatTime(this.props.event.endTime).slice(0),
           username: this.props.user.name,
           photourl: this.props.user.pic,
           id: eventId,
           description: this.props.event.description,
         };
         // clear datepicker after done button is clicked
-        this.props.saveDate(null);
-        this.props.saveStartTime(null);
-        this.props.saveEndTime(null);
+        this.props.saveDate('');
+        this.props.saveStartTime('');
+        this.props.saveEndTime('');
+        this.setState({ friendList: [] });
+        this.setState({ dataSource: this.state.dataSource.cloneWithRows([]) });
         this.props.navigation.navigate('EventDetails', { ...event });
       })
       .catch(err => console.log(err));
