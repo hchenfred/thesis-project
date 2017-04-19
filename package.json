@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server/index.js && node node_modules/react-native/local-cli/cli.js start",
     "server-dev": "nodemon server/index.js",
-    "test": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
+    "test": "jest"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
@@ -38,10 +38,8 @@
     "yelp-fusion-v3": "0.0.8"
   },
   "devDependencies": {
-    "babel-jest": "19.0.0",
-    "babel-preset-react-native": "1.9.1",
-    "chai": "^3.5.0",
-    "enzyme": "^2.8.2",
+    "babel-jest": "^19.0.0",
+    "babel-preset-react-native": "^1.9.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
@@ -50,9 +48,12 @@
     "jest": "19.0.2",
     "mocha": "^3.2.0",
     "react-native-mock": "^0.3.1",
-    "react-test-renderer": "16.0.0-alpha.6"
+    "react-test-renderer": "16.0.0-alpha.6",
+    "jest-react-native": "^18.0.0",
+    "react-native": "^0.39.2",
+    "redux-mock-store": "^1.2.3"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "jest-react-native"
   }
 }
