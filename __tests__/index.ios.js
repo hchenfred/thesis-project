@@ -1,12 +1,19 @@
 import 'react-native';
 import React from 'react';
-import Index from '../index.ios.js';
+import Event from '../app/screens/Event';
+import { Provider } from 'react-redux';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
+import configureStore from 'redux-mock-store';
+
+const initialState = {event: {name: 'hi'}};
+const mockStore = configureStore(initialState);
+const store = mockStore(initialState);
+let container;
 
 it('renders correctly', () => {
   const tree = renderer.create(
-    <Index />
+    <Provider store={store}><Event /></Provider>
   );
 });
