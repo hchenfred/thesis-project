@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server/index.js && node node_modules/react-native/local-cli/cli.js start",
     "server-dev": "nodemon server/index.js",
-    "test": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
+    "test": "jest"
   },
   "dependencies": {
     "bluebird": "^3.5.0",

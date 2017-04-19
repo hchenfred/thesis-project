@@ -10,7 +10,6 @@ import configureStore from 'redux-mock-store';
 const initialState = {event: {name: 'hi'}};
 const mockStore = configureStore(initialState);
 const store = mockStore(initialState);
-let container;
 
 it('renders correctly', () => {
   const tree = renderer.create(
