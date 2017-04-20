@@ -173,22 +173,22 @@ class EventsItem extends Component {
           source={{ uri: photourl }}
         />
         <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="user" size={20} color="white"/><Text style={styles.otherText}>Hosted by: {username}</Text>
+          <Icon type="font-awesome" name="user" size={20} color="#e67e22"/><Text style={styles.otherText}>Hosted by: {username}</Text>
         </View>
         <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="commenting" size={20} color="white"/><Text style={styles.otherText}>{description === null || description === undefined ? 'NO DESCRIPTION' : description}</Text>
+          <Icon type="font-awesome" name="commenting" size={20} color="#e67e22"/><Text style={styles.otherText}>{description === null || description === undefined ? 'NO DESCRIPTION' : description}</Text>
         </View>
         <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="calendar" size={20} color="white"/><Text style={styles.otherText}>{ eventDate.substring(0, 10)}</Text>
+          <Icon type="font-awesome" name="calendar" size={20} color="#e67e22"/><Text style={styles.otherText}>{ eventDate.substring(0, 10)}</Text>
         </View>
         <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="location-arrow" size={20} color="white"/><Text style={styles.otherText}>{location === null || location === undefined ? 'NO LOCATION' : location}</Text>
+          <Icon type="font-awesome" name="location-arrow" size={20} color="#e67e22"/><Text style={styles.otherText}>{location === null || location === undefined ? 'NO LOCATION' : location}</Text>
         </View>
         <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="clock-o" size={20} color="white"/><Text style={styles.otherText}>Starts: {startTime.substring(0, 5)}</Text>
+          <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>Starts: {startTime.substring(0, 5)}</Text>
         </View>
         <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="clock-o" size={20} color="white"/><Text style={styles.otherText}>Ends: {endTime.substring(0, 5)}</Text>
+          <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>Ends: {endTime.substring(0, 5)}</Text>
         </View>
         <View>
           {this.rsvp()}
