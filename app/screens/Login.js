@@ -22,7 +22,6 @@ if (process.env.NODE_ENV === 'production') {
   baseURL = 'http:/127.0.0.1:5000';
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

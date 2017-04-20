@@ -95,7 +95,7 @@ export const Tabs = TabNavigator({
     screen: ActivityStream,
     navigationOptions: {
       tabBarLabel: 'Feed',
-      tabBarIcon: ({ tintColor }) => <Icon name="list" size={35} color={tintColor} />
+      tabBarIcon: ({ tintColor }) => <Icon type="font-awesome" name="rss" size={30} color={tintColor} />
     },
   },
   Suggester: {

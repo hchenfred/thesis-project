@@ -85,8 +85,11 @@ app.post('suggestion/userinfo', (req, res) => {
 app.post('/users', (req, res) => {
   db.addUserToDatabase(req.body)
   .then((results) => {
-    res.send('insert into users table successful');
     cSocket.emit('refresh feed', { activity: `${req.body.username}  is logged in`, authorImage: req.body.photourl });
+    res.send('insert into users table successful');
+  })
+  .error((err) => {
+
   })
   .catch((err) => {
     res.send(err);
