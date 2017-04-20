@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ModalDropdown from 'react-native-modal-dropdown';
 import { ActionCreators } from '../actions';
-import { Card, ListItem, Icon } from 'react-native-elements';
+import { ListItem, List, Icon } from 'react-native-elements';
 
 const {
   View,
   Text,
-  TouchableHighlight,
   Image,
   ScrollView,
   StyleSheet,
@@ -61,6 +60,22 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  inviteeContainer: {
+    marginLeft: 40,
+    marginTop: 20,
+    //backgroundColor: 'white',
+  },
+  inviteeTitle: {
+    fontSize: 20,
+    color: 'white',
+    marginLeft: 40,
+    marginTop: 20,
+  },
+  participant: {
+    fontSize: 15,
+    color: 'white',
+    fontWeight: '400',
   },
 });
 
@@ -116,8 +131,9 @@ class EventsItem extends Component {
     return this.state.participants.map((participant, i) => {
       return (
         <View key={i}>
-          <Text>{participant.username}: {participant.status}</Text>
+          <Text style={styles.participant}>{participant.username}   {participant.status}</Text>
         </View>
+        // <ListItem key={i} title={participant.username}/>
       );
     });
   }
@@ -148,7 +164,7 @@ class EventsItem extends Component {
 
   render() {
     const { name, description, eventDate, location, startTime, endTime, username, photourl } = this.props.navigation.state.params;
-    console.log('this.state.participants', this.state.participants);
+    //console.log('this.state.participants', this.state.participants);
     return (
       <View style={styles.container}>
         <Text style={styles.eventName}>{name}</Text>
@@ -174,9 +190,11 @@ class EventsItem extends Component {
         <View style={styles.textContainer}>
           <Icon type="font-awesome" name="clock-o" size={20} color="white"/><Text style={styles.otherText}>Ends: {endTime.substring(0, 5)}</Text>
         </View>
-        <ScrollView>
-        {this.rsvp()}
-          <Text>Invitees:</Text>
+        <View>
+          {this.rsvp()}
+        </View>
+        <Text style={styles.inviteeTitle}>Invitees:</Text>
+        <ScrollView style={styles.inviteeContainer}>
           {this.createParticipants()}
         </ScrollView>
       </View>
