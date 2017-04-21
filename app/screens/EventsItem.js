@@ -3,6 +3,7 @@ import ReactNative from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ModalDropdown from 'react-native-modal-dropdown';
+import { Icon } from 'react-native-elements';
 import { ActionCreators } from '../actions';
 import { ListItem, List, Icon } from 'react-native-elements';
 import endpoint from '../config/global';
@@ -10,11 +11,13 @@ import endpoint from '../config/global';
 const baseURL = endpoint.baseURL;
 
 const {
+  ActionSheetIOS,
   View,
   Text,
   Image,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
 } = ReactNative;
 
 
@@ -73,10 +76,18 @@ const styles = StyleSheet.create({
   },
 });
 
+const BUTTONS = [
+  'Got an Idea',
+  'Need Suggestions',
+  'Cancel',
+];
+
 class EventsItem extends Component {
   constructor(props) {
     super(props);
     this.state = { participants: [] };
+    this.showActionSheet = this.showActionSheet.bind(this);
+    this.navigateToSuggesters = this.navigateToSuggesters.bind(this);
   }
 
   componentWillMount() {
@@ -136,6 +147,7 @@ class EventsItem extends Component {
     style.height -= 65;
     return style;
   }
+
   changeResponse(idx, value, participant, eventID, eventname) {
     fetch( baseURL + '/events/participants/rsvp', {
       method: 'POST',
@@ -152,10 +164,25 @@ class EventsItem extends Component {
       }),
     })
     .then((data) => {
-      console.log(data);
       this.getParticipantsAndStatus();
     })
     .catch(err => console.log(err));
+  }
+
+  navigateToSuggesters() {
+    console.log('enteringg');
+
+  }
+
+  showActionSheet() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: BUTTONS,
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 1) {
+        this.props.navigation.navigate('Suggester');
+      }
+    });
   }
 
   render() {
@@ -185,6 +212,11 @@ class EventsItem extends Component {
         </View>
         <View style={styles.textContainer}>
           <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>Ends: {endTime.substring(0, 5)}</Text>
+        </View>
+        <View>
+          <TouchableOpacity onPress={() => this.showActionSheet()}>
+            <Text>Propose a New Place</Text>
+          </TouchableOpacity>
         </View>
         <View>
           {this.rsvp()}

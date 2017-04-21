@@ -88,7 +88,7 @@ class EventsList extends Component {
     }
 
   render() {
-    return <View>
+    return (<View>
         {this.state.activeEventsByCreator ?
           <ScrollView>
             <Text style={styles.title}>Created Events</Text>
@@ -106,7 +106,7 @@ class EventsList extends Component {
             </List>
           </ScrollView> : null
         }
-      </View>
+      </View>)
   }
 }
 
