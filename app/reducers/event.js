@@ -43,6 +43,10 @@ export const event = function(state = initalState, action) {
       return Object.assign({}, state, {
         description: action.payload,
       });
+    case 'SAVE_EVENT_ID':
+      return Object.assign({}, state, {
+        eventId: action.eventId,
+      });
     default:
       return state;
   }

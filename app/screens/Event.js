@@ -80,8 +80,6 @@ class Event extends Component {
       };
       // save event to Redux
       this.props.saveEvent(event);
-      //clean textInput form
-      
       // navigate to AddFriends page after saving event to Redux
       this.props.navigation.navigate('AddFriends');
     }

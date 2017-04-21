@@ -37,6 +37,12 @@ export const eventStack = StackNavigator({
       title: navigation.state.params.name.toUpperCase(),
     }),
   },
+  EventsList: {
+    screen: EventsList,
+    navigationOptions: {
+      title: 'Current Events',
+    },
+  },
 });
 
 export const currentEvents = StackNavigator({
