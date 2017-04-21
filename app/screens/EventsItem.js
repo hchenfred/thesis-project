@@ -138,7 +138,6 @@ class EventsItem extends Component {
         <View key={i}>
           <Text style={styles.participant}>{participant.username}   {participant.status}</Text>
         </View>
-        // <ListItem key={i} title={participant.username}/>
       );
     });
   }
@@ -181,6 +180,9 @@ class EventsItem extends Component {
     (buttonIndex) => {
       if (buttonIndex === 1) {
         this.props.navigation.navigate('Suggester');
+      } else if (buttonIndex === 0) {
+        console.log('xxxxxx', this.props);
+        this.props.navigation.navigate('NewActivity');
       }
     });
   }
