@@ -10,6 +10,7 @@ import EventsItem from '../screens/EventsItem';
 import EventsList from '../screens/EventsList';
 import SuggesterResults from '../screens/SuggesterResults';
 import SuggesterResultsItem from '../screens/SuggesterResultsItem';
+import Redirect from '../screens/Redirect';
 
 export const eventStack = StackNavigator({
   Event: {
@@ -22,6 +23,12 @@ export const eventStack = StackNavigator({
     screen: AddFriends,
     navigationOptions: {
       title: 'Invite Friends',
+    },
+  },
+  Redirect: {
+    screen: Redirect,
+    navigationOptions: {
+      title: 'Redirect',
     },
   },
   EventDetails: {

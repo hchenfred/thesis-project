@@ -117,7 +117,8 @@ class AddFriends extends React.Component {
         this.props.saveEndTime('');
         this.setState({ friendList: [] });
         this.setState({ dataSource: this.state.dataSource.cloneWithRows([]) });
-        this.props.navigation.navigate('EventDetails', { ...event });
+        //this.props.navigation.navigate('EventDetails', { ...event });
+        this.props.navigation.navigate('Redirect');
         this.props.changeEventNam('');
         this.props.changeEventLoc('');
         this.props.changeEventDes('');
