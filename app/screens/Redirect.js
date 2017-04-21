@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import util from '../lib/utility';
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -31,6 +30,16 @@ class Redirect extends Component {
   constructor(props) {
     super(props);
     this.handleEventDetails = this.handleEventDetails.bind(this);
+    this.clearUserInput = this.clearUserInput.bind(this);
+  }
+
+  clearUserInput() {
+    this.props.saveDate('');
+    this.props.saveStartTime('');
+    this.props.saveEndTime('');
+    this.props.changeEventNam('');
+    this.props.changeEventLoc('');
+    this.props.changeEventDes('');
   }
 
   handleEventDetails() {
@@ -46,22 +55,23 @@ class Redirect extends Component {
       id: this.props.event.eventId,
       description: this.props.event.description.slice(0),
     };
-    // clear datepicker after done button is clicked
-    this.props.saveDate('');
-    this.props.saveStartTime('');
-    this.props.saveEndTime('');
-    this.props.changeEventNam('');
-    this.props.changeEventLoc('');
-    this.props.changeEventDes('');
+    this.clearUserInput();
     this.props.navigation.navigate('EventDetails', { ...event });
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <Image
+          style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 20 }}
+          source={{ uri: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRY296dxsFIhtogq1IMHrdNl9oSZckvMUUceiRfWZC9Jbs280dodA' }}
+        />
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => this.props.navigation.navigate('Event')}
+          onPress={() => {
+            this.clearUserInput();
+            this.props.navigation.navigate('Event');
+          }}
         >
           <Text style={styles.buttonText}>CREATE ANOTHER EVENT</Text>
         </TouchableOpacity>
