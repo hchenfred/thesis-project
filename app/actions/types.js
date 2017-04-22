@@ -1,6 +1,7 @@
 export const ADD_COUNT = 'ADD_COUNT';
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
 export const SAVE_EVENT = 'SAVE_EVENT';
+export const SAVE_EVENT_ID = 'SAVE_EVENT_ID';
 export const SAVE_DATE = 'SAVE_DATE';
 export const SAVE_START_TIME = 'SAVE_START_TIME';
 export const SAVE_END_TIME = 'SAVE_END_TIME';

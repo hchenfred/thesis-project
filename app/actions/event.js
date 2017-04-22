@@ -56,3 +56,10 @@ export function changeEventLoc(payload) {
   };
 }
 
+export function saveEventId(eventId) {
+  return {
+    type: types.SAVE_EVENT_ID,
+    eventId,
+  };
+}
+

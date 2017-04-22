@@ -96,31 +96,15 @@ class AddFriends extends React.Component {
       .then(response => response.json())
       .then((responseJson) => {
         eventId = responseJson;
+        this.props.saveEventId(eventId);
         return util.addParticipantsToDB(eventId, this.state.friendList, this.props.user);
       })
       .then(() => {
         this.props.addCount();
-        const event = {
-          name: this.props.event.name.slice(0),
-          eventDate: this.props.event.eventDate.slice(0),
-          location: this.props.event.location.slice(0),
-          startTime: util.formatTime(this.props.event.startTime).slice(0),
-          endTime: util.formatTime(this.props.event.endTime).slice(0),
-          username: this.props.user.name,
-          photourl: this.props.user.pic,
-          id: eventId,
-          description: this.props.event.description.slice(0),
-        };
-        // clear datepicker after done button is clicked
-        this.props.saveDate('');
-        this.props.saveStartTime('');
-        this.props.saveEndTime('');
         this.setState({ friendList: [] });
         this.setState({ dataSource: this.state.dataSource.cloneWithRows([]) });
-        this.props.navigation.navigate('EventDetails', { ...event });
-        this.props.changeEventNam('');
-        this.props.changeEventLoc('');
-        this.props.changeEventDes('');
+        //this.props.navigation.navigate('EventDetails', { ...event });
+        this.props.navigation.navigate('Redirect');
       })
       .catch(err => console.log(err));
     } else {
