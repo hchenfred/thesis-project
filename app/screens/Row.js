@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../actions';
 
 const styles = StyleSheet.create({
   friendContainer: {
@@ -20,7 +23,32 @@ const styles = StyleSheet.create({
 // When cancel button is clicked, it should delete the participant from DB
 // and also remove it from the invited friend list
 
-const Row = props => (
+class Row extends Component {
+  constructor(props) {
+    super(props);
+    this.onCancelButtonClick = this.onCancelButtonClick.bind(this);
+  }
+
+  onCancelButtonClick() {
+    console.log(this.props.email);
+  }
+
+  render() {
+    return (
+      <View style={styles.friendContainer}>
+        <Text style={styles.friendText}>
+          {`Invitee: ${this.props.username} `}
+        </Text>
+        <TouchableOpacity onPress={() => this.onCancelButtonClick()}>
+          <Text>Cancel</Text>
+        </TouchableOpacity>
+     </View>
+    );
+  }
+
+}
+
+/*const Row = props => (
   <View style={styles.friendContainer}>
     <Text style={styles.friendText}>
       {`Invitee: ${props.username} `}
@@ -29,6 +57,19 @@ const Row = props => (
       <Text>Cancel</Text>
     </TouchableOpacity>
   </View>
-);
+);*/
 
-//export default Row;
+function mapStateToProps(state) {
+  return {
+    event: state.event,
+    user: state.user,
+    invitedFriends: state.invitedFriends,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Row);
+

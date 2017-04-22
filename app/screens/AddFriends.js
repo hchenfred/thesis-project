@@ -3,7 +3,7 @@ import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity } from 'r
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
-//import Row from './Row';
+import Row from './Row';
 import util from '../lib/utility';
 
 import endpoint from '../config/global';
@@ -38,6 +38,19 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'white',
   },
+  friendContainer: {
+    flex: 1,
+    padding: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e67e22',
+    marginBottom: 10,
+  },
+  friendText: {
+    marginLeft: 12,
+    fontSize: 16,
+    color: 'white',
+  },
 });
 
 const propTypes = {
@@ -69,7 +82,7 @@ class AddFriends extends React.Component {
     } else {
       temp.push({ username: this.state.friendName, email: this.state.friendEmail });
       this.setState({ friendList: temp });
-      // this.props.saveFriendToInvitationList({ username: this.state.friendName, email: this.state.friendEmail });
+      this.props.saveFriendToInvitationList({ username: this.state.friendName, email: this.state.friendEmail });
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(temp),
       });
@@ -160,17 +173,6 @@ class AddFriends extends React.Component {
   }
 }
 
-
-const Row = props => (
-  <View style={styles.friendContainer}>
-    <Text style={styles.friendText}>
-      {`Invitee: ${props.username} `}
-    </Text>
-    <TouchableOpacity onPress={() => console.log(props.email)}>
-      <Text>Cancel</Text>
-    </TouchableOpacity>
-  </View>
-);
 
 AddFriends.propTypes = propTypes;
 
