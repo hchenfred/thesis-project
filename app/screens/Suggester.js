@@ -11,6 +11,12 @@ const baseURL = endpoint.baseURL;
 
 const config = require('../../apis/config.js');
 
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+  config = undefined;
+}
+
+const googleKey = config.apiConfig.google.apiKey || process.env.GOOGLE_APIKEY;
+
 const {
   View,
   Text,
@@ -174,12 +180,12 @@ class Suggester extends Component {
   // API would find them usefuio
 
 
+  
   geocodeCoords(coords) {
     const sug = this;
     const latlngString = `latlng=${coords.latitude},${coords.longitude}`;
-    const key = config.apiConfig.google.apiKey;
     // console.log(`https://maps.googleapis.com/maps/api/geocode/json?${latlngString}&key=${key}`);
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?${latlngString}&key=${key}`, {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?${latlngString}&key=${googleKey}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -219,7 +225,7 @@ class Suggester extends Component {
 
   geocodeLocation(submit) {
     const suggester = this;
-    Geocoder.setApiKey(config.apiConfig.google.apiKey);
+    Geocoder.setApiKey(googleKey);
     Geocoder.getFromLocation(submit).then((json) => {
       const location = json.results[0].geometry.location;
       const address = json.results[0].formatted_address;
@@ -413,8 +419,8 @@ class Suggester extends Component {
       sug.setState({ yelpLoading: false });
       console.log(error);
       sug.resetState();
-      Alert.alert('There seems to be an error, and you answers have been reset. Please try again!');
-      // console.log(error);
+      Alert.alert('There seems to be an error, and your answers have been reset. Please try again!');
+      console.log(error);
     });
   }
 

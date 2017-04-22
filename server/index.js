@@ -14,7 +14,6 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
   config = undefined;
 }
 
-
 let cSocket;
 const PORT = process.env.PORT || 5000;
 
@@ -48,8 +47,8 @@ app.get('/', (req, res) => {
 app.post('/suggestion/yelp', (req, res) => {
   const queryString = req.body.queryString;
   const yelp = new Yelp({
-    id: config.apiConfig.yelp.appId || process.env.YELP_ID,
-    secret: config.apiConfig.yelp.appSecret || process.env.YELP_SECRET,
+    id: process.env.YELP_ID || config.apiConfig.yelp.appId,
+    secret: process.env.YELP_SECRET || config.apiConfig.yelp.appSecret,
   });
 
   yelp.search(queryString)
@@ -81,7 +80,7 @@ app.post('/users', (req, res) => {
     res.send('insert into users table successful');
   })
   .error((err) => {
-
+    // TO DO
   })
   .catch((err) => {
     res.send(err);
@@ -178,7 +177,6 @@ app.get('/users/:email', (req, res) => {
     res.send(err);
   });
 });
-
 
 app.get('/events', (req, res) => {
   db.getPublicEvents((err, results) => {
