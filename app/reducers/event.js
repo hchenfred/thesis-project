@@ -1,6 +1,6 @@
 import * as types from '../actions/types';
 
-const initalState = {
+const initialState = {
   location: '',
   date: null,
   startTime: null,
@@ -9,7 +9,7 @@ const initalState = {
   description: '',
 };
 
-export const event = function(state = initalState, action) {
+export const event = function(state = initialState, action) {
   switch (action.type) {
     case 'SAVE_EVENT':
       return action.payload;

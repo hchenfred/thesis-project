@@ -10,11 +10,13 @@ import endpoint from '../config/global';
 const baseURL = endpoint.baseURL;
 
 const {
+  ActionSheetIOS,
   View,
   Text,
   Image,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
 } = ReactNative;
 
 
@@ -73,10 +75,18 @@ const styles = StyleSheet.create({
   },
 });
 
+const BUTTONS = [
+  'Got an Idea',
+  'Need Suggestions',
+  'Cancel',
+];
+
 class EventsItem extends Component {
   constructor(props) {
     super(props);
+    this.props.saveActiveEvent(this.props.navigation.state.params);
     this.state = { participants: [] };
+    this.showActionSheet = this.showActionSheet.bind(this);
   }
 
   componentWillMount() {
@@ -85,7 +95,6 @@ class EventsItem extends Component {
 
   getParticipantsAndStatus() {
     const { id } = this.props.navigation.state.params;
-
     // request all events from db
     fetch(baseURL + '/events/participants/list/:' + id)
     .then(response => response.json())
@@ -127,7 +136,6 @@ class EventsItem extends Component {
         <View key={i}>
           <Text style={styles.participant}>{participant.username}   {participant.status}</Text>
         </View>
-        // <ListItem key={i} title={participant.username}/>
       );
     });
   }
@@ -136,6 +144,7 @@ class EventsItem extends Component {
     style.height -= 65;
     return style;
   }
+
   changeResponse(idx, value, participant, eventID, eventname) {
     fetch( baseURL + '/events/participants/rsvp', {
       method: 'POST',
@@ -152,10 +161,26 @@ class EventsItem extends Component {
       }),
     })
     .then((data) => {
-      console.log(data);
       this.getParticipantsAndStatus();
     })
     .catch(err => console.log(err));
+  }
+
+  showActionSheet() {
+    this.props.saveSuggestedActivityName('');
+    this.props.saveSuggestedActivityLocation('');
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: BUTTONS,
+    },
+    (buttonIndex) => {
+      if (buttonIndex === 1) {
+        this.props.isSuggestedActivity(true);
+        this.props.navigation.navigate('Suggester');
+      } else if (buttonIndex === 0) {
+        this.props.isSuggestedActivity(false);
+        this.props.navigation.navigate('NewActivity');
+      }
+    });
   }
 
   render() {
@@ -187,6 +212,11 @@ class EventsItem extends Component {
           <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>Ends: {endTime.substring(0, 5)}</Text>
         </View>
         <View>
+          <TouchableOpacity onPress={() => this.showActionSheet()}>
+            <Text>Propose a New Place</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
           {this.rsvp()}
         </View>
         <Text style={styles.inviteeTitle}>Invitees:</Text>
@@ -199,7 +229,12 @@ class EventsItem extends Component {
 }
 
 function mapStateToProps(state) {
-  return { simpleCounter: state.simpleCounter, user: state.user };
+  return {
+    simpleCounter: state.simpleCounter,
+    user: state.user,
+    activeEvent: state.activeEvent,
+    suggestedActivity: state.suggestedActivity,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

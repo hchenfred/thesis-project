@@ -11,6 +11,7 @@ import EventsList from '../screens/EventsList';
 import SuggesterResults from '../screens/SuggesterResults';
 import SuggesterResultsItem from '../screens/SuggesterResultsItem';
 import Redirect from '../screens/Redirect';
+import NewActivity from '../screens/NewActivity';
 
 export const eventStack = StackNavigator({
   Event: {
@@ -58,6 +59,12 @@ export const currentEvents = StackNavigator({
       title: navigation.state.params.name === null || navigation.state.params.name === undefined ? 'UNKNOWN EVENT' : navigation.state.params.name.toUpperCase(),
     }),
   },
+  NewActivity: {
+    screen: NewActivity,
+    navigationOptions: {
+      titile: 'Propose A New Activity',
+    },
+  },
 });
 
 export const SuggesterStack = StackNavigator({
@@ -103,7 +110,6 @@ export const Tabs = TabNavigator({
       tabBarIcon: ({ tintColor }) => <Icon type="font-awesome" name="group" size={25} color={tintColor} />
     },
   },
-
   Feed: {
     screen: ActivityStream,
     navigationOptions: {

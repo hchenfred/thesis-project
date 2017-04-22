@@ -117,6 +117,8 @@ CREATE TABLE IF NOT EXISTS activities (
 	description varchar(250) NOT NULL DEFAULT 'none',
 	event_id int NOT NULL, 
 	mainActivity boolean DEFAULT 0, 
+	location varchar(50),
+	votes int NOT NULL DEFAULT 0, 
 	PRIMARY KEY (id)
 );
 

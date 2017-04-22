@@ -37,12 +37,13 @@ const styles = StyleSheet.create({
 });
 
 const BUTTONS = [
-  'Get more Info',
-  'Setup event (this will take you to Event Creattion)',
+  'Get More Info',
+  'Setup Event (Redirect to Event Creattion)',
+  'Setup Proposed Activity',
   'Cancel',
 ];
 
-const CANCEL_INDEX = 2;
+const CANCEL_INDEX = 3;
 
 class SuggesterResults extends Component {
   constructor(props) {
@@ -80,6 +81,18 @@ class SuggesterResults extends Component {
     this.props.navigation.navigate('Event');
   }
 
+   redirectToNewActivity(yelp) {
+    const address = yelp.location;
+    const addStr = `${address.address1}, ${address.city}`;
+    const name = yelp.name;
+
+     this.props.saveSuggestedActivity({
+      location: addStr,
+      name: name,
+    });
+    this.props.navigation.navigate('NewActivity');
+  }
+
   showActionSheet(item) {
     ActionSheetIOS.showActionSheetWithOptions({
       options: BUTTONS,
@@ -90,6 +103,8 @@ class SuggesterResults extends Component {
         this.linkOfficialPage(item.url);
       } else if (buttonIndex === 1) {
         this.redirectToEvents(item);
+      } else if (buttonIndex === 2) {
+        this.redirectToNewActivity(item);
       }
     });
   }
@@ -121,7 +136,7 @@ class SuggesterResults extends Component {
             title={result.name}
             avatar={{ uri: result.image_url }}
             subtitle={`Address: ${result.location.address1}${'\n'}Category: ${result.categories[0].title} ${this.highRecommend(i)}`}
-            onPress={() => { this.showActionSheet(result)}} 
+            onPress={() => { this.showActionSheet(result); }}
           />
         ))
       }
@@ -131,7 +146,11 @@ class SuggesterResults extends Component {
 }
 
 function mapStateToProps(state) {
-  return { yelpResults: state.yelpResults, event: state.event };
+  return {
+    yelpResults: state.yelpResults,
+    event: state.event,
+    suggestedActivity: state.suggestedActivity,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

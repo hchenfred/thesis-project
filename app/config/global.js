@@ -1,7 +1,7 @@
 let baseURL;
 
 // allows for multiuse url
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'production') {
   baseURL = 'https://hst-friend-ly.herokuapp.com';
 } else if (process.env.NODE_ENV === 'staging') {
   baseURL = 'https://hst-friend-ly-staging.herokuapp.com';
