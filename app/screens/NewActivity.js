@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Icon } from 'react-native-elements';
 import { ActionCreators } from '../actions';
+import endpoint from '../config/global';
 import {
   StyleSheet,
   View,
@@ -12,6 +13,8 @@ import {
   TextInput,
   Image,
 } from 'react-native';
+
+const baseURL = endpoint.baseURL;
 
 const styles = StyleSheet.create({
   textInput: {
@@ -30,7 +33,7 @@ class NewActivity extends Component {
     //name, event_id, location
     // const activityName = this.state.activityName.slice(0);
     // const activityLocation = this.state.activityLocation.slice(0);
-    fetch( 'http:127.0.0.1:5000/activities', {
+    fetch( `${baseURL}/activities`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

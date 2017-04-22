@@ -3,7 +3,6 @@ import ReactNative from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ModalDropdown from 'react-native-modal-dropdown';
-import { Icon } from 'react-native-elements';
 import { ActionCreators } from '../actions';
 import { ListItem, List, Icon } from 'react-native-elements';
 import endpoint from '../config/global';
@@ -168,6 +167,8 @@ class EventsItem extends Component {
   }
 
   showActionSheet() {
+    this.props.saveSuggestedActivityName('');
+    this.props.saveSuggestedActivityLocation('');
     ActionSheetIOS.showActionSheetWithOptions({
       options: BUTTONS,
     },
