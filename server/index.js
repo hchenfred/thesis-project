@@ -14,8 +14,8 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
   config = undefined;
 }
 
-const yelpID = config.apiConfig.yelp.appId || process.env.YELP_ID;
-const yelpSecret = config.apiConfig.yelp.appSecret || process.env.YELP_SECRET;
+const yelpID = process.env.YELP_ID || config.apiConfig.yelp.appId;
+const yelpSecret = process.env.YELP_SECRET || config.apiConfig.yelp.appSecret;
 
 let cSocket;
 const PORT = process.env.PORT || 5000;
