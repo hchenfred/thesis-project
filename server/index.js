@@ -12,10 +12,6 @@ let config = require('../apis/config.js');
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
   config = undefined;
-}
-
-const yelpID = process.env.YELP_ID || config.apiConfig.yelp.appId;
-const yelpSecret = process.env.YELP_SECRET || config.apiConfig.yelp.appSecret;
 
 let cSocket;
 const PORT = process.env.PORT || 5000;
@@ -50,8 +46,8 @@ app.get('/', (req, res) => {
 app.post('/suggestion/yelp', (req, res) => {
   const queryString = req.body.queryString;
   const yelp = new Yelp({
-    id: yelpID,
-    secret: yelpSecret,
+    id: process.env.YELP_ID || config.apiConfig.yelp.appId,
+    secret: process.env.YELP_SECRET || config.apiConfig.yelp.appSecret,
   });
 
   yelp.search(queryString)
@@ -178,18 +174,6 @@ app.get('/users/:email', (req, res) => {
   .catch((err) => {
     console.log('cannot get user info by email from DB', err);
     res.send(err);
-  });
-});
-
-app.get('/events', (req, res) => {
-  db.getPublicEvents((err, results) => {
-    if (err) {
-      console.log(err);
-      res.send(err);
-    } else {
-      console.log(results);
-      res.json(results);
-    }
   });
 });
 
