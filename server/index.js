@@ -99,6 +99,17 @@ app.post('/events', (req, res) => {
   });
 });
 
+app.post('/activities', (req, res) => {
+  db.addActivity(req.body)
+  .then((results) => {
+    res.send('insert into activities table successfully');
+  })
+  .catch((err) => {
+    console.log('there is an error');
+    res.send(err);
+  });
+});
+
 app.get('/events/createdBy/:creatorEmail', (req, res) => {
   const email = req.params.creatorEmail;
   console.log('retrieving events created by ', email);

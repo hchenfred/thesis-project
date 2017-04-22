@@ -86,6 +86,11 @@ const addUserToDatabase = (user) => {
   return db.queryAsync(queryStr, user);
 };
 
+const addActivity = (activity) => {
+  const queryStr = 'INSERT INTO activities SET ?';
+  return db.queryAsync(queryStr, activity);
+};
+
 var getPublicEvents = (cb) => {
   connection.query('SELECT events.*, users.username, users.photourl FROM events INNER JOIN users ON events.creator_id = users.id;', (err, results) => {
     if (err) {
@@ -156,4 +161,5 @@ module.exports = {
   updateParticipantResponse,
   getEventByCreatorEmail,
   getEventByParticipantId,
+  addActivity,
 };

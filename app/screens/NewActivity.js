@@ -20,10 +20,36 @@ const styles = StyleSheet.create({
   },
 });
 
-
 class NewActivity extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      activityName: '',
+      activityLocation: '',
+    };
+    this.handleButtonPress = this.handleButtonPress.bind(this);
+  }
+
+  handleButtonPress() {
+    //name, event_id, location
+    // const activityName = this.state.activityName.slice(0);
+    // const activityLocation = this.state.activityLocation.slice(0);
+    fetch( 'http:127.0.0.1:5000/activities', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        //name: this.state.activityName,
+        event_id: this.props.activeEvent.id,
+        //location: this.state.activityLocation,
+      }),
+    })
+    .then((data) => {
+      console.log('successfully save activity to DB');
+    })
+    .catch(err => console.log(err));
   }
 
   render() {
@@ -40,18 +66,20 @@ class NewActivity extends Component {
           style={styles.textInput}
           clearTextOnFocus={true}
           autoCorrect={false}
-          value={''}
+          onChange={(name) => this.setState({activityName: name})}
+          value={this.props.suggestedActivity.name}
           placeholder="enter a place name"
         />
         <TextInput
           style={styles.textInput}
           clearTextOnFocus={true}
           autoCorrect={false}
-          value={''}
+          onChangeText={(location) => this.setState({activityLocation: location})}
+          value={this.props.suggestedActivity.location}
           placeholder="enter an address"
         />
         <Button
-          onPress={() => console.log('button is pressed')}
+          onPress={() => this.handleButtonPress()}
           title="OK"
           color="#841584"
           accessibilityLabel="Ok, Great!"
@@ -62,7 +90,10 @@ class NewActivity extends Component {
 }
 
 function mapStateToProps(state) {
-  return { activeEvent: state.activeEvent };
+  return {
+    activeEvent: state.activeEvent,
+    suggestedActivity: state.suggestedActivity,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

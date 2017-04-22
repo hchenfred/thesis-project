@@ -173,9 +173,10 @@ class EventsItem extends Component {
     },
     (buttonIndex) => {
       if (buttonIndex === 1) {
+        this.props.isSuggestedActivity(true);
         this.props.navigation.navigate('Suggester');
       } else if (buttonIndex === 0) {
-        console.log('xxxxxx', this.props);
+        this.props.isSuggestedActivity(false);
         this.props.navigation.navigate('NewActivity');
       }
     });
@@ -231,6 +232,7 @@ function mapStateToProps(state) {
     simpleCounter: state.simpleCounter,
     user: state.user,
     activeEvent: state.activeEvent,
+    suggestedActivity: state.suggestedActivity,
   };
 }
 
