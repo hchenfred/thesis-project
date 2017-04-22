@@ -23,10 +23,6 @@ const styles = StyleSheet.create({
 class NewActivity extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activityName: '',
-      activityLocation: '',
-    };
     this.handleButtonPress = this.handleButtonPress.bind(this);
   }
 
@@ -41,9 +37,9 @@ class NewActivity extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        //name: this.state.activityName,
+        name: this.props.suggestedActivity.name,
         event_id: this.props.activeEvent.id,
-        //location: this.state.activityLocation,
+        location: this.props.suggestedActivity.location,
       }),
     })
     .then((data) => {
@@ -66,7 +62,7 @@ class NewActivity extends Component {
           style={styles.textInput}
           clearTextOnFocus={true}
           autoCorrect={false}
-          onChange={(name) => this.setState({activityName: name})}
+          onChangeText={(name) => this.props.saveSuggestedActivityName(name)}
           value={this.props.suggestedActivity.name}
           placeholder="enter a place name"
         />
@@ -74,7 +70,7 @@ class NewActivity extends Component {
           style={styles.textInput}
           clearTextOnFocus={true}
           autoCorrect={false}
-          onChangeText={(location) => this.setState({activityLocation: location})}
+          onChangeText={(location) => this.props.saveSuggestedActivityLocation(location)}
           value={this.props.suggestedActivity.location}
           placeholder="enter an address"
         />

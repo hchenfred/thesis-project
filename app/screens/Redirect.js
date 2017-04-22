@@ -79,7 +79,7 @@ class Redirect extends Component {
            style={styles.buttonContainer}
            onPress={() => this.handleEventDetails()}
         >
-          <Text style={styles.buttonText}>CREATED EVENT</Text>
+          <Text style={styles.buttonText}>VIEW CREATED EVENT</Text>
         </TouchableOpacity>
       </View>
     );
