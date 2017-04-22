@@ -3,7 +3,7 @@ import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity } from 'r
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
-import Row from './Row';
+//import Row from './Row';
 import util from '../lib/utility';
 
 import endpoint from '../config/global';
@@ -69,6 +69,7 @@ class AddFriends extends React.Component {
     } else {
       temp.push({ username: this.state.friendName, email: this.state.friendEmail });
       this.setState({ friendList: temp });
+      // this.props.saveFriendToInvitationList({ username: this.state.friendName, email: this.state.friendEmail });
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(temp),
       });
@@ -159,12 +160,25 @@ class AddFriends extends React.Component {
   }
 }
 
+
+const Row = props => (
+  <View style={styles.friendContainer}>
+    <Text style={styles.friendText}>
+      {`Invitee: ${props.username} `}
+    </Text>
+    <TouchableOpacity onPress={() => console.log(props.email)}>
+      <Text>Cancel</Text>
+    </TouchableOpacity>
+  </View>
+);
+
 AddFriends.propTypes = propTypes;
 
 function mapStateToProps(state) {
   return {
     event: state.event,
     user: state.user,
+    invitedFriends: state.invitedFriends,
     simpleCounter: state.simpleCounter,
   };
 }

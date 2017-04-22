@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
+  friendContainer: {
     flex: 1,
     padding: 5,
     flexDirection: 'row',
@@ -10,24 +10,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#e67e22',
     marginBottom: 10,
   },
-  text: {
+  friendText: {
     marginLeft: 12,
     fontSize: 16,
     color: 'white',
   },
-  photo: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-  },
 });
 
-const Row = (props) => (
-  <View style={styles.container}>
-    <Text style={styles.text}>
+// When cancel button is clicked, it should delete the participant from DB
+// and also remove it from the invited friend list
+
+const Row = props => (
+  <View style={styles.friendContainer}>
+    <Text style={styles.friendText}>
       {`Invitee: ${props.username} `}
     </Text>
+    <TouchableOpacity onPress={() => console.log(props.email)}>
+      <Text>Cancel</Text>
+    </TouchableOpacity>
   </View>
 );
 
-export default Row;
+//export default Row;

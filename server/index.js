@@ -111,7 +111,7 @@ app.post('/activities', (req, res) => {
 
 app.get('/events/createdBy/:creatorEmail', (req, res) => {
   const email = req.params.creatorEmail;
-  console.log('retrieving events created by ', email);
+  //console.log('retrieving events created by ', email);
   db.getEventByCreatorEmail(email)
   .then((result) => {
     res.json(result);
