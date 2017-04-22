@@ -13,3 +13,4 @@ export const SUG_EVENT = 'SUG_EVENT';
 export const CHANGE_NAM = 'CHANGE_NAM';
 export const CHANGE_LOC = 'CHANGE_LOC';
 export const CHANGE_DES = 'CHANGE_DES';
+export const SAVE_ACTIVE_EVENT = 'SAVE_ACTIVE_EVENT';

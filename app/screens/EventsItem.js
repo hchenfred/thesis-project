@@ -85,9 +85,9 @@ const BUTTONS = [
 class EventsItem extends Component {
   constructor(props) {
     super(props);
+    this.props.saveActiveEvent(this.props.navigation.state.params);
     this.state = { participants: [] };
     this.showActionSheet = this.showActionSheet.bind(this);
-    this.navigateToSuggesters = this.navigateToSuggesters.bind(this);
   }
 
   componentWillMount() {
@@ -96,7 +96,6 @@ class EventsItem extends Component {
 
   getParticipantsAndStatus() {
     const { id } = this.props.navigation.state.params;
-
     // request all events from db
     fetch(baseURL + '/events/participants/list/:' + id)
     .then(response => response.json())
@@ -168,11 +167,6 @@ class EventsItem extends Component {
     .catch(err => console.log(err));
   }
 
-  navigateToSuggesters() {
-    console.log('enteringg');
-
-  }
-
   showActionSheet() {
     ActionSheetIOS.showActionSheetWithOptions({
       options: BUTTONS,
@@ -233,7 +227,11 @@ class EventsItem extends Component {
 }
 
 function mapStateToProps(state) {
-  return { simpleCounter: state.simpleCounter, user: state.user };
+  return {
+    simpleCounter: state.simpleCounter,
+    user: state.user,
+    activeEvent: state.activeEvent,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
