@@ -14,6 +14,8 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
   config = undefined;
 }
 
+const yelpID = config.apiConfig.yelp.appId || process.env.YELP_ID;
+const yelpSecret = config.apiConfig.yelp.appSecret || process.env.YELP_SECRET;
 
 let cSocket;
 const PORT = process.env.PORT || 5000;
@@ -48,8 +50,8 @@ app.get('/', (req, res) => {
 app.post('/suggestion/yelp', (req, res) => {
   const queryString = req.body.queryString;
   const yelp = new Yelp({
-    id: config.apiConfig.yelp.appId || process.env.YELP_ID,
-    secret: config.apiConfig.yelp.appSecret || process.env.YELP_SECRET,
+    id: yelpID,
+    secret: yelpSecret,
   });
 
   yelp.search(queryString)
