@@ -12,6 +12,7 @@ let config = require('../apis/config.js');
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
   config = undefined;
+}
 
 let cSocket;
 const PORT = process.env.PORT || 5000;
