@@ -5,6 +5,7 @@ import { List, ListItem } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import endpoint from '../config/global';
+import util from '../lib/utility';
 
 const baseURL = endpoint.baseURL;
 
@@ -66,41 +67,43 @@ class EventsList extends Component {
 
   createFeed(events) {
     return events.map((item, i) => {
-      //console.log(item);
-      return (
-        <ListItem
-          key={i}
-          title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase()}`}
-          subtitle={item.description === null || item.description === undefined ? 'No description' : `${item.description.substring(0, 40)}`}
-          onPress={() => this.onLearnMore(item)}
-          containerStyle={{ height: 50 }}
-          avatar={{ uri: item.photourl }}
-          roundAvatar={true}
-        />
+      console.log('xxxxxxxxxxxx', item);
+      if (!util.isEventPast(item)) {
+        return (
+          <ListItem
+            key={i}
+            title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase()}`}
+            subtitle={item.description === null || item.description === undefined ? 'No description' : `${item.description.substring(0, 40)}`}
+            onPress={() => this.onLearnMore(item)}
+            containerStyle={{ height: 50 }}
+            avatar={{ uri: item.photourl }}
+            roundAvatar={true}
+          />
         );
-      });
-    }
+      }
+    });
+  }
 
   render() {
-    return (<View>
-        {this.state.activeEventsByCreator ?
-          <ScrollView>
-            <Text style={styles.title}>Created Events</Text>
-            <List>
-              {this.createFeed(this.state.activeEventsByCreator)}
-            </List>
-          </ScrollView> : null
-        }
+    return (<ScrollView>
+      {this.state.activeEventsByCreator ?
+        <ScrollView>
+          <Text style={styles.title}>Created Events</Text>
+          <List>
+            {this.createFeed(this.state.activeEventsByCreator)}
+          </List>
+        </ScrollView> : null
+      }
 
-        {this.state.invitedEventsByParticipantId ?
-          <ScrollView>
-            <Text style={styles.title}>Invited Events</Text>
-            <List>
-              {this.createFeed(this.state.invitedEventsByParticipantId)}
-            </List>
-          </ScrollView> : null
-        }
-      </View>)
+      {this.state.invitedEventsByParticipantId ?
+        <ScrollView>
+          <Text style={styles.title}>Invited Events</Text>
+          <List>
+            {this.createFeed(this.state.invitedEventsByParticipantId)}
+          </List>
+        </ScrollView> : null
+      }
+    </ScrollView>);
   }
 }
 

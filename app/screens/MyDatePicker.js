@@ -94,8 +94,7 @@ class MyDatePicker extends Component {
               color: 'white',
             },
           }}
-          onDateChange={(endTime) => {this.props.saveEndTime(endTime); 
-          }}      
+          onDateChange={(endTime) => { this.props.saveEndTime(endTime); }}  
         />
       </View>
     );
