@@ -11,10 +11,8 @@ const baseURL = endpoint.baseURL;
 const {
   Text,
   View,
-  TouchableHighlight,
   ScrollView,
 } = ReactNative;
-
 
 const propTypes = {
   navigation: PropTypes.object.isRequired,

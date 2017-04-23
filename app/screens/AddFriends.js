@@ -62,6 +62,7 @@ const propTypes = {
   event: PropTypes.object.isRequired,
   saveEventId: PropTypes.func.isRequired,
   removeFriendFromInvitationList: PropTypes.func.isRequired,
+  saveEvent: PropTypes.func.isRequired,
 };
 
 class AddFriends extends React.Component {
@@ -126,6 +127,7 @@ class AddFriends extends React.Component {
         this.props.addCount();
         this.setState({ friendList: [] });
         this.setState({ dataSource: this.state.dataSource.cloneWithRows([]) });
+        this.props.saveEvent({});
         this.props.navigation.navigate('Redirect');
       })
       .catch(err => console.log(err));
