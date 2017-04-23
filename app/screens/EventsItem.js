@@ -13,13 +13,15 @@ const {
   ActionSheetIOS,
   View,
   Text,
-  Image,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
 } = ReactNative;
 
 const styles = StyleSheet.create({
+  description: {
+    color: 'white',
+  },
   textContainer: {
     marginLeft: 20,
     flexDirection: 'row',
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2ecc71',
   },
   eventName: {
-    marginTop: 5,
+    marginTop: 15,
     fontSize: 30,
     marginBottom: 2,
     color: 'white',
@@ -52,25 +54,54 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   rsvpContainer: {
-    marginLeft: 40,
-    marginTop: 20,
+    marginLeft: 20,
+    marginTop: 40,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
+  rsvpText: {
+    color: 'white',
+    fontSize: 20,
+    paddingRight: 25,
+    fontWeight: '600',
+  },
   inviteeContainer: {
     marginLeft: 20,
-    marginTop: 20,
+    marginTop: 0,
   },
   inviteeTitle: {
-    fontSize: 20,
-    color: 'white',
-    marginLeft: 40,
     marginTop: 20,
+    color: 'white',
+    fontSize: 20,
+    marginLeft: 20,
+    fontWeight: '600',
   },
   participant: {
     fontSize: 15,
     color: 'white',
     fontWeight: '400',
+    marginLeft: 15,
+    marginBottom: 5,
+  },
+  proposalContainer: {
+    marginLeft: 20,
+    marginTop: 20,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  proposeButton: {
+    borderWidth: 0,
+    borderRadius: 4,
+    height: 30,
+    width: 150,
+    backgroundColor: '#e67e22',
+  },
+  proposalTitle: {
+    textAlign: 'center',
+    paddingTop: 5,
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 
@@ -109,10 +140,10 @@ class EventsItem extends Component {
         <View key={i}>
           { this.props.user.id === participant.user_id && 
             <View style={styles.rsvpContainer}>
-              <Text style={styles.otherText}>RSVP Here:</Text>
+              <Text style={styles.rsvpText}>RSVP Here:</Text>
               <ModalDropdown
                 dropdownStyle={{ width: 100 }}
-                style={{ borderWidth: 0.5, borderRadius: 4, height: 30, width: 60, backgroundColor: '#2980b9', flex: 1, alignItems: 'center', marginRight: 40 }}
+                style={{ borderWidth: 0, borderRadius: 4, height: 25, width: 60, backgroundColor: '#e67e22', flex: 1, alignItems: 'center', marginRight: 40 }}
                 textStyle={{ color: '#fff', fontSize: 20, fontWeight: '600' }}
                 adjustFrame={style => this.adjustFrame(style)}
                 options={['yes', 'no', 'maybe']}
@@ -128,11 +159,14 @@ class EventsItem extends Component {
   }
 
 
-  createParticipants() {
+  createParticipants() { 
     return this.state.participants.map((participant, i) => {
       return (
-        <View key={i}>
-          <Text style={styles.participant}>{participant.username}   {participant.status}</Text>
+        <View style={{ flexDirection: 'row' }} key={i}>
+          {participant.status === 'yes' && <Icon type="font-awesome" name="check" size={15} color="#7f8c8d"/>}
+          {participant.status === 'no' && <Icon type="font-awesome" name="close" size={15} color="black"/>}
+          {participant.status === 'maybe' && <Icon type="font-awesome" name="question" size={20} color="#ff0000"/>}
+          <Text style={styles.participant}>{participant.username}</Text>
         </View>
       );
     });
@@ -192,7 +226,7 @@ class EventsItem extends Component {
         />*/}
         <Text style={styles.eventName}>{name}</Text>
         <View style={styles.textContainer}>
-          <Text >{description === null || description === undefined ? 'NO DESCRIPTION' : description}</Text>
+          <Text style={styles.description}>{description === null || description === undefined ? 'NO DESCRIPTION' : description}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           <View style={styles.textContainer}>
@@ -210,15 +244,14 @@ class EventsItem extends Component {
             <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>{startTime.substring(0, 5)}-{endTime.substring(0, 5)}</Text>
           </View>
         </View>
-        <View>
-          <TouchableOpacity onPress={() => this.showActionSheet()}>
-            <Text>Propose a New Place</Text>
+        {this.rsvp()}
+        <View style={styles.proposalContainer}>
+          <Text style={styles.rsvpText}>Propose activity:</Text>
+          <TouchableOpacity style={styles.proposeButton} onPress={() => this.showActionSheet()}>
+            <Text style={styles.proposalTitle}>New Activity</Text>
           </TouchableOpacity>
         </View>
-        <View>
-          {this.rsvp()}
-        </View>
-        <Text style={styles.inviteeTitle}>Invitees:</Text>
+        <Text style={styles.inviteeTitle}>Invitees Status</Text>
         <ScrollView style={styles.inviteeContainer}>
           {this.createParticipants()}
         </ScrollView>

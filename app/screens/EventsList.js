@@ -67,7 +67,6 @@ class EventsList extends Component {
 
   createFeed(events) {
     return events.map((item, i) => {
-      console.log('xxxxxxxxxxxx', item);
       if (!util.isEventPast(item)) {
         return (
           <ListItem
