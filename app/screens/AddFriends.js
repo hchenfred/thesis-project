@@ -1,14 +1,13 @@
 import React, { PropTypes } from 'react';
-import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity, AlertIOS } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import util from '../lib/utility';
-
 import endpoint from '../config/global';
 
 const baseURL = endpoint.baseURL;
-
+// TODO: style cancel button
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -58,12 +57,16 @@ const styles = StyleSheet.create({
 const propTypes = {
   user: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
+  invitedFriends: PropTypes.array.isRequired,
+  saveFriendToInvitationList: PropTypes.func.isRequired,
+  event: PropTypes.object.isRequired,
+  saveEventId: PropTypes.func.isRequired,
+  removeFriendFromInvitationList: PropTypes.func.isRequired,
 };
 
 class AddFriends extends React.Component {
   constructor(props) {
     super(props);
-    // this.friendList = ['fred', 'hello', 'steve'];
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       dataSource: ds.cloneWithRows([]),
@@ -78,14 +81,13 @@ class AddFriends extends React.Component {
   }
 
   onPressAddButton() {
-    var temp = this.props.invitedFriends.slice();
     if (this.state.friendName === '') {
-      alert(`friend name cannot be empty, please enter a friend's name`);
+      AlertIOS.alert("Friend name cannot be empty, please enter a friend's name");
     } else if (this.state.friendEmail === '') {
-      alert(`friend email cannot be empty, please enter a friend's email`);
+      AlertIOS("Friend email cannot be empty, please enter a friend's email");
     } else {
+      const temp = this.props.invitedFriends.slice();
       temp.push({ username: this.state.friendName, email: this.state.friendEmail });
-      //this.setState({ friendList: temp });
       this.props.saveFriendToInvitationList({ username: this.state.friendName, email: this.state.friendEmail });
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(temp),
@@ -96,11 +98,10 @@ class AddFriends extends React.Component {
   }
 
   onPressDoneButton() {
-    console.log('Done button is pressed', this.props.user);
     // event will be saved to DB in here
     let eventId = null;
     if (this.props.user.id) {
-      fetch(baseURL + '/events', {
+      fetch(`${baseURL}/events`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,31 +126,28 @@ class AddFriends extends React.Component {
         this.props.addCount();
         this.setState({ friendList: [] });
         this.setState({ dataSource: this.state.dataSource.cloneWithRows([]) });
-        //this.props.navigation.navigate('EventDetails', { ...event });
         this.props.navigation.navigate('Redirect');
       })
       .catch(err => console.log(err));
     } else {
-      alert('user id is not available, please log in again');
+      AlertIOS.alert('user id is not avaiable, please log in again');
     }
   }
 
   onCancelButtonClick(email) {
     this.props.removeFriendFromInvitationList(email);
-    var temp = this.props.invitedFriends.filter(friend => friend.email !== email);
+    const temp = this.props.invitedFriends.filter(friend => friend.email !== email);
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(temp),
     });
-
   }
 
-  renderRow(rowData, sectionID, rowID) {
-    console.log('render row ...', this);
+  renderRow(rowData) {
     return (
       <View style={styles.friendContainer}>
         <Text style={styles.friendText}>{rowData.username}</Text>
         <View style={styles.cancelButton}>
-        <TouchableOpacity  onPress={() => this.onCancelButtonClick(rowData.email)}>
+        <TouchableOpacity onPress={() => this.onCancelButtonClick(rowData.email)}>
           <Text>Cancel</Text>
         </TouchableOpacity>
         </View>
@@ -192,7 +190,6 @@ class AddFriends extends React.Component {
             enableEmptySections={true}
             contentContainerStyle={styles.list}
             dataSource={this.state.dataSource}
-            //renderRow={rowData => <Row {...rowData} />}
             renderRow={this.renderRow}
           />
         </View>
