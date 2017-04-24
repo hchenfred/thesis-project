@@ -34,4 +34,14 @@ describe('friendlyTest server', () => {
         done();
       });
   });
+
+  it('should add a single user on /users POST', (done) => {
+    chai.request(server)
+      .post('/users')
+      .send({ username: 'Lee', facebook_id: 100 })
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
 });
