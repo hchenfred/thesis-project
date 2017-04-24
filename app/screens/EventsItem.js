@@ -3,8 +3,8 @@ import ReactNative from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ModalDropdown from 'react-native-modal-dropdown';
+import { Icon } from 'react-native-elements';
 import { ActionCreators } from '../actions';
-import { ListItem, List, Icon } from 'react-native-elements';
 import endpoint from '../config/global';
 
 const baseURL = endpoint.baseURL;
@@ -13,16 +13,17 @@ const {
   ActionSheetIOS,
   View,
   Text,
-  Image,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
 } = ReactNative;
 
-
 const styles = StyleSheet.create({
+  description: {
+    color: 'white',
+  },
   textContainer: {
-    marginLeft: 40,
+    marginLeft: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
@@ -31,47 +32,77 @@ const styles = StyleSheet.create({
     backgroundColor: '#2ecc71',
   },
   eventName: {
-    marginTop: 10,
-    fontSize: 25,
-    marginBottom: 10,
+    marginTop: 15,
+    fontSize: 30,
+    marginBottom: 2,
     color: 'white',
     fontWeight: '600',
-    textAlign: 'center',
+    marginLeft: 20,
   },
   otherText: {
     margin: 5,
     fontSize: 15,
     color: 'white',
     fontWeight: '500',
-    paddingLeft: 10,
+    paddingLeft: 5,
   },
   hostImage: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    marginLeft: 150,
+    marginLeft: 20,
+    marginTop: 10,
   },
   rsvpContainer: {
-    marginLeft: 40,
-    marginTop: 20,
+    marginLeft: 20,
+    marginTop: 40,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
+  rsvpText: {
+    color: 'white',
+    fontSize: 20,
+    paddingRight: 25,
+    fontWeight: '600',
+  },
   inviteeContainer: {
-    marginLeft: 40,
-    marginTop: 20,
-    //backgroundColor: 'white',
+    marginLeft: 20,
+    marginTop: 0,
   },
   inviteeTitle: {
-    fontSize: 20,
-    color: 'white',
-    marginLeft: 40,
     marginTop: 20,
+    color: 'white',
+    fontSize: 20,
+    marginLeft: 20,
+    fontWeight: '600',
   },
   participant: {
     fontSize: 15,
     color: 'white',
     fontWeight: '400',
+    marginLeft: 15,
+    marginBottom: 5,
+  },
+  proposalContainer: {
+    marginLeft: 20,
+    marginTop: 20,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  proposeButton: {
+    borderWidth: 0,
+    borderRadius: 4,
+    height: 28,
+    width: 150,
+    backgroundColor: '#2980b9',
+    overflow: 'hidden',
+  },
+  proposalTitle: {
+    textAlign: 'center',
+    paddingTop: 5,
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 
@@ -96,7 +127,7 @@ class EventsItem extends Component {
   getParticipantsAndStatus() {
     const { id } = this.props.navigation.state.params;
     // request all events from db
-    fetch(baseURL + '/events/participants/list/:' + id)
+    fetch(`${baseURL}/events/participants/list/:${id}`)
     .then(response => response.json())
     .then((responseJSON) => {
       this.setState({ participants: responseJSON });
@@ -106,15 +137,14 @@ class EventsItem extends Component {
   rsvp() {
     return this.state.participants.map((participant, i) => {
       const { id, name } = this.props.navigation.state.params;
-      console.log('participants id', id, this.props.navigation.state.params);
       return (
         <View key={i}>
           { this.props.user.id === participant.user_id && 
             <View style={styles.rsvpContainer}>
-              <Text style={styles.otherText}>RSVP Here:  </Text>
+              <Text style={styles.rsvpText}>RSVP Here:</Text>
               <ModalDropdown
                 dropdownStyle={{ width: 100 }}
-                style={{ borderWidth: 0.5, borderRadius: 4, height: 30, width: 60, backgroundColor: '#2980b9', flex: 1, alignItems: 'center', marginRight: 40 }}
+                style={{ borderWidth: 0, borderRadius: 4, height: 28, width: 60, backgroundColor: '#2980b9', flex: 1, alignItems: 'center', marginRight: 40 }}
                 textStyle={{ color: '#fff', fontSize: 20, fontWeight: '600' }}
                 adjustFrame={style => this.adjustFrame(style)}
                 options={['yes', 'no', 'maybe']}
@@ -130,11 +160,14 @@ class EventsItem extends Component {
   }
 
 
-  createParticipants() {
+  createParticipants() { 
     return this.state.participants.map((participant, i) => {
       return (
-        <View key={i}>
-          <Text style={styles.participant}>{participant.username}   {participant.status}</Text>
+        <View style={{ flexDirection: 'row' }} key={i}>
+          {participant.status === 'yes' && <Icon type="font-awesome" name="check" size={15} color="#7f8c8d"/>}
+          {participant.status === 'no' && <Icon type="font-awesome" name="close" size={15} color="black"/>}
+          {participant.status === 'maybe' && <Icon type="font-awesome" name="question" size={20} color="#7f8c8d"/>}
+          <Text style={styles.participant}>{participant.username}</Text>
         </View>
       );
     });
@@ -188,38 +221,38 @@ class EventsItem extends Component {
     //console.log('this.state.participants', this.state.participants);
     return (
       <View style={styles.container}>
-        <Text style={styles.eventName}>{name}</Text>
-        <Image
+        {/*<Image
           style={styles.hostImage}
           source={{ uri: photourl }}
-        />
+        />*/}
+        <Text style={styles.eventName}>{name}</Text>
         <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="user" size={20} color="#e67e22"/><Text style={styles.otherText}>Hosted by: {username}</Text>
+          <Text style={styles.description}>{description === null || description === undefined ? 'NO DESCRIPTION' : description}</Text>
         </View>
-        <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="commenting" size={20} color="#e67e22"/><Text style={styles.otherText}>{description === null || description === undefined ? 'NO DESCRIPTION' : description}</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={styles.textContainer}>
+            <Icon type="font-awesome" name="user" size={20} color="#e67e22"/><Text style={styles.otherText}>{username}</Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Icon type="font-awesome" name="location-arrow" size={20} color="#e67e22"/><Text style={styles.otherText}>{location === null || location === undefined ? 'NO LOCATION' : location}</Text>
+          </View>
         </View>
-        <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="calendar" size={20} color="#e67e22"/><Text style={styles.otherText}>{ eventDate.substring(0, 10)}</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={styles.textContainer}>
+            <Icon type="font-awesome" name="calendar" size={20} color="#e67e22"/><Text style={styles.otherText}>{ eventDate.substring(0, 10)}</Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>{startTime.substring(0, 5)}-{endTime.substring(0, 5)}</Text>
+          </View>
         </View>
-        <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="location-arrow" size={20} color="#e67e22"/><Text style={styles.otherText}>{location === null || location === undefined ? 'NO LOCATION' : location}</Text>
-        </View>
-        <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>Starts: {startTime.substring(0, 5)}</Text>
-        </View>
-        <View style={styles.textContainer}>
-          <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>Ends: {endTime.substring(0, 5)}</Text>
-        </View>
-        <View>
-          <TouchableOpacity onPress={() => this.showActionSheet()}>
-            <Text>Propose a New Place</Text>
+        {this.rsvp()}
+        <View style={styles.proposalContainer}>
+          <Text style={styles.rsvpText}>Propose activity:</Text>
+          <TouchableOpacity style={styles.proposeButton} onPress={() => this.showActionSheet()}>
+            <Text style={styles.proposalTitle}>New Activity</Text>
           </TouchableOpacity>
         </View>
-        <View>
-          {this.rsvp()}
-        </View>
-        <Text style={styles.inviteeTitle}>Invitees:</Text>
+        <Text style={styles.inviteeTitle}>Invitees Status</Text>
         <ScrollView style={styles.inviteeContainer}>
           {this.createParticipants()}
         </ScrollView>
