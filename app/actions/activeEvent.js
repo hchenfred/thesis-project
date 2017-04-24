@@ -6,3 +6,4 @@ export function saveActiveEvent(payload) {
     payload,
   };
 }
+

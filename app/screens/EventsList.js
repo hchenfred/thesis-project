@@ -41,11 +41,8 @@ class EventsList extends Component {
 
   // when props changes (including props received from Redux store),
   // this function will be called. (nextProps must be put there)
+  //TODO: this function is being called very often, need to change the logic
   componentWillReceiveProps(nextProps) {
-    // if (nextProps !== this.props) {
-    //   console.log('yeah');
-    // }
-    console.log('========will receive props', this.props.user.id);
     fetch(baseURL + '/events/createdBy/' + this.props.user.email)
     .then((response) => response.json())
     .then((responseJson) => {
@@ -68,7 +65,6 @@ class EventsList extends Component {
   onLearnMore(event) {
     this.props.navigation.navigate('EventDetails', { ...event });
   }
-
 
   createFeed(events) {
     return events.map((item, i) => {

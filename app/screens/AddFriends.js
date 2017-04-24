@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
-import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
-import Row from './Row';
 import util from '../lib/utility';
 
 import endpoint from '../config/global';
@@ -38,6 +37,22 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'white',
   },
+  friendContainer: {
+    flex: 1,
+    padding: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e67e22',
+    marginBottom: 10,
+  },
+  friendText: {
+    marginLeft: 12,
+    fontSize: 16,
+    color: 'white',
+  },
+  cancelButton: {
+    marginLeft: 150,
+  },
 });
 
 const propTypes = {
@@ -58,17 +73,20 @@ class AddFriends extends React.Component {
     };
     this.onPressAddButton = this.onPressAddButton.bind(this);
     this.onPressDoneButton = this.onPressDoneButton.bind(this);
+    this.onCancelButtonClick = this.onCancelButtonClick.bind(this);
+    this.renderRow = this.renderRow.bind(this);
   }
 
   onPressAddButton() {
-    const temp = this.state.friendList.slice();
+    var temp = this.props.invitedFriends.slice();
     if (this.state.friendName === '') {
       alert(`friend name cannot be empty, please enter a friend's name`);
     } else if (this.state.friendEmail === '') {
       alert(`friend email cannot be empty, please enter a friend's email`);
     } else {
       temp.push({ username: this.state.friendName, email: this.state.friendEmail });
-      this.setState({ friendList: temp });
+      //this.setState({ friendList: temp });
+      this.props.saveFriendToInvitationList({ username: this.state.friendName, email: this.state.friendEmail });
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(temp),
       });
@@ -101,7 +119,7 @@ class AddFriends extends React.Component {
       .then((responseJson) => {
         eventId = responseJson;
         this.props.saveEventId(eventId);
-        return util.addParticipantsToDB(eventId, this.state.friendList, this.props.user, this.props.event.name);
+        return util.addParticipantsToDB(eventId, this.props.invitedFriends, this.props.user, this.props.event.name);
       })
       .then(() => {
         this.props.addCount();
@@ -114,6 +132,29 @@ class AddFriends extends React.Component {
     } else {
       alert('user id is not available, please log in again');
     }
+  }
+
+  onCancelButtonClick(email) {
+    this.props.removeFriendFromInvitationList(email);
+    var temp = this.props.invitedFriends.filter(friend => friend.email !== email);
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(temp),
+    });
+
+  }
+
+  renderRow(rowData, sectionID, rowID) {
+    console.log('render row ...', this);
+    return (
+      <View style={styles.friendContainer}>
+        <Text style={styles.friendText}>{rowData.username}</Text>
+        <View style={styles.cancelButton}>
+        <TouchableOpacity  onPress={() => this.onCancelButtonClick(rowData.email)}>
+          <Text>Cancel</Text>
+        </TouchableOpacity>
+        </View>
+      </View>
+    );
   }
 
   render() {
@@ -151,7 +192,8 @@ class AddFriends extends React.Component {
             enableEmptySections={true}
             contentContainerStyle={styles.list}
             dataSource={this.state.dataSource}
-            renderRow={rowData => <Row {...rowData} />}
+            //renderRow={rowData => <Row {...rowData} />}
+            renderRow={this.renderRow}
           />
         </View>
       </View>
@@ -159,12 +201,14 @@ class AddFriends extends React.Component {
   }
 }
 
+
 AddFriends.propTypes = propTypes;
 
 function mapStateToProps(state) {
   return {
     event: state.event,
     user: state.user,
+    invitedFriends: state.invitedFriends,
     simpleCounter: state.simpleCounter,
   };
 }
