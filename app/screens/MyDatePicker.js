@@ -10,11 +10,20 @@ const styles = StyleSheet.create({
     width: 335,
     backgroundColor: '#27ae60',
     marginBottom: 18,
+    borderRadius: 8,
   },
-  timePicker: {
-    width: 335,
+  startTimePicker: {
+    width: 154,
     backgroundColor: '#27ae60',
     marginBottom: 18,
+    borderRadius: 8,
+  },
+  endTimePicker: {
+    width: 154,
+    marginLeft: 25,
+    backgroundColor: '#27ae60',
+    marginBottom: 18,
+    borderRadius: 8,
   },
 });
 
@@ -31,6 +40,10 @@ class MyDatePicker extends Component {
           placeholder="PICK A DATE"
           cancelBtnText="Cancel"
           customStyles={{
+            placeholderText: {
+              color: 'white',
+              fontWeight: '500',
+            },
             dateIcon: {
               position: 'absolute',
               left: 0,
@@ -39,23 +52,32 @@ class MyDatePicker extends Component {
             },
             dateInput: {
               marginLeft: 36,
+              borderWidth: 0,
             },
             dateText: {
               color: 'white',
+              fontWeight: '500',
             },
           }}
           onDateChange={(date) => { this.props.saveDate(date); }}
         />
+        <View style={{ flexDirection: 'row' }}>
         <DatePicker
-          style={styles.timePicker}
+          style={styles.startTimePicker}
           date={this.props.event.startTime}
           mode="time"
           format="HH:mm A"
           confirmBtnText="Confirm"
-          placeholder="SELECT START TIME"
+          placeholder="START TIME"
           cancelBtnText="Cancel"
+          iconSource={{uri: 'https://cdn0.iconfinder.com/data/icons/iconico-3/1024/42.png'}}
           minuteInterval={10}
           customStyles={{
+            placeholderText: {
+              color: 'white',
+              fontWeight: '500',
+              paddingRight: 100,
+            },
             dateIcon: {
               position: 'absolute',
               left: 0,
@@ -64,23 +86,30 @@ class MyDatePicker extends Component {
             },
             dateInput: {
               marginLeft: 36,
+              borderWidth: 0,
             },
             dateText: {
               color: 'white',
+              fontWeight: '500',
             },
           }}
           onDateChange={(startTime) => { this.props.saveStartTime(startTime); }}
         />
         <DatePicker
-          style={styles.timePicker}
+          style={styles.endTimePicker}
           date={this.props.event.endTime}
           mode="time"
           format="HH:mm A"
           confirmBtnText="Confirm"
-          placeholder="SELECT END TIME"
+          placeholder="END TIME"
           cancelBtnText="Cancel"
           minuteInterval={10}
+          iconSource={{uri: 'https://cdn0.iconfinder.com/data/icons/iconico-3/1024/42.png'}}
           customStyles={{
+            placeholderText: {
+              color: 'white',
+              fontWeight: '500',
+            },
             dateIcon: {
               position: 'absolute',
               left: 0,
@@ -89,13 +118,16 @@ class MyDatePicker extends Component {
             },
             dateInput: {
               marginLeft: 36,
+              borderWidth: 0,
             },
             dateText: {
               color: 'white',
+              fontWeight: '500',
             },
           }}
           onDateChange={(endTime) => { this.props.saveEndTime(endTime); }}  
         />
+        </View>
       </View>
     );
   }

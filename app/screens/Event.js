@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     color: 'white',
     paddingLeft: 20,
+    borderRadius: 8,
   },
   titleContainer: {
     flexGrow: 1,
@@ -37,8 +38,10 @@ const styles = StyleSheet.create({
     flexGrow: 10,
   },
   buttonContainer: {
-    backgroundColor: '#27ae60',
-    height: 35,
+    backgroundColor: '#e67e22',
+    height: 40,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   buttonText: {
     paddingTop: 10,
@@ -51,10 +54,8 @@ const styles = StyleSheet.create({
 class Event extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // see state in redux
-    };
     this.onPressButton = this.onPressButton.bind(this);
+    this.googlePlaceAutoComplete = this.googlePlaceAutoComplete.bind(this);
   }
 
   onPressButton() {
@@ -111,6 +112,7 @@ class Event extends Component {
             autoCorrect={false}
             value={this.props.event.name}
             placeholder="enter an event name, or... HALP!"
+            placeholderTextColor="white"
           />
           <TextInput
             clearTextOnFocus={true}
@@ -119,6 +121,7 @@ class Event extends Component {
             autoCorrect={false}
             value={this.props.event.location}
             placeholder="enter a location"
+            placeholderTextColor="white"
           />
           <TextInput
             clearTextOnFocus={true}
@@ -127,6 +130,7 @@ class Event extends Component {
             autoCorrect={false}
             value={this.props.event.description}
             placeholder="short description"
+            placeholderTextColor="white"
           />
           <MyDatePicker />
           <TouchableOpacity onPress={this.onPressButton} style={styles.buttonContainer}>
