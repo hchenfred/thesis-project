@@ -17,12 +17,16 @@ const styles = StyleSheet.create({
     height: 40,
     width: 250,
     margin: 10,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   buttonText: {
     paddingTop: 10,
     textAlign: 'center',
     fontWeight: '700',
     color: 'white',
+    borderRadius: 8,
+    overflow: 'hidden',
   },
 });
 
@@ -55,7 +59,7 @@ class Redirect extends Component {
       id: this.props.event.eventId,
       description: this.props.event.description.slice(0),
     };
-    this.clearUserInput();
+    //this.clearUserInput();
     this.props.navigation.navigate('EventDetails', { ...event });
   }
 
