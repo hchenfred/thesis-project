@@ -51,3 +51,7 @@ View the project roadmap [here](LINK_TO_DOC)
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+## Run Tests
+- run mocha in terminal for testing server
+- run npm run test -- --verbose in terminal for testing React Native components

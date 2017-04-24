@@ -111,7 +111,7 @@ class SuggesterResults extends Component {
 
   render() {
     return (<ScrollView
-        style={styles.container}
+      style={styles.container}
       >
       <Text
         style={styles.subtitle}

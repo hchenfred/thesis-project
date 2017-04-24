@@ -1,9 +1,13 @@
 
 const mysql = require('mysql');
 const Bluebird = require('bluebird');
-const mysqlConfig = require('./config.js');
+let mysqlConfig = require('./config.js');
 
 let connection;
+
+if (process.env.NODE_ENV === 'test') {
+  mysqlConfig = require('./_config.js');
+}
 
 if (process.env.NODE_ENV === 'production') {
   connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
@@ -101,7 +105,7 @@ var getPublicEvents = (cb) => {
         event.id = counter;
         counter += 1;
       });
-      console.log('getPublicEvents query ----->', results);
+      //console.log('getPublicEvents query ----->', results);
       cb(null, results);
     }
   });

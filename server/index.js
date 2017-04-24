@@ -59,13 +59,6 @@ app.get('/', (req, res) => {
   res.json('you have reached the home page');
 });
 
-// for testing out our database
-
-
-// app.get('/public/events', (req, res) => {
-//   // get all public events here
-// })
-
 app.post('/suggestion/yelp', (req, res) => {
   const queryString = req.body.queryString;
   const yelp = new Yelp({
@@ -220,7 +213,6 @@ app.get('/users/:email', (req, res) => {
 app.get('/events', (req, res) => {
   db.getPublicEvents((err, results) => {
     if (err) {
-      console.log(err);
       res.send(err);
     } else {
       // console.log(results);
@@ -268,6 +260,9 @@ io.on('connection', (socket) => {
 });
 
 
-http.listen(PORT, () => {
+const server = http.listen(PORT, () => {
   console.log(`Listening to web server on port ${PORT}`);
 });
+
+module.exports = server;
+
