@@ -66,20 +66,38 @@ class EventsList extends Component {
   }
 
   createFeed(events) {
-    events.reverse();
-    return events.map((item, i) => {
+    const reversedEvents = [].concat(events).reverse();
+    return reversedEvents.map((item, i) => {
       if (!util.isEventPast(item)) {
-        return (
-          <ListItem
-            key={i}
-            title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase()}`}
-            subtitle={item.description === null || item.description === undefined ? 'No description' : `${item.description.substring(0, 40)}`}
-            onPress={() => this.onLearnMore(item)}
-            containerStyle={{ height: 50 }}
-            avatar={{ uri: item.photourl }}
-            roundAvatar={true}
-          />
-        );
+        if (i === 0) {
+          return (
+            <ListItem
+              key={i}
+              rightTitle='NEW!'
+              titleStyle={{ fontWeight: '500' }}
+              rightTitleStyle={{ color: 'orange', fontWeight: '600' }}
+              title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase()}`}
+              subtitle={item.eventDate.substring(0, 10)}
+              onPress={() => this.onLearnMore(item)}
+              containerStyle={{ height: 50 }}
+              avatar={{ uri: item.photourl }}
+              roundAvatar={true}
+            />
+          );
+        } else {
+          return (
+            <ListItem
+              key={i}
+              titleStyle={{ fontWeight: '500' }}
+              title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase()}`}
+              subtitle={item.eventDate.substring(0, 10)}
+              onPress={() => this.onLearnMore(item)}
+              containerStyle={{ height: 50 }}
+              avatar={{ uri: item.photourl }}
+              roundAvatar={true}
+            />
+          );
+        }
       }
     });
   }
