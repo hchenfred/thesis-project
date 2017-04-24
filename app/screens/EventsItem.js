@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   proposeButton: {
     borderWidth: 0,
     borderRadius: 4,
-    height: 32,
+    height: 28,
     width: 150,
     backgroundColor: '#e67e22',
     overflow: 'hidden',
