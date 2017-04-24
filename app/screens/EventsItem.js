@@ -92,9 +92,10 @@ const styles = StyleSheet.create({
   proposeButton: {
     borderWidth: 0,
     borderRadius: 4,
-    height: 30,
+    height: 32,
     width: 150,
     backgroundColor: '#e67e22',
+    overflow: 'hidden',
   },
   proposalTitle: {
     textAlign: 'center',
