@@ -131,7 +131,7 @@ class AddFriends extends React.Component {
         this.props.addCount();
         this.setState({ friendList: [] });
         this.setState({ dataSource: this.state.dataSource.cloneWithRows([]) });
-        this.props.saveEvent({});
+        //this.props.saveEvent({});
         this.props.navigation.navigate('Redirect');
       })
       .catch(err => console.log(err));

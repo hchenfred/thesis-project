@@ -76,6 +76,7 @@ app.post('/suggestion/yelp', (req, res) => {
   });
 });
 
+// TODO: change this to a GET request
 app.post('suggestion/userinfo', (req, res) => {
   db.getUserInterests(req.body.email, (err, results) => {
     if (err) {

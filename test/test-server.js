@@ -14,6 +14,7 @@ describe('friendlyTest server', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('array');
+        res.body[0].name.should.equal('BBQ');
         done();
       });
   });
@@ -44,4 +45,15 @@ describe('friendlyTest server', () => {
         done();
       });
   });
+
+  it('should add an event on /events POST', (done) => {
+    chai.request(server)
+      .post('/events')
+      .send({name: `let's go`, description: 'eat, drink and have fun', eventDate: '2017-8-10', creator_id: 1})
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+
 });
