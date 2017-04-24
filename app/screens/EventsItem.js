@@ -165,7 +165,7 @@ class EventsItem extends Component {
         <View style={{ flexDirection: 'row' }} key={i}>
           {participant.status === 'yes' && <Icon type="font-awesome" name="check" size={15} color="#7f8c8d"/>}
           {participant.status === 'no' && <Icon type="font-awesome" name="close" size={15} color="black"/>}
-          {participant.status === 'maybe' && <Icon type="font-awesome" name="question" size={20} color="#ff0000"/>}
+          {participant.status === 'maybe' && <Icon type="font-awesome" name="question" size={20} color="#7f8c8d"/>}
           <Text style={styles.participant}>{participant.username}</Text>
         </View>
       );
