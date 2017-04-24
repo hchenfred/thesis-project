@@ -76,7 +76,6 @@ class MyDatePicker extends Component {
             placeholderText: {
               color: 'white',
               fontWeight: '500',
-              paddingRight: 100,
             },
             dateIcon: {
               position: 'absolute',

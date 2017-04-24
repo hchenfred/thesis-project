@@ -55,7 +55,6 @@ class Event extends Component {
   constructor(props) {
     super(props);
     this.onPressButton = this.onPressButton.bind(this);
-    this.googlePlaceAutoComplete = this.googlePlaceAutoComplete.bind(this);
   }
 
   onPressButton() {
