@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     height: 28,
     width: 150,
-    backgroundColor: '#e67e22',
+    backgroundColor: '#2980b9',
     overflow: 'hidden',
   },
   proposalTitle: {
@@ -144,7 +144,7 @@ class EventsItem extends Component {
               <Text style={styles.rsvpText}>RSVP Here:</Text>
               <ModalDropdown
                 dropdownStyle={{ width: 100 }}
-                style={{ borderWidth: 0, borderRadius: 4, height: 25, width: 60, backgroundColor: '#e67e22', flex: 1, alignItems: 'center', marginRight: 40 }}
+                style={{ borderWidth: 0, borderRadius: 4, height: 28, width: 60, backgroundColor: '#2980b9', flex: 1, alignItems: 'center', marginRight: 40 }}
                 textStyle={{ color: '#fff', fontSize: 20, fontWeight: '600' }}
                 adjustFrame={style => this.adjustFrame(style)}
                 options={['yes', 'no', 'maybe']}

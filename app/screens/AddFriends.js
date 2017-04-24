@@ -24,11 +24,15 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     color: 'white',
     paddingLeft: 10,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   buttonContainer: {
     backgroundColor: '#27ae60',
     height: 40,
     marginBottom: 10,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   buttonText: {
     paddingTop: 10,
@@ -167,7 +171,8 @@ class AddFriends extends React.Component {
             onChangeText={name => this.setState({ friendName: name })}
             style={styles.place}
             autoCorrect={false}
-            placeholder="friend's name"
+            placeholder="enter friend's name"
+            placeholderTextColor="white"
           />
           <TextInput
             ref={(input) => { this.friendEmailInput = input; }}
@@ -177,7 +182,8 @@ class AddFriends extends React.Component {
             keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
-            placeholder="friend's email"
+            placeholder="enter friend's email"
+            placeholderTextColor="white"
           />
           <TouchableOpacity onPress={this.onPressAddButton} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>ADD TO INVITATION LIST</Text>
