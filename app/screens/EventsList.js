@@ -11,7 +11,6 @@ const baseURL = endpoint.baseURL;
 
 const {
   Text,
-  View,
   ScrollView,
 } = ReactNative;
 
@@ -46,6 +45,7 @@ class EventsList extends Component {
     .then((response) => response.json())
     .then((responseJson) => {
       //console.log('active events are =========>', responseJson);
+      //this.props.saveCreatedEvents(responseJson);
       this.setState({ activeEventsByCreator: responseJson });
     })
     .then(() => {
@@ -66,6 +66,7 @@ class EventsList extends Component {
   }
 
   createFeed(events) {
+    events.reverse();
     return events.map((item, i) => {
       if (!util.isEventPast(item)) {
         return (
@@ -112,7 +113,7 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     event: state.event,
-    simpleCounter: state.simpleCounter,
+    createdEvents: state.createdEvents,
   };
 }
 

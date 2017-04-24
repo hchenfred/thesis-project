@@ -5,8 +5,11 @@ import * as ActiveEventActions from './activeEvent';
 import * as SuggestionActions from './suggestion';
 import * as SuggestedActivityActions from './suggestedActivity';
 import * as InvitedFriendsActions from './invitedFriends';
+import * as createdEventsActions from './createdEvents';
 
 export const ActionCreators = Object.assign({}, CounterActions, UserActions, EventActions,
 SuggestionActions, ActiveEventActions,
 SuggestedActivityActions,
-InvitedFriendsActions);
+InvitedFriendsActions,
+createdEventsActions,
+);
