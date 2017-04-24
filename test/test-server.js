@@ -25,6 +25,11 @@ describe('friendlyTest server', () => {
         res.should.have.status(200);
         res.should.be.json;
         res.body.should.be.a('object');
+        res.body.should.have.property('username');
+        res.body.should.have.property('email');
+        res.body.should.have.property('photourl');
+        res.body.should.have.property('facebook_id');
+        res.body.should.have.property('phone');
         res.body.username.should.equal('Huan');
         done();
       });

@@ -53,5 +53,7 @@ View the project roadmap [here](LINK_TO_DOC)
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 ## Run Tests
+Before running any server tests, please load schema to setup friendlyTest server. 
+mysql -u root -p < schemaTest.sql
 - run mocha in terminal for testing server
 - run npm run test -- --verbose in terminal for testing React Native components
