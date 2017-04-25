@@ -64,6 +64,16 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     color: 'white',
   },
+  itemText: {
+    fontSize: 18,
+    margin: 5,
+  },
+  nameInputContainer: {
+    borderWidth: 0,
+    borderRadius: 8,
+    marginBottom: 15,
+    backgroundColor: '#27ae60',
+  },
 });
 
 const propTypes = {
@@ -90,7 +100,7 @@ class AddFriends extends React.Component {
       friendName: '',
       friendEmail: '',
       films: [],
-      query: '',
+      queryName: '',
     };
     this.onPressAddButton = this.onPressAddButton.bind(this);
     this.onPressDoneButton = this.onPressDoneButton.bind(this);
@@ -181,21 +191,21 @@ class AddFriends extends React.Component {
     });
   }
 
-  findFilm(query) {
-    if (query === '') {
+  findFilm(queryName) {
+    if (queryName === '') {
       return [];
     }
     //return this.props.user.friends.data;
     const { films } = this.state;
-    const regex = new RegExp(`${query.trim()}`, 'i');
+    const regex = new RegExp(`${queryName.trim()}`, 'i');
     console.log(films);
     console.log('xxxxxxx', films.filter(film => film.name.search(regex) >= 0));
     return films.filter(film => film.name.search(regex) >= 0);
   }
 
   render() {
-    const { query } = this.state;
-    const films = this.findFilm(query);
+    const { queryName } = this.state;
+    const films = this.findFilm(queryName);
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     return (
       <View style={styles.container}>
@@ -224,12 +234,13 @@ class AddFriends extends React.Component {
             autoCapitalize="none"
             autoCorrect={false}
             containerStyle={styles.autocompleteContainer}
-            data={films.length === 1 && comp(query, films[0].name) ? [] : films}
-            defaultValue={query}
-            onChangeText={text => this.setState({ query: text })}
+            inputContainerStyle={styles.nameInputContainer}
+            data={films.length === 1 && comp(queryName, films[0].name) ? [] : films}
+            defaultValue={queryName}
+            onChangeText={text => this.setState({ queryName: text })}
             placeholder="Enter Star Wars film title"
             renderItem={({ name }) => (
-              <TouchableOpacity onPress={() => this.setState({ query: name })}>
+              <TouchableOpacity onPress={() => this.setState({ queryName: name })}>
                 <Text style={styles.itemText}>
                   {name} 
                 </Text>

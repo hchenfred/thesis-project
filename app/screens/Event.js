@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexGrow: 1,
     justifyContent: 'flex-start',
-    marginTop: 10,
+    marginTop: 0,
     alignItems: 'center',
   },
   title: {
@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
     opacity: 1,
     fontSize: 15,
     fontWeight: '500',
+    marginLeft: 20,
+    marginRight: 20,
   },
   formContainer: {
     marginTop: 10,
