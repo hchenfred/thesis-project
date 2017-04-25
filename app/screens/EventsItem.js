@@ -242,7 +242,7 @@ class EventsItem extends Component {
             <Icon type="font-awesome" name="calendar" size={20} color="#e67e22"/><Text style={styles.otherText}>{ eventDate.substring(0, 10)}</Text>
           </View>
           <View style={styles.textContainer}>
-            <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>{startTime.substring(0, 5)}-{endTime.substring(0, 5)}</Text>
+            <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>{startTime.substring(0, 5)} - {endTime.substring(0, 5)}</Text>
           </View>
         </View>
         {this.rsvp()}
