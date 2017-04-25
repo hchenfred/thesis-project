@@ -189,7 +189,7 @@ app.post('/participants', (req, res) => {
   .then(result => {
     res.send('participant saved to db');
     cSocket.join(room);
-    io.to(room).emit('refresh feed', { activity: `${req.body.host.name} created an event`, authorImage: req.body.host.pic });
+    io.to(room).emit('refresh feed', { author: req.body.host.name, activity: 'created an event', authorImage: req.body.host.pic });
   })
   .catch((err) => {
     res.send(err);

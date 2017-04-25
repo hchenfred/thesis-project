@@ -13,10 +13,28 @@ const {
   View,
   Text,
   Image,
+  StyleSheet,
 } = ReactNative;
 
 const date = new Date().toLocaleTimeString();
 
+const styles = StyleSheet.create({
+  textContainer: {
+    marginLeft: 15,
+    marginTop: 10,
+    width: 200,
+  },
+  titleContainer: {
+    margin: 15,
+  },
+  titleText: {
+    padding: 10,
+    fontSize: 30,
+    fontWeight: '600',
+    textAlign: 'center',
+    color: '#27ae60',
+  },
+});
 
 class ActivityStream extends Component {
   constructor(props) {
@@ -41,13 +59,20 @@ class ActivityStream extends Component {
   createFeed() {
     return this.state.activities.map((item, i) => {
       return (
-        <View key={i} style={{ borderWidth: 1, borderRadius: 5, padding: 20 }}>
-          <Image
-            style={{ width: 40, height: 40, borderRadius: 20 }}
-            source={{ uri: item.authorImage }}
-          />
-          <Text>{item.activity}</Text>
-          <Text>{moment().fromNow()}</Text>
+        <View key={i} style={{ padding: 8, borderBottomWidth: 1 }}>
+          <View style={{ flexDirection: 'row' }}>
+            <Image
+              style={{ width: 50, height: 50, borderRadius: 25 }}
+              source={{ uri: item.authorImage }}
+            />
+            <View style={styles.textContainer}>
+              <View style={{ flexDirection: 'row' }}>
+              <Text style={{ fontWeight: '600' }}>{item.author}</Text>
+              <Text> {item.activity}</Text>
+              </View>
+              <Text style={{ color: 'grey' }}>{moment().fromNow()}</Text>
+            </View>
+          </View>
         </View>
       );
     });
@@ -56,9 +81,9 @@ class ActivityStream extends Component {
 
   render() {
     return (
-      <View>
-        <Text style={{ marginTop: 20, textAlign: 'center' }}>
-          this is the live feed for testing! {this.state.curTime}
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleText}>
+          Live Feed
         </Text>
         {this.createFeed()}
       </View>
