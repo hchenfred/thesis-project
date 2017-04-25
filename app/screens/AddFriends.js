@@ -7,7 +7,6 @@ import util from '../lib/utility';
 import endpoint from '../config/global';
 
 const baseURL = endpoint.baseURL;
-// TODO: style cancel button
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -47,14 +46,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#e67e22',
     marginBottom: 10,
+    borderRadius: 8,
+    marginLeft: 15,
+    marginRight: 20,
   },
   friendText: {
     marginLeft: 12,
-    fontSize: 16,
+    fontSize: 18,
     color: 'white',
+    fontWeight: '600',
   },
   cancelButton: {
     marginLeft: 150,
+  },
+  cancelText: {
+    marginBottom: 6,
+    color: 'white',
   },
 });
 
@@ -153,9 +160,9 @@ class AddFriends extends React.Component {
       <View style={styles.friendContainer}>
         <Text style={styles.friendText}>{rowData.username}</Text>
         <View style={styles.cancelButton}>
-        <TouchableOpacity onPress={() => this.onCancelButtonClick(rowData.email)}>
-          <Text>Cancel</Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onCancelButtonClick(rowData.email)}>
+            <Text style={styles.cancelText}>Cancel</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -191,7 +198,7 @@ class AddFriends extends React.Component {
           <TouchableOpacity onPress={() => this.onPressDoneButton()} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>DONE</Text>
           </TouchableOpacity>
-          <Text>A notification email will be sent to friends.</Text>
+          <Text style={{ color: 'white' }}>A notification email will be sent to friends.</Text>
         </View>
         <View style={{ flexGrow: 10, marginTop: 0, padding: 10 }}>
           <ListView
