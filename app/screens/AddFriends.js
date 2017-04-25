@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity, AlertIOS } from 'react-native';
+import { Icon } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -61,8 +62,7 @@ const styles = StyleSheet.create({
     marginLeft: 150,
   },
   cancelText: {
-    marginBottom: 6,
-    color: 'white',
+    marginRight: 10,
   },
   itemText: {
     fontSize: 18,
@@ -74,6 +74,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 15,
     backgroundColor: '#27ae60',
+  },
+  autocompleteContainer: {
+  },
+  cancelContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  friendNameContainer: {
+    flex: 4,
   },
 });
 
@@ -173,11 +182,15 @@ class AddFriends extends React.Component {
   renderRow(rowData) {
     return (
       <View style={styles.friendContainer}>
+        <View style={styles.friendNameContainer}>
         <Text style={styles.friendText}>{rowData.username}</Text>
-        <View style={styles.cancelButton}>
-          <TouchableOpacity onPress={() => this.onCancelButtonClick(rowData.email)}>
-            <Text style={styles.cancelText}>Cancel</Text>
-          </TouchableOpacity>
+        </View>
+        <View style={styles.cancelContainer}>
+        <TouchableOpacity onPress={() => this.onCancelButtonClick(rowData.email)}>
+          <View>
+          <Icon type="font-awesome" name="close" size={20} color="white" />
+          </View>
+        </TouchableOpacity>
         </View>
       </View>
     );
@@ -204,19 +217,8 @@ class AddFriends extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.formContainer}>
-          <TextInput
-            ref={(input) => { this.friendEmailInput = input; }}
-            clearTextOnFocus={true}
-            onChangeText={email => this.setState({ friendEmail: email })}
-            style={styles.place}
-            keyboardType="email-address"
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholder="enter friend's email"
-            placeholderTextColor="white"
-          />
           <Autocomplete
-            style={{ height: 40, color: 'white' }}
+            style={{ height: 40, color: 'white', padding: 10 }}
             clearTextOnFocus={true}
             autoCapitalize="none"
             autoCorrect={false}
@@ -226,6 +228,7 @@ class AddFriends extends React.Component {
             defaultValue={queryName}
             onChangeText={text => this.setState({ queryName: text })}
             placeholder="Enter a friend's name"
+            placeholderTextColor="white"
             renderItem={({ name }) => (
               <TouchableOpacity onPress={() => this.setState({ queryName: name })}>
                 <Text style={styles.itemText}>
@@ -233,6 +236,17 @@ class AddFriends extends React.Component {
                 </Text>
               </TouchableOpacity>
             )}
+          />
+          <TextInput
+            ref={(input) => { this.friendEmailInput = input; }}
+            clearTextOnFocus={true}
+            onChangeText={email => this.setState({ friendEmail: email })}
+            style={styles.place}
+            keyboardType="email-address"
+            autoCorrect={false}
+            autoCapitalize="none"
+            placeholder="Enter friend's email"
+            placeholderTextColor="white"
           />
           <TouchableOpacity onPress={() => this.onPressAddButton()} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>ADD TO INVITATION LIST</Text>
