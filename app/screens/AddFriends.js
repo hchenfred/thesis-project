@@ -77,6 +77,9 @@ const propTypes = {
   saveEvent: PropTypes.func.isRequired,
 };
 
+const API = 'https://swapi.co/api';
+const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+
 class AddFriends extends React.Component {
   constructor(props) {
     super(props);
@@ -174,7 +177,7 @@ class AddFriends extends React.Component {
   componentDidMount() {
     fetch(`${API}/films/`).then(res => res.json()).then((json) => {
       const { results: films } = json;
-      this.setState({ films });
+      this.setState({ films: this.props.user.friends.data });
     });
   }
 
@@ -182,10 +185,12 @@ class AddFriends extends React.Component {
     if (query === '') {
       return [];
     }
-
+    //return this.props.user.friends.data;
     const { films } = this.state;
     const regex = new RegExp(`${query.trim()}`, 'i');
-    return films.filter(film => film.title.search(regex) >= 0);
+    console.log(films);
+    console.log('xxxxxxx', films.filter(film => film.name.search(regex) >= 0));
+    return films.filter(film => film.name.search(regex) >= 0);
   }
 
   render() {
@@ -219,14 +224,14 @@ class AddFriends extends React.Component {
             autoCapitalize="none"
             autoCorrect={false}
             containerStyle={styles.autocompleteContainer}
-            data={films.length === 1 && comp(query, films[0].title) ? [] : films}
+            data={films.length === 1 && comp(query, films[0].name) ? [] : films}
             defaultValue={query}
             onChangeText={text => this.setState({ query: text })}
             placeholder="Enter Star Wars film title"
-            renderItem={({ title, release_date }) => (
-              <TouchableOpacity onPress={() => this.setState({ query: title })}>
+            renderItem={({ name }) => (
+              <TouchableOpacity onPress={() => this.setState({ query: name })}>
                 <Text style={styles.itemText}>
-                  {title} ({release_date.split('-')[0]})
+                  {name} 
                 </Text>
               </TouchableOpacity>
             )}
