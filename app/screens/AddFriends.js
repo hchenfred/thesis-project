@@ -87,9 +87,6 @@ const propTypes = {
   saveEvent: PropTypes.func.isRequired,
 };
 
-const API = 'https://swapi.co/api';
-const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-
 class AddFriends extends React.Component {
   constructor(props) {
     super(props);
@@ -99,7 +96,7 @@ class AddFriends extends React.Component {
       friendList: [],
       friendName: '',
       friendEmail: '',
-      films: [],
+      facebook_friends: [],
       queryName: '',
     };
     this.onPressAddButton = this.onPressAddButton.bind(this);
@@ -109,19 +106,20 @@ class AddFriends extends React.Component {
   }
 
   onPressAddButton() {
-    if (this.state.friendName === '') {
+    if (this.state.queryName === '') {
       AlertIOS.alert("Friend name cannot be empty, please enter a friend's name");
     } else if (this.state.friendEmail === '') {
-      AlertIOS("Friend email cannot be empty, please enter a friend's email");
+      AlertIOS.alert("Friend email cannot be empty, please enter a friend's email");
     } else {
       const temp = this.props.invitedFriends.slice();
-      temp.push({ username: this.state.friendName, email: this.state.friendEmail });
-      this.props.saveFriendToInvitationList({ username: this.state.friendName, email: this.state.friendEmail });
+      temp.push({ username: this.state.queryName, email: this.state.friendEmail });
+      this.props.saveFriendToInvitationList({ username: this.state.queryName, email: this.state.friendEmail });
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(temp),
       });
     }
-    this.friendNameInput.setNativeProps({ text: '' });
+    this.setState({ queryName: '' });
+    //this.friendNameInput.setNativeProps({ text: '' });
     this.friendEmailInput.setNativeProps({ text: '' });
   }
 
@@ -185,40 +183,26 @@ class AddFriends extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${API}/films/`).then(res => res.json()).then((json) => {
-      const { results: films } = json;
-      this.setState({ films: this.props.user.friends.data });
-    });
+    this.setState({ facebook_friends: this.props.user.friends.data });
   }
 
-  findFilm(queryName) {
+  findFriends(queryName) {
     if (queryName === '') {
       return [];
     }
     //return this.props.user.friends.data;
-    const { films } = this.state;
+    const { facebook_friends } = this.state;
     const regex = new RegExp(`${queryName.trim()}`, 'i');
-    console.log(films);
-    console.log('xxxxxxx', films.filter(film => film.name.search(regex) >= 0));
-    return films.filter(film => film.name.search(regex) >= 0);
+    return facebook_friends.filter(friend => friend.name.search(regex) >= 0);
   }
 
   render() {
     const { queryName } = this.state;
-    const films = this.findFilm(queryName);
+    const facebook_friends = this.findFriends(queryName);
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     return (
       <View style={styles.container}>
         <View style={styles.formContainer}>
-          <TextInput
-            ref={(input) => { this.friendNameInput = input; }}
-            clearTextOnFocus={true}
-            onChangeText={name => this.setState({ friendName: name })}
-            style={styles.place}
-            autoCorrect={false}
-            placeholder="enter friend's name"
-            placeholderTextColor="white"
-          />
           <TextInput
             ref={(input) => { this.friendEmailInput = input; }}
             clearTextOnFocus={true}
@@ -231,14 +215,15 @@ class AddFriends extends React.Component {
             placeholderTextColor="white"
           />
           <Autocomplete
+            clearTextOnFocus={true}
             autoCapitalize="none"
             autoCorrect={false}
             containerStyle={styles.autocompleteContainer}
             inputContainerStyle={styles.nameInputContainer}
-            data={films.length === 1 && comp(queryName, films[0].name) ? [] : films}
+            data={facebook_friends.length === 1 && comp(queryName, facebook_friends[0].name) ? [] : facebook_friends}
             defaultValue={queryName}
             onChangeText={text => this.setState({ queryName: text })}
-            placeholder="Enter Star Wars film title"
+            placeholder="Enter a friend's name"
             renderItem={({ name }) => (
               <TouchableOpacity onPress={() => this.setState({ queryName: name })}>
                 <Text style={styles.itemText}>
