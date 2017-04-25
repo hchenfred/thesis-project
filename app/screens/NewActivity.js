@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactNative from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Icon } from 'react-native-elements';
@@ -9,7 +8,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Button,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
@@ -98,7 +96,7 @@ class NewActivity extends Component {
         location: this.props.suggestedActivity.location,
       }),
     })
-    .then((data) => {
+    .then(() => {
       console.log('successfully save activity to DB');
     })
     .catch(err => console.log(err));

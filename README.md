@@ -1,13 +1,12 @@
 # Project Name
 
-> Pithy project description
+> An iOS app which allows user to create events and invite friends to events
 
 ## Team
 
-  - teamMember
-  - teamMember
-  - teamMember
-  - teamMember
+  - Huan Chen
+  - Stephen Makowski 
+  - Tayo Jolaosho
 
 ## Table of Contents
 
@@ -38,15 +37,12 @@
 From within the root directory:
 
 ```sh
-npm install -g bower
 npm install
-bower install
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
-
+View the project roadmap [here](https://docs.google.com/document/d/1tJq9zj5AP2UCyE2M4mSyZ2UbmC5HB3WWCl2WYJIGBa0/edit)
 
 ## Contributing
 
