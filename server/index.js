@@ -192,7 +192,7 @@ app.get('/events/:participantId', (req, res) => {
         const room = event.name + event.id;
         cSocket.join(room);
         if (io.sockets.connected[socketId]) {
-          io.sockets.connected[socketId].emit('refresh feed', { createdAt: event.createdAt, author: event.username, activity: `invited you to ${event.name}`, authorImage: event.photourl });
+          io.sockets.connected[socketId].emit('refresh feed', { createdAt: event.createdAt, author: event.username, activity: `invited you to ${event.name}`, authorImage: event.photourl, eventDetails: event });
         }
       }
     });

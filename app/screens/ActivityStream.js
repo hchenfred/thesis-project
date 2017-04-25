@@ -14,6 +14,7 @@ const {
   Text,
   Image,
   StyleSheet,
+  TouchableHighlight,
 } = ReactNative;
 
 const date = new Date().toLocaleTimeString();
@@ -45,30 +46,39 @@ class ActivityStream extends Component {
 
   componentDidMount() {
     this.socket.on('refresh feed', (data) => {
-      console.log('data from socket refresh feed', data);
-      this.state.activities.push(data);
-      this.setState({ current: this.state.activities[this.state.activities.length - 1].activity, currentImg: this.state.activities[this.state.activities.length - 1].authorImage });
+      if (data !== this.state.activities[this.state.activities.length - 1]) {
+        this.state.activities.push(data);
+        this.setState({ current: this.state.activities[this.state.activities.length - 1].activity, currentImg: this.state.activities[this.state.activities.length - 1].authorImage });
+      }
     });
+  }
+
+  onLearnMore(event) {
+    console.log('live stream item clicked');
+    this.props.navigation.navigate('EventDetails', { ...event });
   }
 
   createFeed() {
     return this.state.activities.map((item, i) => {
+      console.log('item from activityStream', item);
       return (
-        <View key={i} style={{ padding: 8, borderBottomWidth: 1 }}>
-          <View style={{ flexDirection: 'row' }}>
-            <Image
-              style={{ width: 50, height: 50, borderRadius: 25 }}
-              source={{ uri: item.authorImage }}
-            />
-            <View style={styles.textContainer}>
-              <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontWeight: '600' }}>{item.author}</Text>
-              <Text> {item.activity}</Text>
+        <TouchableHighlight key={i} onPress={() => this.onLearnMore(item.eventDetails)}>
+          <View key={i} style={{ padding: 8, borderBottomWidth: 1 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Image
+                style={{ width: 50, height: 50, borderRadius: 25 }}
+                source={{ uri: item.authorImage }}
+              />
+              <View style={styles.textContainer}>
+                <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontWeight: '600' }}>{item.author}</Text>
+                <Text> {item.activity}</Text>
+                </View>
+                <Text style={{ color: 'grey' }}>{moment(item.createdAt).fromNow()}</Text>
               </View>
-              <Text style={{ color: 'grey' }}>{moment(item.createdAt).fromNow()}</Text>
             </View>
           </View>
-        </View>
+        </TouchableHighlight>
       );
     });
   }
