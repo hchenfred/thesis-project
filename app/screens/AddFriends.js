@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   nameInputContainer: {
+    height: 40,
     borderWidth: 0,
     borderRadius: 8,
     marginBottom: 15,
@@ -215,6 +216,7 @@ class AddFriends extends React.Component {
             placeholderTextColor="white"
           />
           <Autocomplete
+            style={{ height: 40, color: 'white' }}
             clearTextOnFocus={true}
             autoCapitalize="none"
             autoCorrect={false}
