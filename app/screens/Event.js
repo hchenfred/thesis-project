@@ -58,15 +58,15 @@ class Event extends Component {
   }
 
   onPressButton() {
-    if (this.props.event.date === null) {
+    if (this.props.event.date === null || this.props.event.date === '') {
       alert('date is empty, please pick a date');
     } else if (this.props.event.location === '' || this.props.event.name === '') {
       alert('event name/location is empty, please enter event name and/or location');
     } else if (this.props.event.description === '') {
       alert('please enter an event description');
-    } else if (this.props.event.startTime === null) {
+    } else if (this.props.event.startTime === null || this.props.event.startTime === '') {
       alert('please pick event start time');
-    } else if (this.props.event.endTime === null) {
+    } else if (this.props.event.endTime === null || this.props.event.endTime === '') {
       alert('please pick event end time');
     } else {
       const event = {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactNative from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Icon } from 'react-native-elements';
@@ -9,17 +8,69 @@ import {
   StyleSheet,
   View,
   Text,
-  Button,
   TextInput,
-  Image,
+  TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 const baseURL = endpoint.baseURL;
 
 const styles = StyleSheet.create({
+  place: {
+    height: 40,
+    backgroundColor: '#27ae60',
+    marginBottom: 15,
+    color: 'white',
+    paddingLeft: 20,
+    borderRadius: 8,
+  },
+  description: {
+    color: 'white',
+  },
+  textContainer: {
+    marginLeft: 20,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
   textInput: {
     margin: 20,
     height: 40,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#2ecc71',
+  },
+  eventName: {
+    marginTop: 15,
+    fontSize: 30,
+    marginBottom: 2,
+    color: 'white',
+    fontWeight: '600',
+    marginLeft: 20,
+  },
+  otherText: {
+    margin: 5,
+    fontSize: 15,
+    color: 'white',
+    fontWeight: '500',
+    paddingLeft: 5,
+  },
+  formContainer: {
+    marginTop: 10,
+    padding: 20,
+    flexGrow: 10,
+  },
+  buttonContainer: {
+    backgroundColor: '#e67e22',
+    height: 40,
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  buttonText: {
+    paddingTop: 10,
+    textAlign: 'center',
+    fontWeight: '700',
+    color: 'white',
   },
 });
 
@@ -33,7 +84,7 @@ class NewActivity extends Component {
     //name, event_id, location
     // const activityName = this.state.activityName.slice(0);
     // const activityLocation = this.state.activityLocation.slice(0);
-    fetch( `${baseURL}/activities`, {
+    fetch(`${baseURL}/activities`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -45,7 +96,7 @@ class NewActivity extends Component {
         location: this.props.suggestedActivity.location,
       }),
     })
-    .then((data) => {
+    .then(() => {
       console.log('successfully save activity to DB');
     })
     .catch(err => console.log(err));
@@ -54,35 +105,50 @@ class NewActivity extends Component {
   render() {
     const { description, endTime, eventDate, id, location, name, photourl, startTime, username } = this.props.activeEvent;
     return (
-      <View>
-        <Text>{name}</Text>
-        <Text>{description}</Text>
-        <Text>{location}</Text>
-        <Text>host: {username}</Text>
-        <Text>start time: {startTime}</Text>
-        <Text>end time: {endTime}</Text>
-        <TextInput
-          style={styles.textInput}
-          clearTextOnFocus={true}
-          autoCorrect={false}
-          onChangeText={(name) => this.props.saveSuggestedActivityName(name)}
-          value={this.props.suggestedActivity.name}
-          placeholder="enter a place name"
-        />
-        <TextInput
-          style={styles.textInput}
-          clearTextOnFocus={true}
-          autoCorrect={false}
-          onChangeText={(location) => this.props.saveSuggestedActivityLocation(location)}
-          value={this.props.suggestedActivity.location}
-          placeholder="enter an address"
-        />
-        <Button
-          onPress={() => this.handleButtonPress()}
-          title="OK"
-          color="#841584"
-          accessibilityLabel="Ok, Great!"
-        />
+      <View style={styles.container}>
+        <Text style={styles.eventName}>{name}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.description}>{description === null || description === undefined ? 'NO DESCRIPTION' : description}</Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={styles.textContainer}>
+            <Icon type="font-awesome" name="user" size={20} color="#e67e22"/><Text style={styles.otherText}>{username}</Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Icon type="font-awesome" name="location-arrow" size={20} color="#e67e22"/><Text style={styles.otherText}>{location === null || location === undefined ? 'NO LOCATION' : location}</Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={styles.textContainer}>
+            <Icon type="font-awesome" name="calendar" size={20} color="#e67e22"/><Text style={styles.otherText}>{ eventDate.substring(0, 10)}</Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Icon type="font-awesome" name="clock-o" size={20} color="#e67e22"/><Text style={styles.otherText}>{startTime.substring(0, 5)} - {endTime.substring(0, 5)}</Text>
+          </View>
+        </View>
+        <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
+          <TextInput
+            placeholderTextColor="white"
+            style={styles.place}
+            clearTextOnFocus={true}
+            autoCorrect={false}
+            onChangeText={(name) => this.props.saveSuggestedActivityName(name)}
+            value={this.props.suggestedActivity.name}
+            placeholder="propose a new activity"
+          />
+          <TextInput
+            placeholderTextColor="white"
+            style={styles.place}
+            clearTextOnFocus={true}
+            autoCorrect={false}
+            onChangeText={(location) => this.props.saveSuggestedActivityLocation(location)}
+            value={this.props.suggestedActivity.location}
+            placeholder="new activity's address"
+          />
+          <TouchableOpacity onPress={() => this.handleButtonPress()} style={styles.buttonContainer}>
+            <Text style={styles.buttonText}>ADD ACTIVITY TO EVENT</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
       </View>
     );
   }

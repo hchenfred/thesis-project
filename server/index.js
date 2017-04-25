@@ -59,13 +59,6 @@ app.get('/', (req, res) => {
   res.json('you have reached the home page');
 });
 
-// for testing out our database
-
-
-// app.get('/public/events', (req, res) => {
-//   // get all public events here
-// })
-
 app.post('/suggestion/yelp', (req, res) => {
   const queryString = req.body.queryString;
   const yelp = new Yelp({
@@ -83,6 +76,7 @@ app.post('/suggestion/yelp', (req, res) => {
   });
 });
 
+// TODO: change this to a GET request
 app.post('suggestion/userinfo', (req, res) => {
   db.getUserInterests(req.body.email, (err, results) => {
     if (err) {
@@ -195,7 +189,7 @@ app.post('/participants', (req, res) => {
   .then(result => {
     res.send('participant saved to db');
     cSocket.join(room);
-    io.to(room).emit('refresh feed', { activity: `${req.body.host.name} created an event`, authorImage: req.body.host.pic });
+    io.to(room).emit('refresh feed', { author: req.body.host.name, activity: 'created an event', authorImage: req.body.host.pic });
   })
   .catch((err) => {
     res.send(err);
@@ -220,7 +214,6 @@ app.get('/users/:email', (req, res) => {
 app.get('/events', (req, res) => {
   db.getPublicEvents((err, results) => {
     if (err) {
-      console.log(err);
       res.send(err);
     } else {
       // console.log(results);
@@ -268,6 +261,9 @@ io.on('connection', (socket) => {
 });
 
 
-http.listen(PORT, () => {
+const server = http.listen(PORT, () => {
   console.log(`Listening to web server on port ${PORT}`);
 });
+
+module.exports = server;
+

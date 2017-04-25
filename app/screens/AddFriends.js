@@ -131,7 +131,7 @@ class AddFriends extends React.Component {
         this.props.addCount();
         this.setState({ friendList: [] });
         this.setState({ dataSource: this.state.dataSource.cloneWithRows([]) });
-        this.props.saveEvent({});
+        //this.props.saveEvent({});
         this.props.navigation.navigate('Redirect');
       })
       .catch(err => console.log(err));
@@ -185,10 +185,10 @@ class AddFriends extends React.Component {
             placeholder="enter friend's email"
             placeholderTextColor="white"
           />
-          <TouchableOpacity onPress={this.onPressAddButton} style={styles.buttonContainer}>
+          <TouchableOpacity onPress={() => this.onPressAddButton()} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>ADD TO INVITATION LIST</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.onPressDoneButton} style={styles.buttonContainer}>
+          <TouchableOpacity onPress={() => this.onPressDoneButton()} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>DONE</Text>
           </TouchableOpacity>
           <Text>A notification email will be sent to friends.</Text>
