@@ -46,7 +46,15 @@ class ActivityStream extends Component {
 
   componentDidMount() {
     this.socket.on('refresh feed', (data) => {
-      if (data !== this.state.activities[this.state.activities.length - 1]) {
+      let duplication = false;
+      this.state.activities.forEach((activity) => {
+        if (activity.activity === data.activity) {
+          duplication = true;
+          return duplication;
+        }
+        return duplication;
+      });
+      if (!duplication) {
         this.state.activities.push(data);
         this.setState({ current: this.state.activities[this.state.activities.length - 1].activity, currentImg: this.state.activities[this.state.activities.length - 1].authorImage });
       }
