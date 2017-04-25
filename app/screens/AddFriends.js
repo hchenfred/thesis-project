@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity, AlertIOS } from 'react-native';
+import Autocomplete from 'react-native-autocomplete-input';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
@@ -85,6 +86,8 @@ class AddFriends extends React.Component {
       friendList: [],
       friendName: '',
       friendEmail: '',
+      films: [],
+      query: '',
     };
     this.onPressAddButton = this.onPressAddButton.bind(this);
     this.onPressDoneButton = this.onPressDoneButton.bind(this);
@@ -168,7 +171,27 @@ class AddFriends extends React.Component {
     );
   }
 
+  componentDidMount() {
+    fetch(`${API}/films/`).then(res => res.json()).then((json) => {
+      const { results: films } = json;
+      this.setState({ films });
+    });
+  }
+
+  findFilm(query) {
+    if (query === '') {
+      return [];
+    }
+
+    const { films } = this.state;
+    const regex = new RegExp(`${query.trim()}`, 'i');
+    return films.filter(film => film.title.search(regex) >= 0);
+  }
+
   render() {
+    const { query } = this.state;
+    const films = this.findFilm(query);
+    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     return (
       <View style={styles.container}>
         <View style={styles.formContainer}>
@@ -191,6 +214,22 @@ class AddFriends extends React.Component {
             autoCapitalize="none"
             placeholder="enter friend's email"
             placeholderTextColor="white"
+          />
+          <Autocomplete
+            autoCapitalize="none"
+            autoCorrect={false}
+            containerStyle={styles.autocompleteContainer}
+            data={films.length === 1 && comp(query, films[0].title) ? [] : films}
+            defaultValue={query}
+            onChangeText={text => this.setState({ query: text })}
+            placeholder="Enter Star Wars film title"
+            renderItem={({ title, release_date }) => (
+              <TouchableOpacity onPress={() => this.setState({ query: title })}>
+                <Text style={styles.itemText}>
+                  {title} ({release_date.split('-')[0]})
+                </Text>
+              </TouchableOpacity>
+            )}
           />
           <TouchableOpacity onPress={() => this.onPressAddButton()} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>ADD TO INVITATION LIST</Text>
