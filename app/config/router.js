@@ -12,6 +12,7 @@ import SuggesterResults from '../screens/SuggesterResults';
 import SuggesterResultsItem from '../screens/SuggesterResultsItem';
 import Redirect from '../screens/Redirect';
 import NewActivity from '../screens/NewActivity';
+import Comments from '../screens/Comments';
 
 export const eventStack = StackNavigator({
   Event: {
@@ -65,6 +66,9 @@ export const currentEvents = StackNavigator({
       titile: 'Propose A New Activity',
     },
   },
+  Comments: {
+    screen: Comments
+  }
 });
 
 export const SuggesterStack = StackNavigator({

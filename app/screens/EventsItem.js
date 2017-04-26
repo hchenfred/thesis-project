@@ -323,6 +323,7 @@ function mapStateToProps(state) {
     activeEvent: state.activeEvent,
     suggestedActivity: state.suggestedActivity,
     activities: state.activities,
+    comments: state.comments,
   };
 }
 
