@@ -313,7 +313,7 @@ app.post('/events/participants/rsvp', (req, res) => {
       cSocket.join(room);
       return db.getEventByEventId(req.body.eventId)
         .then((result1) => {
-          io.to(room).emit('refresh feed', { author: req.body.participantName, activity: `has RSVP'ed ${req.body.participantStatus}`, authorImage: req.body.participantPic, eventDetails: result1[0] });
+          io.to(room).emit('refresh feed', { author: req.body.participantName, activity: `has RSVP'ed ${req.body.participantStatus} for ${req.body.eventName}`, authorImage: req.body.participantPic, eventDetails: result1[0] });
           res.send('');
         });
     }
