@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, KeyboardAvoidingView, Image, TouchableOpacity, AlertIOS } from 'react-native';
+import { View, StyleSheet, TextInput, Text, KeyboardAvoidingView, Image, TouchableOpacity, AlertIOS, ScrollView } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -18,22 +18,39 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
   },
-  formContainer: {
-    marginTop: 10,
-    padding: 20,
-    flexGrow: 10,
-  },
   buttonContainer: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
     backgroundColor: '#e67e22',
     height: 40,
     borderRadius: 8,
     overflow: 'hidden',
+    width: 100,
   },
   buttonText: {
     paddingTop: 10,
     textAlign: 'center',
     fontWeight: '700',
     color: 'white',
+  },
+  message: {
+    marginTop: 15,
+    height: 40,
+    backgroundColor: 'white',
+    marginBottom: 10,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    color: 'black',
+    paddingLeft: 20,
+    borderRadius: 8,
+    width: '99%',
+  },
+  title: {
+    marginLeft: 10,
+    color: 'white',
+    opacity: 1,
+    fontSize: 15,
+    fontWeight: '500',
   },
 });
 
@@ -42,9 +59,10 @@ class Comments extends Component {
     super(props);
     this.state = {
       // do not know if I will need yet?
-      messageText: ''
+      message: '',
     };
 
+    this.displayComments = this.displayComments.bind(this);
   }
 
   componentWillRecieveProps() {
@@ -62,22 +80,26 @@ class Comments extends Component {
   }
 
   render() {
-    return (<View style={styles.container}>
-      <Text>
-        Comments for {this.props.activeEvent.name}
-      </Text>
-      <TextInput style={styles.formContainer}/>
+    return (<ScrollView style={styles.container}>
+      <TextInput
+        style={styles.message}
+        placeholder='comment here...'
+        onChangeText={(text) => { this.setState({message: text}); }}
+        value={this.state.message}
+        clearTextOnFocus={false}
+        autoCorrect={false}
+        placeholderColor='gray'
+      />
       <TouchableOpacity onPress={this.submitComment} style={styles.buttonContainer}>
-        <Text> 
-        </Text>
+        <Text style={styles.buttonText}>Comment</Text>
       </TouchableOpacity>
-      <Text>
+      <Text style={styles.title}>
         Comments:
       </Text>
       <View>
-        
+        {this.displayComments()}
       </View> 
-    </View>);
+    </ScrollView>);
   }
 }
 
