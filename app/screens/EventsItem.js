@@ -17,7 +17,7 @@ const {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  Alert,
+  AlertIOS,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -106,6 +106,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
+  commentText: {
+    paddingTop: 10,
+    textAlign: 'center',
+  },
+  commentButton: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 10,
+    borderWidth: 0,
+    borderRadius: 4,
+    height: 28,
+    width: 150,
+    backgroundColor: '#2980b9',
+    overflow: 'hidden',
+  },
+  strong: {
+    fontWeight: '600',
+  },
 });
 
 const BUTTONS = [
@@ -120,6 +138,7 @@ class EventsItem extends Component {
     this.props.saveActiveEvent(this.props.navigation.state.params);
     this.state = { participants: [], event: this.props.navigation.state.params };
     this.showActionSheet = this.showActionSheet.bind(this);
+    this.showComments = this.showComments.bind(this);
   }
 
   componentWillMount() {
@@ -186,13 +205,13 @@ class EventsItem extends Component {
   createActivities() {
     if (this.props.activities.length === 0) { 
       return (
-        <Text>
+        <Text style={styles.commentText}>
           The are currently not Alternative activities proposed for this event. Click the new Activity button to suggest a new activity
         </Text>
       )
     } else if (this.props.activities.length === 1) {
       return (
-        <Text>
+        <Text style={styles.commentText}>
           There is is only one activity. Please add alternative activities to begin voting!
         </Text>
       )
@@ -219,6 +238,10 @@ class EventsItem extends Component {
         </View>
       );
     });
+  }
+
+  showComments() {
+    AlertIOS.alert('OASIKDAKLJSD')
   }
 
   adjustFrame(style) {
@@ -311,6 +334,18 @@ class EventsItem extends Component {
         <ScrollView style={styles.inviteeContainer}>
           {this.createParticipants()}
         </ScrollView>
+        <View>
+          <Text style={styles.inviteeTitle}>
+            Comments
+          </Text>
+          <Text style={styles.commentText}>
+            There are currently <Text style={styles.strong}>{this.props.comments.length}</Text> comments for this event.{'\n'}
+            Click the button below to view/comment.
+          </Text>
+          <TouchableOpacity style={styles.commentButton} onPress={this.showComments}>
+            <Text style={styles.proposalTitle}>To Comments</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     );
   }
