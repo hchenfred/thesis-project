@@ -109,9 +109,12 @@ app.post('/vote', (req, res) => {
     console.log(err);
     res.send(err);
   });
-
 });
 
+app.post('/comments', (req, res) =>{
+  console.log(req.body.id);
+  res.json('YOU HAVE REACHED THE COMMENTS ENDPOINT')
+})
 
 // TODO: if user exist, should create an Error('user exist');
 app.post('/users', (req, res) => {

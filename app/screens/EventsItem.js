@@ -148,8 +148,9 @@ class EventsItem extends Component {
 
   componentWillReceiveProps() {
     // get id from the state, and send it over to the db to get all the activities 
-    const processData = this.props.getActivities;
-    fetch( `${baseURL}/altActs`, {
+    const processActs = this.props.getActivities;
+    const processComs = this.props.getComments;
+    fetch(`${baseURL}/altActs`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -160,10 +161,27 @@ class EventsItem extends Component {
       }),
     })
     .then(res => res.json())
-    .then((resJson)=> {
+    .then((resJson) => {
       console.log(resJson);
-      processData(resJson);
+      processActs(resJson);
     })
+    .then(() => {
+      fetch(`${baseURL}/comments`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: this.state.event.id,
+        }),
+      })
+      .then(re => re.json())
+      .then((resJ) => {
+        console.log(resJ);
+      })
+    })
+
     .catch(err => console.log(err));
   }
 
