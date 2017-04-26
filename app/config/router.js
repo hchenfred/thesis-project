@@ -67,8 +67,11 @@ export const currentEvents = StackNavigator({
     },
   },
   Comments: {
-    screen: Comments
-  }
+    screen: Comments,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Comments for ' + navigation.state.params.name,
+    }),
+  },
 });
 
 export const SuggesterStack = StackNavigator({

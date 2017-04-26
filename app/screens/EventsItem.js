@@ -241,7 +241,8 @@ class EventsItem extends Component {
   }
 
   showComments() {
-    AlertIOS.alert('OASIKDAKLJSD')
+    const event = this;
+    event.props.navigation.navigate('Comments', { name: event.props.activeEvent.name });
   }
 
   adjustFrame(style) {
