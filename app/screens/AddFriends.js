@@ -108,6 +108,7 @@ class AddFriends extends React.Component {
       friendEmail: '',
       facebook_friends: [],
       queryName: '',
+      users: [],
     };
     this.onPressAddButton = this.onPressAddButton.bind(this);
     this.onPressDoneButton = this.onPressDoneButton.bind(this);
@@ -129,8 +130,9 @@ class AddFriends extends React.Component {
       });
     }
     this.setState({ queryName: '' });
+    this.setState({ friendEmail: '' });
     //this.friendNameInput.setNativeProps({ text: '' });
-    this.friendEmailInput.setNativeProps({ text: '' });
+    //this.friendEmailInput.setNativeProps({ text: '' });
   }
 
   onPressDoneButton() {
@@ -198,6 +200,16 @@ class AddFriends extends React.Component {
 
   componentDidMount() {
     this.setState({ facebook_friends: this.props.user.friends.data });
+    fetch(`${baseURL}/users`)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log('users are =========>', responseJson);
+      this.setState({ users: responseJson });
+    })
+    .catch((err) => {
+      AlertIOS.alert('user info not available');
+
+    });
   }
 
   findFriends(queryName) {
@@ -230,7 +242,14 @@ class AddFriends extends React.Component {
             placeholder="Enter a friend's name"
             placeholderTextColor="white"
             renderItem={({ name }) => (
-              <TouchableOpacity onPress={() => this.setState({ queryName: name })}>
+              <TouchableOpacity onPress={() => {
+                this.setState({ queryName: name });
+                const selectedUser = this.state.users.filter(user => user.username === name);
+                console.log(selectedUser);
+                if (selectedUser[0]) {
+                 this.setState({ friendEmail: selectedUser[0].email });
+                }
+                }}>
                 <Text style={styles.itemText}>
                   {name} 
                 </Text>
@@ -241,6 +260,7 @@ class AddFriends extends React.Component {
             ref={(input) => { this.friendEmailInput = input; }}
             clearTextOnFocus={true}
             onChangeText={email => this.setState({ friendEmail: email })}
+            value={this.state.friendEmail}
             style={styles.place}
             keyboardType="email-address"
             autoCorrect={false}

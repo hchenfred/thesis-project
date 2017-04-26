@@ -100,7 +100,7 @@ app.post('/vote', (req, res) => {
         res.json('YOU HAVE MADE THROUGH THE PROMIES CHAIN')
       })
     } else {
-      console.log('voted')
+      console.log('voted');
       res.json('voted');
     }
 
@@ -113,6 +113,7 @@ app.post('/vote', (req, res) => {
 });
 
 
+// TODO: if user exist, should create an Error('user exist');
 app.post('/users', (req, res) => {
   db.addUserToDatabase(req.body)
   .then((results) => {
@@ -249,6 +250,16 @@ app.post('/participants', (req, res) => {
   ;
 });
 
+app.get('/users', (req, res) => {
+  db.getAllUsers()
+  .then((result) => {
+    res.json(result);
+  })
+  .catch((err) => {
+    res.send(err);
+  });
+});
+
 
 app.get('/users/:email', (req, res) => {
   const email = req.params.email;
@@ -296,7 +307,6 @@ app.post('/events/participants/rsvp', (req, res) => {
       console.log(err);
       res.send(err);
     } else {
-      console.log(results);
       cSocket.join(room);
       io.to(room).emit('refresh feed', { activity: `${req.body.eventName}: ${req.body.participantName} has RSVP'ed ${req.body.participantStatus}` });
       res.send('');

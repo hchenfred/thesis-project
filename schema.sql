@@ -37,6 +37,7 @@ INSERT INTO users (username, email, phone, photourl) VALUES ('Test Person', 'smm
 INSERT INTO users (username, email, phone, photourl) VALUES ('Test Friend', 'smmakowski@me.com', '9736538792', 'https://s-media-cache-ak0.pinimg.com/736x/dd/03/7e/dd037e42b51536f31171309c73372805.jpg');
 INSERT INTO users (username, email, phone, photourl) VALUES ('Tayo', 'tayo@me.com', '9736538792', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRY296dxsFIhtogq1IMHrdNl9oSZckvMUUceiRfWZC9Jbs280dodA');
 INSERT INTO users (username, email, phone, photourl) VALUES ('Huan', 'mogutounew@yahoo.com', '9736538792', 'https://cdn1.recombu.com/media/mobile/Apps/Neko%20Atsume/neko-atsume-rare-cats-guide-frosty_w670_h377.png');
+INSERT INTO users (username, email, phone, photourl) VALUES ('Stephen Makowski', 'makowski.sm@gmail.com', 'sksiwls', 'https://cdn1.recombu.com/media/mobile/Apps/Neko%20Atsume/neko-atsume-rare-cats-guide-frosty_w670_h377.png');
 
 CREATE TABLE IF NOT EXISTS interests (
 	id int NOT NULL AUTO_INCREMENT,
