@@ -183,11 +183,10 @@ app.get('/events/:participantId', (req, res) => {
     return (currentTime - eventTime > 0) ? true : false;
   };
   const id = req.params.participantId;
-  console.log('retrieving events I get invited to ', id);
+  console.log('retrieving events I get invited to ', id); // this is being called twice
   db.getEventByParticipantId(id)
   .then((result) => {
     result.forEach((event) => {
-      console.log(event);
       if (!isEventPast(event)) {
         const room = event.name + event.id;
         cSocket.join(room);
@@ -219,8 +218,7 @@ app.post('/participants', (req, res) => {
         console.log('saving user to db');
         return db.addParticipants(eventId, participant.email);
       })
-      .then(result => {
-        console.log('participant saved to db');
+      .then((result) => {
         const mailgun = new Mailgun({apiKey: process.env.mailgunApiKey || config.apiConfig.mailgun.apiKey, domain: process.env.mailgunDomain || config.apiConfig.mailgun.domain});
         const data = {
           from: req.body.host.email,
@@ -245,6 +243,7 @@ app.post('/participants', (req, res) => {
     io.to(room).emit('refresh feed', { author: req.body.host.name, activity: 'created an event', authorImage: req.body.host.pic });
   })
   .catch((err) => {
+    console.log('err from /participants post route', err);
     res.send(err);
   })
   ;
