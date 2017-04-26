@@ -177,7 +177,7 @@ const updateParticipantResponse = (data, cb) => {
 };
 
 const getEventParticipants = (eventId, cb) => {
-  connection.query(`SELECT users.username, participants.id, participants.status, participants.user_id FROM participants INNER JOIN events ON participants.event_id = events.id INNER JOIN users ON participants.user_id = users.id WHERE events.id = ${eventId}`, (err, results) => {
+  connection.query(`SELECT users.username, users.photourl, participants.id, participants.status, participants.user_id FROM participants INNER JOIN events ON participants.event_id = events.id INNER JOIN users ON participants.user_id = users.id WHERE events.id = ${eventId}`, (err, results) => {
     if (err) {
       cb(err, null);
     } else {
