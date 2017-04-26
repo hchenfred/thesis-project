@@ -143,10 +143,9 @@ class EventsItem extends Component {
 
   componentWillMount() {
     this.getParticipantsAndStatus();
-
   }
 
-  componentWillReceiveProps() {
+  componentDidMount() {
     // get id from the state, and send it over to the db to get all the activities 
     const processActs = this.props.getActivities;
     const processComs = this.props.getComments;
@@ -180,7 +179,6 @@ class EventsItem extends Component {
         processComs(resJ);
       });
     })
-
     .catch(err => console.log(err));
   }
 
