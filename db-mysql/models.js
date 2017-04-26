@@ -45,7 +45,7 @@ const getActivitiesByEmail = (email) => {
 
 const getAllUserActivities = (email, cb) => {
   db.queryAsync(`SELECT  name, category FROM activites`)
-}
+};
 
 const getAllEventComments = (eventName, cb) => {
   connection.query(`SELECT * FROM comments __ JOIN WHERE event.name =\"${eventName}\" && \
@@ -56,17 +56,17 @@ const getAllEventComments = (eventName, cb) => {
       cb(null, err);
     }
   });
-}
+};
 
 const getActivitiesByEvent = (id) => {
   const queryString = 'SELECT * FROM activities WHERE event_id = ?';
   return db.queryAsync(queryString, id);
-}
+};
 
 const getVotesForActivity = (actId, userId) => {
   const queryString = 'SELECT * FROM votes where activity_id = ? && user_id = ?';
   return db.queryAsync(queryString, [actId, userId]);
-}; 
+};
 
 const incrementVoteForAct = (actId) => {
   const queryString = 'UPDATE activities SET votes = votes + 1 WHERE id = ?';
@@ -76,16 +76,21 @@ const incrementVoteForAct = (actId) => {
 const addVote = (actId, userId) => {
   const queryString = 'INSERT into votes (activity_id, user_id) VALUES (?, ?)';
   return db.queryAsync(queryString, [actId, userId]);
-}
+};
 
 const addMainAct = (eventId, name, location) => {
   const queryString = ' INSERT INTO activities (event_id, name, location, mainActivity) VALUES (?, ?, ?, 1)';
   return db.queryAsync(queryString, [eventId, name, location]);
-}
+};
 
 const getUserByEmail = (email) => {
   const queryStr = 'SELECT * FROM users WHERE email = ? LIMIT 1';
   return db.queryAsync(queryStr, [email]);
+};
+
+const getAllUsers = () => {
+  const queryStr = 'SELECT * FROM users';
+  return db.queryAsync(queryStr);
 };
 
 const addEvent = (event) => {
@@ -196,4 +201,5 @@ module.exports = {
   incrementVoteForAct,
   addVote,
   addMainAct,
+  getAllUsers,
 };

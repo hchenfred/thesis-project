@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { View, ListView, StyleSheet, Text, TextInput, TouchableOpacity, AlertIOS } from 'react-native';
+import { Icon } from 'react-native-elements';
+import Autocomplete from 'react-native-autocomplete-input';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
@@ -7,7 +9,6 @@ import util from '../lib/utility';
 import endpoint from '../config/global';
 
 const baseURL = endpoint.baseURL;
-// TODO: style cancel button
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -47,14 +48,41 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#e67e22',
     marginBottom: 10,
+    borderRadius: 8,
+    marginLeft: 15,
+    marginRight: 20,
   },
   friendText: {
     marginLeft: 12,
-    fontSize: 16,
+    fontSize: 18,
     color: 'white',
+    fontWeight: '600',
   },
   cancelButton: {
     marginLeft: 150,
+  },
+  cancelText: {
+    marginRight: 10,
+  },
+  itemText: {
+    fontSize: 18,
+    margin: 5,
+  },
+  nameInputContainer: {
+    height: 40,
+    borderWidth: 0,
+    borderRadius: 8,
+    marginBottom: 15,
+    backgroundColor: '#27ae60',
+  },
+  autocompleteContainer: {
+  },
+  cancelContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  friendNameContainer: {
+    flex: 4,
   },
 });
 
@@ -78,6 +106,9 @@ class AddFriends extends React.Component {
       friendList: [],
       friendName: '',
       friendEmail: '',
+      facebook_friends: [],
+      queryName: '',
+      users: [],
     };
     this.onPressAddButton = this.onPressAddButton.bind(this);
     this.onPressDoneButton = this.onPressDoneButton.bind(this);
@@ -86,20 +117,22 @@ class AddFriends extends React.Component {
   }
 
   onPressAddButton() {
-    if (this.state.friendName === '') {
+    if (this.state.queryName === '') {
       AlertIOS.alert("Friend name cannot be empty, please enter a friend's name");
     } else if (this.state.friendEmail === '') {
-      AlertIOS("Friend email cannot be empty, please enter a friend's email");
+      AlertIOS.alert("Friend email cannot be empty, please enter a friend's email");
     } else {
       const temp = this.props.invitedFriends.slice();
-      temp.push({ username: this.state.friendName, email: this.state.friendEmail });
-      this.props.saveFriendToInvitationList({ username: this.state.friendName, email: this.state.friendEmail });
+      temp.push({ username: this.state.queryName, email: this.state.friendEmail });
+      this.props.saveFriendToInvitationList({ username: this.state.queryName, email: this.state.friendEmail });
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(temp),
       });
     }
-    this.friendNameInput.setNativeProps({ text: '' });
-    this.friendEmailInput.setNativeProps({ text: '' });
+    this.setState({ queryName: '' });
+    this.setState({ friendEmail: '' });
+    //this.friendNameInput.setNativeProps({ text: '' });
+    //this.friendEmailInput.setNativeProps({ text: '' });
   }
 
   onPressDoneButton() {
@@ -151,38 +184,88 @@ class AddFriends extends React.Component {
   renderRow(rowData) {
     return (
       <View style={styles.friendContainer}>
+        <View style={styles.friendNameContainer}>
         <Text style={styles.friendText}>{rowData.username}</Text>
-        <View style={styles.cancelButton}>
+        </View>
+        <View style={styles.cancelContainer}>
         <TouchableOpacity onPress={() => this.onCancelButtonClick(rowData.email)}>
-          <Text>Cancel</Text>
+          <View>
+          <Icon type="font-awesome" name="close" size={20} color="white" />
+          </View>
         </TouchableOpacity>
         </View>
       </View>
     );
   }
 
+  componentDidMount() {
+    this.setState({ facebook_friends: this.props.user.friends.data });
+    fetch(`${baseURL}/users`)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log('users are =========>', responseJson);
+      this.setState({ users: responseJson });
+    })
+    .catch((err) => {
+      AlertIOS.alert('user info not available');
+
+    });
+  }
+
+  findFriends(queryName) {
+    if (queryName === '') {
+      return [];
+    }
+    //return this.props.user.friends.data;
+    const { facebook_friends } = this.state;
+    const regex = new RegExp(`${queryName.trim()}`, 'i');
+    return facebook_friends.filter(friend => friend.name.search(regex) >= 0);
+  }
+
   render() {
+    const { queryName } = this.state;
+    const facebook_friends = this.findFriends(queryName);
+    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     return (
       <View style={styles.container}>
         <View style={styles.formContainer}>
-          <TextInput
-            ref={(input) => { this.friendNameInput = input; }}
+          <Autocomplete
+            style={{ height: 40, color: 'white', padding: 10 }}
             clearTextOnFocus={true}
-            onChangeText={name => this.setState({ friendName: name })}
-            style={styles.place}
+            autoCapitalize="none"
             autoCorrect={false}
-            placeholder="enter friend's name"
+            containerStyle={styles.autocompleteContainer}
+            inputContainerStyle={styles.nameInputContainer}
+            data={facebook_friends.length === 1 && comp(queryName, facebook_friends[0].name) ? [] : facebook_friends}
+            defaultValue={queryName}
+            onChangeText={text => this.setState({ queryName: text })}
+            placeholder="Enter a friend's name"
             placeholderTextColor="white"
+            renderItem={({ name }) => (
+              <TouchableOpacity onPress={() => {
+                this.setState({ queryName: name });
+                const selectedUser = this.state.users.filter(user => user.username === name);
+                console.log(selectedUser);
+                if (selectedUser[0]) {
+                 this.setState({ friendEmail: selectedUser[0].email });
+                }
+                }}>
+                <Text style={styles.itemText}>
+                  {name} 
+                </Text>
+              </TouchableOpacity>
+            )}
           />
           <TextInput
             ref={(input) => { this.friendEmailInput = input; }}
             clearTextOnFocus={true}
             onChangeText={email => this.setState({ friendEmail: email })}
+            value={this.state.friendEmail}
             style={styles.place}
             keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
-            placeholder="enter friend's email"
+            placeholder="Enter friend's email"
             placeholderTextColor="white"
           />
           <TouchableOpacity onPress={() => this.onPressAddButton()} style={styles.buttonContainer}>
@@ -191,7 +274,10 @@ class AddFriends extends React.Component {
           <TouchableOpacity onPress={() => this.onPressDoneButton()} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>DONE</Text>
           </TouchableOpacity>
-          <Text>A notification email will be sent to friends.</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <Icon type="font-awesome" name="envelope" size={16} color="#2980b9" />
+            <Text style={{ color: 'white', marginLeft: 10, fontSize: 15, fontWeight: '600' }}>A notification email will be sent to friends.</Text>
+          </View>
         </View>
         <View style={{ flexGrow: 10, marginTop: 0, padding: 10 }}>
           <ListView

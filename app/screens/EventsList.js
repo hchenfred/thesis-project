@@ -53,7 +53,6 @@ class EventsList extends Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      //console.log('invited events are ========>', responseJson);
       this.setState({ invitedEventsByParticipantId: responseJson });
     })
     .catch((error) => {
@@ -76,7 +75,7 @@ class EventsList extends Component {
               rightTitle='NEW!'
               titleStyle={{ fontWeight: '500' }}
               rightTitleStyle={{ color: 'orange', fontWeight: '600' }}
-              title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase()}`}
+              title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase().substring(0, 40)}`}
               subtitle={item.eventDate.substring(0, 10)}
               onPress={() => this.onLearnMore(item)}
               containerStyle={{ height: 50 }}
