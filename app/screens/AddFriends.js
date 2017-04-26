@@ -274,7 +274,10 @@ class AddFriends extends React.Component {
           <TouchableOpacity onPress={() => this.onPressDoneButton()} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>DONE</Text>
           </TouchableOpacity>
-          <Text style={{ color: 'white' }}>A notification email will be sent to friends.</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <Icon type="font-awesome" name="envelope" size={16} color="#2980b9" />
+            <Text style={{ color: 'white', marginLeft: 10, fontSize: 15, fontWeight: '600' }}>A notification email will be sent to friends.</Text>
+          </View>
         </View>
         <View style={{ flexGrow: 10, marginTop: 0, padding: 10 }}>
           <ListView
