@@ -113,7 +113,14 @@ app.post('/vote', (req, res) => {
 
 app.post('/comments', (req, res) =>{
   console.log(req.body.id);
-  res.json('YOU HAVE REACHED THE COMMENTS ENDPOINT')
+  db.getCommentsForEvent(req.body.id)
+  .then((results) =>{
+    console.log(results);
+    res.json(results);
+  })
+  .catch((err) =>{
+    res.send(err);
+  })
 })
 
 // TODO: if user exist, should create an Error('user exist');

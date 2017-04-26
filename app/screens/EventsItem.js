@@ -162,7 +162,6 @@ class EventsItem extends Component {
     })
     .then(res => res.json())
     .then((resJson) => {
-      console.log(resJson);
       processActs(resJson);
     })
     .then(() => {
@@ -178,8 +177,8 @@ class EventsItem extends Component {
       })
       .then(re => re.json())
       .then((resJ) => {
-        console.log(resJ);
-      })
+        processComs(resJ);
+      });
     })
 
     .catch(err => console.log(err));
