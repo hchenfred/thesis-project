@@ -70,9 +70,13 @@ class Comments extends Component {
   }
 
   displayComments() {
-    return this.props.comments.map((post, i) => {
-        return (<Post post={post}/>)
-      });
+    if (this.props.comments.length > 0) {
+      return this.props.comments.map((post, i) => {
+          return (<Post post={post}/>)
+        });
+    } else { 
+      return (<Text>No one has posted to this event</Text>)
+    }
   }
 
   submitComment() {

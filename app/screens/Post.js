@@ -25,7 +25,8 @@ class Post extends Component {
     return (
       <View style={styles.container}>
         <Text>
-          Heres a message!
+          {this.props.post.username}{'\n'}
+          {this.props.post.body}
         </Text>
       </View>
     );

@@ -115,7 +115,6 @@ app.post('/comments', (req, res) =>{
   console.log(req.body.id);
   db.getCommentsForEvent(req.body.id)
   .then((results) =>{
-    console.log(results);
     res.json(results);
   })
   .catch((err) =>{
