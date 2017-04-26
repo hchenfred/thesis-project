@@ -238,9 +238,13 @@ app.post('/participants', (req, res) => {
       });
   })
   .then((result) => {
-    res.send('participant saved to db');
     cSocket.join(room);
-    io.to(room).emit('refresh feed', { author: req.body.host.name, activity: 'created an event', authorImage: req.body.host.pic });
+    return db.getEventByEventId(eventId)
+      .then((result1) => {
+        console.log('result1 from refresh feed', result1);
+        io.to(room).emit('refresh feed', { author: req.body.host.name, activity: 'created an event', authorImage: req.body.host.pic, eventDetails: result1[0] });
+        res.send('participant saved to db');
+      });
   })
   .catch((err) => {
     console.log('err from /participants post route', err);

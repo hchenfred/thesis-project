@@ -124,6 +124,11 @@ const addActivity = (activity) => {
   return db.queryAsync(queryStr, activity);
 };
 
+const getEventByEventId = (eventId) => {
+  const queryStr = 'SELECT events.id, events.*, users.username, users.photourl FROM events INNER JOIN users ON (events.creator_id = users.id) WHERE events.id = ?';
+  return db.queryAsync(queryStr, eventId);
+};
+
 var getPublicEvents = (cb) => {
   connection.query('SELECT events.*, users.username, users.photourl FROM events INNER JOIN users ON events.creator_id = users.id;', (err, results) => {
     if (err) {
@@ -202,4 +207,5 @@ module.exports = {
   addVote,
   addMainAct,
   getAllUsers,
+  getEventByEventId,
 };
