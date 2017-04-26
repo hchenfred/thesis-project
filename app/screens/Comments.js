@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import Post from './Post';
+import endpoint from '../config/global';
+
+const baseURL = endpoint.baseURL;
 
 const styles = StyleSheet.create({
   container: {
@@ -63,24 +66,45 @@ class Comments extends Component {
     };
 
     this.displayComments = this.displayComments.bind(this);
-  }
-
-  componentWillRecieveProps() {
-
+    this.submitComment = this.submitComment.bind(this);
   }
 
   displayComments() {
     if (this.props.comments.length > 0) {
       return this.props.comments.map((post, i) => {
-          return (<Post post={post}/>)
-        });
+        return (<Post post={post}/>)
+      });
     } else { 
-      return (<Text>No one has posted to this event</Text>)
+      return (<Text>No one has posted to this event</Text>);
     }
   }
 
   submitComment() {
-    AlertIOS.alert('WHAT"S UP?');
+    const com = this;
+    const body = this.state.message;
+    const userId = this.props.user.id;
+    const eventId = this.props.activeEvent.id;
+
+    console.log(body, userId, eventId);
+
+    fetch(`${baseURL}/post`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        body,
+        userId,
+        eventId,
+      }),
+    })
+    .then(res => res.json())
+    .then((resJson) => {
+      console.log(resJson);
+      com.setState({message: ''});
+    })
+    .catch((err) => { console.log(err) });
   }
 
   render() {
@@ -108,7 +132,7 @@ class Comments extends Component {
 }
 
 function mapStateToProps(state) {
-  return { activeEvent: state.activeEvent, comments: state.comments };
+  return { activeEvent: state.activeEvent, comments: state.comments, user: state.user };
 }
 
 function mapDispatchToProps(dispatch) {

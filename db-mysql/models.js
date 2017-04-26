@@ -88,6 +88,11 @@ const getCommentsForEvent = (eventId) => {
   return db.queryAsync(queryString, eventId);
 };
 
+const addComment = (userId, eventId, body) => {
+  const queryString = 'INSERT INTO comments (event_id, user_id, body) VALUES (?, ?, ?)';
+  return db.queryAsync(queryString, [eventId, userId, body]); 
+}
+
 const getUserByEmail = (email) => {
   const queryStr = 'SELECT * FROM users WHERE email = ? LIMIT 1';
   return db.queryAsync(queryStr, [email]);
@@ -212,4 +217,5 @@ module.exports = {
   getAllUsers,
   getEventByEventId,
   getCommentsForEvent,
+  addComment,
 };

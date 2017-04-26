@@ -111,7 +111,7 @@ app.post('/vote', (req, res) => {
   });
 });
 
-app.post('/comments', (req, res) =>{
+app.post('/comments', (req, res) => {
   console.log(req.body.id);
   db.getCommentsForEvent(req.body.id)
   .then((results) =>{
@@ -120,7 +120,15 @@ app.post('/comments', (req, res) =>{
   .catch((err) =>{
     res.send(err);
   })
-})
+});
+
+app.post('/post', (req, res) => {
+  db.addComment(req.body.userId, req.body.eventId, req.body.body)
+  .then((result) => {
+    res.json('RUM HAM');
+  })
+  .catch(err => console.log(err));
+});
 
 // TODO: if user exist, should create an Error('user exist');
 app.post('/users', (req, res) => {
