@@ -15,6 +15,7 @@ const {
   Image,
   StyleSheet,
   TouchableHighlight,
+  ScrollView,
 } = ReactNative;
 
 const date = new Date().toLocaleTimeString();
@@ -98,7 +99,9 @@ class ActivityStream extends Component {
         <Text style={styles.titleText}>
           Live Feed
         </Text>
-        {this.createFeed()}
+        <ScrollView>
+          {this.createFeed()}
+        </ScrollView>
       </View>
     );
   }
