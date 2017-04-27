@@ -3,7 +3,7 @@
 > An iOS app which allows user to create events and invite friends to events. Friends could propose new activities for an event and vote on activities.
 
 # Screenshots
-![create an event](/screenshots/createEvent.png?raw=true "Optional Title")
+<img src="./screenshots/createEvent.png" width="200">
 
 ## Team
 
