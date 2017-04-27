@@ -18,8 +18,6 @@ const {
   ScrollView,
 } = ReactNative;
 
-const date = new Date().toLocaleTimeString();
-
 const styles = StyleSheet.create({
   textContainer: {
     marginLeft: 15,
@@ -64,13 +62,11 @@ class ActivityStream extends Component {
   }
 
   onLearnMore(event) {
-    console.log('live stream item clicked');
     this.props.navigation.navigate('EventDetails', { ...event });
   }
 
   createFeed() {
     return this.state.activities.map((item, i) => {
-      console.log('item from activityStream', item);
       return (
         <TouchableHighlight key={i} onPress={() => this.onLearnMore(item.eventDetails)}>
           <View key={i} style={{ padding: 8, borderBottomWidth: 1 }}>
