@@ -79,9 +79,19 @@ const addVote = (actId, userId) => {
 };
 
 const addMainAct = (eventId, name, location) => {
-  const queryString = ' INSERT INTO activities (event_id, name, location, mainActivity) VALUES (?, ?, ?, 1)';
+  const queryString = 'INSERT INTO activities (event_id, name, location, mainActivity) VALUES (?, ?, ?, 1)';
   return db.queryAsync(queryString, [eventId, name, location]);
 };
+
+const getCommentsForEvent = (eventId) => {
+  const queryString = 'SELECT users.username, comments.body FROM comments INNER JOIN users WHERE comments.event_id = ? && comments.user_id = users.id';
+  return db.queryAsync(queryString, eventId);
+};
+
+const addComment = (userId, eventId, body) => {
+  const queryString = 'INSERT INTO comments (event_id, user_id, body) VALUES (?, ?, ?)';
+  return db.queryAsync(queryString, [eventId, userId, body]); 
+}
 
 const getUserByEmail = (email) => {
   const queryStr = 'SELECT * FROM users WHERE email = ? LIMIT 1';
@@ -186,8 +196,6 @@ const getEventParticipants = (eventId, cb) => {
   });
 };
 
-
-
 module.exports = {
   selectAllFromTest,
   insertValueIntoTest,
@@ -208,4 +216,6 @@ module.exports = {
   addMainAct,
   getAllUsers,
   getEventByEventId,
+  getCommentsForEvent,
+  addComment,
 };

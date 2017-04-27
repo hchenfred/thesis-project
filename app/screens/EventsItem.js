@@ -17,7 +17,7 @@ const {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  Alert,
+  AlertIOS,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -106,6 +106,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
+  commentText: {
+    paddingTop: 10,
+    textAlign: 'center',
+  },
+  commentButton: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 10,
+    borderWidth: 0,
+    borderRadius: 4,
+    height: 28,
+    width: 150,
+    backgroundColor: '#2980b9',
+    overflow: 'hidden',
+  },
+  strong: {
+    fontWeight: '600',
+  },
 });
 
 const BUTTONS = [
@@ -120,17 +138,18 @@ class EventsItem extends Component {
     this.props.saveActiveEvent(this.props.navigation.state.params);
     this.state = { participants: [], event: this.props.navigation.state.params };
     this.showActionSheet = this.showActionSheet.bind(this);
+    this.showComments = this.showComments.bind(this);
   }
 
   componentWillMount() {
     this.getParticipantsAndStatus();
-
   }
 
-  componentWillReceiveProps() {
+  componentDidMount() {
     // get id from the state, and send it over to the db to get all the activities 
-    const processData = this.props.getActivities;
-    fetch( `${baseURL}/altActs`, {
+    const processActs = this.props.getActivities;
+    const processComs = this.props.getComments;
+    fetch(`${baseURL}/altActs`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -141,9 +160,24 @@ class EventsItem extends Component {
       }),
     })
     .then(res => res.json())
-    .then((resJson)=> {
-      console.log(resJson);
-      processData(resJson);
+    .then((resJson) => {
+      processActs(resJson);
+    })
+    .then(() => {
+      fetch(`${baseURL}/comments`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: this.state.event.id,
+        }),
+      })
+      .then(re => re.json())
+      .then((resJ) => {
+        processComs(resJ);
+      });
     })
     .catch(err => console.log(err));
   }
@@ -186,13 +220,13 @@ class EventsItem extends Component {
   createActivities() {
     if (this.props.activities.length === 0) { 
       return (
-        <Text>
+        <Text style={styles.commentText}>
           The are currently not Alternative activities proposed for this event. Click the new Activity button to suggest a new activity
         </Text>
       )
     } else if (this.props.activities.length === 1) {
       return (
-        <Text>
+        <Text style={styles.commentText}>
           There is is only one activity. Please add alternative activities to begin voting!
         </Text>
       )
@@ -219,6 +253,11 @@ class EventsItem extends Component {
         </View>
       );
     });
+  }
+
+  showComments() {
+    const event = this;
+    event.props.navigation.navigate('Comments', { name: event.props.activeEvent.name });
   }
 
   adjustFrame(style) {
@@ -311,6 +350,18 @@ class EventsItem extends Component {
         <ScrollView style={styles.inviteeContainer}>
           {this.createParticipants()}
         </ScrollView>
+        <View>
+          <Text style={styles.inviteeTitle}>
+            Comments
+          </Text>
+          <Text style={styles.commentText}>
+            There are currently <Text style={styles.strong}>{this.props.comments.length}</Text> comments for this event.{'\n'}
+            Click the button below to view/comment.
+          </Text>
+          <TouchableOpacity style={styles.commentButton} onPress={this.showComments}>
+            <Text style={styles.proposalTitle}>To Comments</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     );
   }
@@ -323,6 +374,7 @@ function mapStateToProps(state) {
     activeEvent: state.activeEvent,
     suggestedActivity: state.suggestedActivity,
     activities: state.activities,
+    comments: state.comments,
   };
 }
 
