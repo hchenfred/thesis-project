@@ -239,6 +239,7 @@ class EventsItem extends Component {
         participantName: participant.username,
         participantStatus: value,
         eventName: eventname,
+        participantPic: participant.photourl,
       }),
     })
     .then((data) => {
@@ -266,7 +267,7 @@ class EventsItem extends Component {
 
   render() {
     const { name, description, eventDate, location, startTime, endTime, username, photourl } = this.props.navigation.state.params;
-    //console.log('this.state.participants', this.state.participants);
+    console.log('this.state.participants', this.state.participants);
     return (
       <ScrollView style={styles.container}>
         {/*<Image

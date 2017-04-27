@@ -117,7 +117,7 @@ app.post('/vote', (req, res) => {
 app.post('/users', (req, res) => {
   db.addUserToDatabase(req.body)
   .then((results) => {
-    cSocket.emit('refresh feed', { activity: `${req.body.username}  is logged in`, authorImage: req.body.photourl });
+    // cSocket.emit('refresh feed', { activity: `${req.body.username}  is logged in`, authorImage: req.body.photourl });
     res.send('insert into users table successful');
   })
   .error((err) => {
@@ -183,16 +183,15 @@ app.get('/events/:participantId', (req, res) => {
     return (currentTime - eventTime > 0) ? true : false;
   };
   const id = req.params.participantId;
-  console.log('retrieving events I get invited to ', id);
+  console.log('retrieving events I get invited to ', id); // this is being called twice
   db.getEventByParticipantId(id)
   .then((result) => {
     result.forEach((event) => {
-      console.log(event);
       if (!isEventPast(event)) {
         const room = event.name + event.id;
         cSocket.join(room);
         if (io.sockets.connected[socketId]) {
-          io.sockets.connected[socketId].emit('refresh feed', { createdAt: event.createdAt, author: event.username, activity: `invited you to ${event.name}`, authorImage: event.photourl });
+          io.sockets.connected[socketId].emit('refresh feed', { createdAt: event.createdAt, author: event.username, activity: `invited you to ${event.name}`, authorImage: event.photourl, eventDetails: event });
         }
       }
     });
@@ -219,8 +218,7 @@ app.post('/participants', (req, res) => {
         console.log('saving user to db');
         return db.addParticipants(eventId, participant.email);
       })
-      .then(result => {
-        console.log('participant saved to db');
+      .then((result) => {
         const mailgun = new Mailgun({apiKey: process.env.mailgunApiKey || config.apiConfig.mailgun.apiKey, domain: process.env.mailgunDomain || config.apiConfig.mailgun.domain});
         const data = {
           from: req.body.host.email,
@@ -240,11 +238,16 @@ app.post('/participants', (req, res) => {
       });
   })
   .then((result) => {
-    res.send('participant saved to db');
     cSocket.join(room);
-    io.to(room).emit('refresh feed', { author: req.body.host.name, activity: 'created an event', authorImage: req.body.host.pic });
+    return db.getEventByEventId(eventId)
+      .then((result1) => {
+        console.log('result1 from refresh feed', result1);
+        io.to(room).emit('refresh feed', { author: req.body.host.name, activity: 'created an event', authorImage: req.body.host.pic, eventDetails: result1[0] });
+        res.send('participant saved to db');
+      });
   })
   .catch((err) => {
+    console.log('err from /participants post route', err);
     res.send(err);
   })
   ;
@@ -308,8 +311,11 @@ app.post('/events/participants/rsvp', (req, res) => {
       res.send(err);
     } else {
       cSocket.join(room);
-      io.to(room).emit('refresh feed', { activity: `${req.body.eventName}: ${req.body.participantName} has RSVP'ed ${req.body.participantStatus}` });
-      res.send('');
+      return db.getEventByEventId(req.body.eventId)
+        .then((result1) => {
+          io.to(room).emit('refresh feed', { author: req.body.participantName, activity: `has RSVP'ed ${req.body.participantStatus} for ${req.body.eventName}`, authorImage: req.body.participantPic, eventDetails: result1[0] });
+          res.send('');
+        });
     }
   });
 });

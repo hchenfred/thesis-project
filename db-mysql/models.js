@@ -124,6 +124,11 @@ const addActivity = (activity) => {
   return db.queryAsync(queryStr, activity);
 };
 
+const getEventByEventId = (eventId) => {
+  const queryStr = 'SELECT events.id, events.*, users.username, users.photourl FROM events INNER JOIN users ON (events.creator_id = users.id) WHERE events.id = ?';
+  return db.queryAsync(queryStr, eventId);
+};
+
 var getPublicEvents = (cb) => {
   connection.query('SELECT events.*, users.username, users.photourl FROM events INNER JOIN users ON events.creator_id = users.id;', (err, results) => {
     if (err) {
@@ -172,7 +177,7 @@ const updateParticipantResponse = (data, cb) => {
 };
 
 const getEventParticipants = (eventId, cb) => {
-  connection.query(`SELECT users.username, participants.id, participants.status, participants.user_id FROM participants INNER JOIN events ON participants.event_id = events.id INNER JOIN users ON participants.user_id = users.id WHERE events.id = ${eventId}`, (err, results) => {
+  connection.query(`SELECT users.username, users.photourl, participants.id, participants.status, participants.user_id FROM participants INNER JOIN events ON participants.event_id = events.id INNER JOIN users ON participants.user_id = users.id WHERE events.id = ${eventId}`, (err, results) => {
     if (err) {
       cb(err, null);
     } else {
@@ -202,4 +207,5 @@ module.exports = {
   addVote,
   addMainAct,
   getAllUsers,
+  getEventByEventId,
 };
