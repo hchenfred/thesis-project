@@ -104,6 +104,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 - Download [Facebook sdk](https://developers.facebook.com/docs/ios/)
 - Unzip the sdk and put all files under a folder called FacebookSDK and then put FacebookSDK folder under /documents 
 - In Xcode, in 'Build Settings', set up the search path of 'Frame Search Path'
+- <img src="./screenshots/ixcode.png" width="400">
 - start server by running 'npm run server-dev' in Terminal
 - run 'react-native run-ios' in Terminal 
 
