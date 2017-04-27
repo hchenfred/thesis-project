@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     margin: 15,
+    padding: 10,
   },
   titleText: {
     padding: 10,
@@ -79,9 +80,9 @@ class ActivityStream extends Component {
                 source={{ uri: item.authorImage }}
               />
               <View style={styles.textContainer}>
-                <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontWeight: '600' }}>{item.author}</Text>
-                <Text> {item.activity}</Text>
+                <View style={{ flexWrap: 'wrap' }}>
+                  <Text style={{ fontWeight: '600' }}>{item.author}</Text>
+                  <Text> {item.activity}</Text>
                 </View>
                 <Text style={{ color: 'grey' }}>{moment(item.createdAt).fromNow()}</Text>
               </View>

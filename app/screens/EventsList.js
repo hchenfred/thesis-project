@@ -73,9 +73,10 @@ class EventsList extends Component {
             <ListItem
               key={i}
               rightTitle='NEW!'
+              rightTitleContainerStyle={{ flex: 0.3 }}
               titleStyle={{ fontWeight: '500' }}
               rightTitleStyle={{ color: 'orange', fontWeight: '600' }}
-              title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase().substring(0, 24)}`}
+              title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase().substring(0, 20)}`}
               subtitle={item.eventDate.substring(0, 10)}
               onPress={() => this.onLearnMore(item)}
               containerStyle={{ height: 50 }}
@@ -88,7 +89,7 @@ class EventsList extends Component {
             <ListItem
               key={i}
               titleStyle={{ fontWeight: '500' }}
-              title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase().substring(0, 30)}`}
+              title={item.name === null || item.name === undefined ? `EVENT ${i}` : `${item.name.toUpperCase().substring(0, 24)}`}
               subtitle={item.eventDate.substring(0, 10)}
               onPress={() => this.onLearnMore(item)}
               containerStyle={{ height: 50 }}
