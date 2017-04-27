@@ -203,7 +203,7 @@ class AddFriends extends React.Component {
     fetch(`${baseURL}/users`)
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log('users are =========>', responseJson);
+     // console.log('users are =========>', responseJson);
       this.setState({ users: responseJson });
     })
     .catch((err) => {

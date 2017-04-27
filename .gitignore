@@ -23,7 +23,6 @@ DerivedData
 project.xcworkspace
 
 apis/
-apis/config.js
 
 # Android/IntelliJ
 #

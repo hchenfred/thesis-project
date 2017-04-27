@@ -59,7 +59,6 @@ class Redirect extends Component {
       id: this.props.event.eventId,
       description: this.props.event.description.slice(0),
     };
-    //this.clearUserInput();
     this.props.navigation.navigate('EventDetails', { ...event });
   }
 
@@ -80,8 +79,8 @@ class Redirect extends Component {
           <Text style={styles.buttonText}>CREATE ANOTHER EVENT</Text>
         </TouchableOpacity>
         <TouchableOpacity
-           style={styles.buttonContainer}
-           onPress={() => this.handleEventDetails()}
+          style={styles.buttonContainer}
+          onPress={() => this.handleEventDetails()}
         >
           <Text style={styles.buttonText}>VIEW CREATED EVENT</Text>
         </TouchableOpacity>
