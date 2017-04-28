@@ -3,7 +3,12 @@
 > An iOS app which allows user to create events and invite friends to events. Friends could propose new activities for an event and vote on activities.
 
 # Screenshots
+<img src="./screenshots/facebookLogin.png" width="200">
 <img src="./screenshots/createEvent.png" width="200">
+<img src="./screenshots/liveFeed.png" width="200">
+<img src="./screenshots/browse.png" width="200">
+<img src="./screenshots/inviteFriends.png" width="200">
+<img src="./screenshots/suggester.png" width="200">
 
 ## Team
 
@@ -14,10 +19,10 @@
 ## Table of Contents
 
 1. [Usage](#Usage)
+1. Technologies Used
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
 1. [Roadmap](https://docs.google.com/document/d/1tJq9zj5AP2UCyE2M4mSyZ2UbmC5HB3WWCl2WYJIGBa0/edit)
 1. [Contributing](#contributing)
 
@@ -28,7 +33,18 @@
 - Event creators can invite friends to their events. Friends'names are autocompleted and emails are autopopulated if they are in our database. 
 - Click on 'Browse' tab to view all active events including created events and invited events. User can click on each indivial event to view event details and propose new activities.
 - New activities are shown in the event detail view once they are created. They can be voted up. 
+- Live Feed, all activities related to the user are displayed in live feed. Clicking on each live feed will take user to the event detail view.
+- Invited friends will receive an email about the invitation. They can RSVP or decline the invitation in event detail view.
 
+## Technologies Used
+- React Native
+- Redux
+- React Navigation
+- Express/Node.js
+- MySQL
+- Socket.io
+- Mailgun
+- Yelp API
 
 ## Requirements
 - "bluebird": "^3.5.0",
@@ -81,6 +97,17 @@ View the project roadmap [here](https://docs.google.com/document/d/1tJq9zj5AP2UC
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+## Run App in Simulator
+- Clone the repo
+- run 'npm install'
+- Download [Facebook sdk](https://developers.facebook.com/docs/ios/)
+- Unzip the sdk and put all files under a folder called FacebookSDK and then put FacebookSDK folder under /documents 
+- In Xcode, in 'Build Settings', set up the search path of 'Frame Search Path'
+- <img src="./screenshots/ixcode.png" width="400">
+- start server by running 'npm run server-dev' in Terminal
+- run 'react-native run-ios' in Terminal 
+
 
 ## Run Tests
 Before running any server tests, please load schema to setup friendlyTest server.

@@ -94,7 +94,6 @@ const propTypes = {
   event: PropTypes.object.isRequired,
   saveEventId: PropTypes.func.isRequired,
   removeFriendFromInvitationList: PropTypes.func.isRequired,
-  saveEvent: PropTypes.func.isRequired,
 };
 
 class AddFriends extends React.Component {
@@ -242,16 +241,16 @@ class AddFriends extends React.Component {
             placeholder="Enter a friend's name"
             placeholderTextColor="white"
             renderItem={({ name }) => (
-              <TouchableOpacity onPress={() => {
-                this.setState({ queryName: name });
-                const selectedUser = this.state.users.filter(user => user.username === name);
-                console.log(selectedUser);
-                if (selectedUser[0]) {
-                 this.setState({ friendEmail: selectedUser[0].email });
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({ queryName: name });
+                  const selectedUser = this.state.users.filter(user => user.username === name);
+                  if (selectedUser[0]) {
+                    this.setState({ friendEmail: selectedUser[0].email });
                 }
                 }}>
                 <Text style={styles.itemText}>
-                  {name} 
+                  {name}
                 </Text>
               </TouchableOpacity>
             )}
