@@ -9,6 +9,7 @@
 <img src="./screenshots/browse.png" width="200">
 <img src="./screenshots/inviteFriends.png" width="200">
 <img src="./screenshots/suggester.png" width="200">
+<img src="./screenshots/vote.png" width="200">
 
 ## Team
 
