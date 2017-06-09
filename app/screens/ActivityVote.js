@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import endpoint from '../config/global';
-import { Icon } from 'react-native-elements';
 
 const baseURL = endpoint.baseURL;
 
@@ -17,7 +16,7 @@ const styles = StyleSheet.create({
     marginBottom: 3,
     backgroundColor: '#27ae60',
     borderRadius: 5,
-    flexWrap:  'wrap',
+    flexWrap: 'wrap',
     flexDirection: 'row',
   },
   voteButton: {
@@ -33,15 +32,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     fontWeight: 'bold',
-    color: 'white',
   },
   voteLocation: {
     paddingBottom: 5,
     paddingLeft: 5,
-    color: 'white',
+    //color: 'white',
     fontSize: 15,
     color: '#DCDCDC',
-
   },
   infoContainer: {
     width: '75%',
@@ -62,30 +59,26 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
-    color: 'white'
+    color: 'white',
   },
 });
 
 class ActivityVote extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // Info should be stored in redux
-    };
-
     this.vote = this.vote.bind(this);
     this.displayMain = this.displayMain.bind(this);
   }
 
   displayMain() {
     if (this.props.activity.mainActivity === 1) {
-      return(<Text style={{ color: "#e67e22", fontWeight: 'bold', paddingLeft: 5, }}>MAIN ACTIVITY</Text>);
+      return (
+        <Text style={{ color: '#e67e22', fontWeight: 'bold', paddingLeft: 5 }}>MAIN ACTIVITY</Text>
+      );
     }
   }
- 
+
   vote() {
-    const act = this;
-    const addVote = this.props.addVote;
     const actId = this.props.activity.id;
     const userId = this.props.user.id;
     const eventId = this.props.activeEvent.id;
@@ -108,7 +101,7 @@ class ActivityVote extends Component {
     .then((resJson) => {
       voted = resJson;
     })
-    .then(()=> {
+    .then(() => {
       if (voted !== 'voted') {
         Alert.alert('Thanks for voting!');
         fetch(`${baseURL}/altActs`, {

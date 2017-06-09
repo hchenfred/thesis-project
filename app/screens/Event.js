@@ -1,5 +1,6 @@
-import { View, StyleSheet, TextInput, Text, KeyboardAvoidingView, Image, TouchableOpacity, Alert } from 'react-native';
-import React, { Component } from 'react';
+// This is the component to create a new event by entering event information
+import { View, StyleSheet, TextInput, Text, KeyboardAvoidingView, Image, TouchableOpacity, AlertIOS } from 'react-native';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
@@ -52,6 +53,16 @@ const styles = StyleSheet.create({
   },
 });
 
+const propTypes = {
+  event: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  saveEvent: PropTypes.func.isRequired,
+  navigation: PropTypes.func.isRequired,
+  changeEventNam: PropTypes.func.isRequired,
+  changeEventDes: PropTypes.func.isRequired,
+  changeEventLoc: PropTypes.func.isRequired,
+};
+
 class Event extends Component {
   constructor(props) {
     super(props);
@@ -60,17 +71,17 @@ class Event extends Component {
 
   onPressButton() {
     if (this.props.event.name === '') {
-      alert('Event Name is empty. Please enter an Event Name!');
+      AlertIOS.alert('Event Name is empty. Please enter an Event Name!');
     } else if (this.props.event.location === '') {
-      alert('Event Location is empty. Please enter an Event Location!')
+      AlertIOS.alert('Event Location is empty. Please enter an Event Location!');
     } else if (this.props.event.description === '') {
-      alert('Event Description is empty. Please enter an Event Description!');
+      AlertIOS.alert('Event Description is empty. Please enter an Event Description!');
     } else if (this.props.event.date === null || this.props.event.date === '') {
-      alert('Event Date has not been selected. Please pick a date!');
+      AlertIOS.alert('Event Date has not been selected. Please pick a date!');
     } else if (this.props.event.startTime === null || this.props.event.startTime === '') {
-      alert('Event Start Time has not been selected. Please pick a Start Time!');
+      AlertIOS.alert('Event Start Time has not been selected. Please pick a Start Time!');
     } else if (this.props.event.endTime === null || this.props.event.endTime === '') {
-      alert('Event End Time has not been selected. Please pick an End time!');
+      AlertIOS.alert('Event End Time has not been selected. Please pick an End time!');
     } else {
       const event = {
         name: this.props.event.name,
@@ -149,6 +160,8 @@ class Event extends Component {
     }
   }
 }
+
+Event.propTypes = propTypes;
 
 function mapStateToProps(state) {
   return { event: state.event, user: state.user };
