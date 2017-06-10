@@ -1,5 +1,5 @@
 // This is the component to display detailed information of each event
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactNative from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -143,6 +143,11 @@ const BUTTONS = [
   'Cancel',
 ];
 
+const propTypes = {
+  saveActiveEvent: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired,
+};
+
 class EventsItem extends Component {
   constructor(props) {
     super(props);
@@ -157,37 +162,33 @@ class EventsItem extends Component {
   }
 
   componentDidMount() {
-    // get id from the state, and send it over to the db to get all the activities 
-    const processActs = this.props.getActivities;
-    const processComs = this.props.getComments;
+    // get id from the state, and send it over to the db to get all the activities
+    // const processActs = this.props.getActivities;
+    // const processComs = this.props.getComments;
     fetch(`${baseURL}/events/${this.state.event.id}/alternativeActivities`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      // body: JSON.stringify({
-      //   id: this.state.event.id,
-      // }),
     })
     .then(res => res.json())
     .then((resJson) => {
-      processActs(resJson);
+      // save activities to Redux store
+      this.props.getActivities(resJson);
     })
     .then(() => {
-      fetch(`${baseURL}/comments`, {
-        method: 'POST',
+      fetch(`${baseURL}/events/${this.state.event.id}/comments`, {
+        method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          id: this.state.event.id,
-        }),
       })
       .then(re => re.json())
       .then((resJ) => {
-        processComs(resJ.reverse());
+        // save comments to redux store
+        this.props.getComments(resJ.reverse());
       });
     })
     .catch(err => console.log(err));
@@ -383,6 +384,8 @@ class EventsItem extends Component {
     );
   }
 }
+
+EventsItem.propTypes = propTypes;
 
 function mapStateToProps(state) {
   return {

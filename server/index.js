@@ -111,9 +111,8 @@ app.post('/vote', (req, res) => {
   });
 });
 
-app.post('/comments', (req, res) => {
-  console.log(req.body.id);
-  db.getCommentsForEvent(req.body.id)
+app.get('/events/:eventId/comments', (req, res) => {
+  db.getCommentsForEvent(req.params.eventId)
   .then((results) => {
     res.json(results);
   })
