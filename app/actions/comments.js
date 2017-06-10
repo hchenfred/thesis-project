@@ -1,8 +1,8 @@
 import * as types from './types';
 
-export function getComments(payload) {
+export function saveComments(payload) {
   return {
-    type: types.GET_COMMENTS,
+    type: types.SAVE_COMMENTS,
     payload,
   };
 }

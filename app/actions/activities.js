@@ -1,8 +1,8 @@
 import * as types from './types';
 
-export function getActivities(payload) {
+export function saveActivities(payload) {
   return {
-    type: types.GET_ACTIVITIES,
+    type: types.SAVE_ACTIVITIES,
     payload,
   };
 }

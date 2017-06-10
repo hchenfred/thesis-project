@@ -163,8 +163,6 @@ class EventsItem extends Component {
 
   componentDidMount() {
     // get id from the state, and send it over to the db to get all the activities
-    // const processActs = this.props.getActivities;
-    // const processComs = this.props.getComments;
     fetch(`${baseURL}/events/${this.state.event.id}/alternativeActivities`, {
       method: 'GET',
       headers: {
@@ -175,7 +173,7 @@ class EventsItem extends Component {
     .then(res => res.json())
     .then((resJson) => {
       // save activities to Redux store
-      this.props.getActivities(resJson);
+      this.props.saveActivities(resJson);
     })
     .then(() => {
       fetch(`${baseURL}/events/${this.state.event.id}/comments`, {
@@ -188,7 +186,7 @@ class EventsItem extends Component {
       .then(re => re.json())
       .then((resJ) => {
         // save comments to redux store
-        this.props.getComments(resJ.reverse());
+        this.props.saveComments(resJ.reverse());
       });
     })
     .catch(err => console.log(err));
