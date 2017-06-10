@@ -57,7 +57,7 @@ const propTypes = {
   event: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   saveEvent: PropTypes.func.isRequired,
-  navigation: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired,
   changeEventNam: PropTypes.func.isRequired,
   changeEventDes: PropTypes.func.isRequired,
   changeEventLoc: PropTypes.func.isRequired,

@@ -1,3 +1,4 @@
+// This is the component to display detailed information of each event
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import { connect } from 'react-redux';
@@ -17,7 +18,6 @@ const {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  AlertIOS,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -66,9 +66,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingRight: 25,
     fontWeight: '600',
-  },
-  inviteeContainer: {
-    marginTop: 0,
   },
   inviteeTitle: {
     marginTop: 20,
@@ -163,15 +160,15 @@ class EventsItem extends Component {
     // get id from the state, and send it over to the db to get all the activities 
     const processActs = this.props.getActivities;
     const processComs = this.props.getComments;
-    fetch(`${baseURL}/altActs`, {
-      method: 'POST',
+    fetch(`${baseURL}/events/${this.state.event.id}/alternativeActivities`, {
+      method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        id: this.state.event.id,
-      }),
+      // body: JSON.stringify({
+      //   id: this.state.event.id,
+      // }),
     })
     .then(res => res.json())
     .then((resJson) => {
@@ -199,6 +196,7 @@ class EventsItem extends Component {
   getParticipantsAndStatus() {
     const { id } = this.props.navigation.state.params;
     // request all events from db
+    // TODO: the end point should be /events/:id based on REST
     fetch(`${baseURL}/events/participants/list/:${id}`)
     .then(response => response.json())
     .then((responseJSON) => {
@@ -326,7 +324,6 @@ class EventsItem extends Component {
 
   render() {
     const { name, description, eventDate, location, startTime, endTime, username, photourl } = this.props.navigation.state.params;
-    console.log('this.state.participants', this.state.participants);
     return (
       <ScrollView style={styles.container}>
         {/*<Image

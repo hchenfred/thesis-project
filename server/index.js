@@ -68,14 +68,14 @@ app.post('suggestion/userinfo', (req, res) => {
   });
 });
 
-app.post('/altActs', (req, res) => {
-  db.getActivitiesByEvent(req.body.id)
+app.get('/events/:eventId/alternativeActivities', (req, res) => {
+  db.getActivitiesByEvent(req.params.eventId)
   .then((results) => {
     res.json(results);
   })
   .catch((err) => {
     res.send(err);
-  })
+  });
 });
 
 app.post('/vote', (req, res) => {
