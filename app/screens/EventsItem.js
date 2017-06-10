@@ -146,6 +146,8 @@ const BUTTONS = [
 const propTypes = {
   saveActiveEvent: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
+  saveActivities: PropTypes.func.isRequired,
+  saveComments: PropTypes.func.isRequired,
 };
 
 class EventsItem extends Component {
@@ -157,12 +159,12 @@ class EventsItem extends Component {
     this.showComments = this.showComments.bind(this);
   }
 
-  componentWillMount() {
-    this.getParticipantsAndStatus();
-  }
+  // componentWillMount() {
+  //   this.getParticipantsAndStatus();
+  // }
 
+  // Get activities and comments associated with the event
   componentDidMount() {
-    // get id from the state, and send it over to the db to get all the activities
     fetch(`${baseURL}/events/${this.state.event.id}/alternativeActivities`, {
       method: 'GET',
       headers: {
@@ -189,6 +191,9 @@ class EventsItem extends Component {
         this.props.saveComments(resJ.reverse());
       });
     })
+    .then(() => {
+      this.getParticipantsAndStatus();
+    })
     .catch(err => console.log(err));
   }
 
@@ -196,7 +201,7 @@ class EventsItem extends Component {
     const { id } = this.props.navigation.state.params;
     // request all events from db
     // TODO: the end point should be /events/:id based on REST
-    fetch(`${baseURL}/events/participants/list/:${id}`)
+    fetch(`${baseURL}/events/${id}/participants`)
     .then(response => response.json())
     .then((responseJSON) => {
       this.setState({ participants: responseJSON });

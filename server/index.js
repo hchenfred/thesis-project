@@ -243,14 +243,14 @@ app.post('/participants', (req, res) => {
           text: `${req.body.host.name} would like to invite you to an event. Check out our app to RSVP`,
         };
         console.log('mailgun data', data);
-        mailgun.messages().send(data, (err, body) => {
-          if (err) {
-            res.render ('error', { error: err });
-            console.log('got an error from mailgun API -------->', err);
-          } else {
-            console.log(body);
-          }
-        });
+        // mailgun.messages().send(data, (err, body) => {
+        //   if (err) {
+        //     res.status(404).json({ error: err });
+        //     console.log('got an error from mailgun API -------->', err);
+        //   } else {
+        //     console.log(body);
+        //   }
+        // });
       });
   })
   .then((result) => {
@@ -304,12 +304,11 @@ app.get('/events', (req, res) => {
   });
 });
 
-app.get('/events/participants/list/:*', (req, res) => {
-  const id = req.params[0];
-  console.log('get participants for events ----->', id);
-  db.getEventParticipants(id, (err, results) => {
+app.get('/events/:eventId/participants', (req, res) => {
+  const eventId = req.params.eventId;
+  console.log('get participants for events ----->', eventId);
+  db.getEventParticipants(eventId, (err, results) => {
     if (err) {
-      console.log(err);
       res.send(err);
     } else {
       console.log(results);
