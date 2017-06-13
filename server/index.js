@@ -9,7 +9,6 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 const Mailgun = require('mailgun-js');
-
 let config = require('../apis/config.js');
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {

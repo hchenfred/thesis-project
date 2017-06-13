@@ -148,6 +148,11 @@ const propTypes = {
   navigation: PropTypes.object.isRequired,
   saveActivities: PropTypes.func.isRequired,
   saveComments: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  activities: PropTypes.array.isRequired,
+  comments: PropTypes.array.isRequired,
+  saveSuggestedActivityName: PropTypes.func.isRequired,
+  saveSuggestedActivityLocation: PropTypes.func.isRequired,
 };
 
 class EventsItem extends Component {
@@ -158,10 +163,6 @@ class EventsItem extends Component {
     this.showActionSheet = this.showActionSheet.bind(this);
     this.showComments = this.showComments.bind(this);
   }
-
-  // componentWillMount() {
-  //   this.getParticipantsAndStatus();
-  // }
 
   // Get activities and comments associated with the event
   componentDidMount() {
@@ -200,7 +201,6 @@ class EventsItem extends Component {
   getParticipantsAndStatus() {
     const { id } = this.props.navigation.state.params;
     // request all events from db
-    // TODO: the end point should be /events/:id based on REST
     fetch(`${baseURL}/events/${id}/participants`)
     .then(response => response.json())
     .then((responseJSON) => {
@@ -233,13 +233,13 @@ class EventsItem extends Component {
     });
   }
 
-  createActivities() {
+  displayActivities() {
     if (this.props.activities.length === 0) { 
       return (
         <Text style={styles.commentText}>
           The are currently not Alternative activities proposed for this event. Click the new Activity button to suggest a new activity
         </Text>
-      )
+      );
     } else if (this.props.activities.length === 1) {
       return (
         <Text style={styles.commentText}>
@@ -249,7 +249,7 @@ class EventsItem extends Component {
     } else {
       return this.props.activities.map((activity, i) => {
         return (
-          <ActivityVote 
+          <ActivityVote
             key={i}
             activity={activity}
           />
@@ -258,14 +258,14 @@ class EventsItem extends Component {
     }
   }
 
-  createParticipants() {
+  displayParticipants() {
     if (this.state.participants.length > 0) {
       return this.state.participants.map((participant, i) => {
         return (
-          <View style={{ flexDirection: 'row', marginTop: 3, marginBottom: 3, backgroundColor: '#27ae60', padding: 5, borderRadius: 5, width: '98%', marginLeft: 'auto', marginRight: 'auto'}} key={i}>
-            {participant.status === 'yes' && <Icon type="font-awesome" name="check" size={15} color="#e67e22"/>}
-            {participant.status === 'no' && <Icon type="font-awesome" name="close" size={15} color="#e67e22"/>}
-            {participant.status === 'maybe' && <Icon type="font-awesome" name="question" size={20} color="#e67e22"/>}
+          <View style={{ flexDirection: 'row', marginTop: 3, marginBottom: 3, backgroundColor: '#27ae60', padding: 5, borderRadius: 5, width: '98%', marginLeft: 'auto', marginRight: 'auto' }} key={i}>
+            {participant.status === 'yes' && <Icon type="font-awesome" name="check" size={15} color="#e67e22" />}
+            {participant.status === 'no' && <Icon type="font-awesome" name="close" size={15} color="#e67e22" />}
+            {participant.status === 'maybe' && <Icon type="font-awesome" name="question" size={20} color="#e67e22" />}
             <Text style={styles.participant}>{participant.username}</Text>
           </View>
         );
@@ -273,7 +273,7 @@ class EventsItem extends Component {
     } else {
       return (
         <Text style={styles.participantText}>No one has been invited to this event.</Text>
-      )
+      );
     }
   }
 
@@ -288,7 +288,7 @@ class EventsItem extends Component {
   }
 
   changeResponse(idx, value, participant, eventID, eventname) {
-    fetch( baseURL + '/events/participants/rsvp', {
+    fetch(`${baseURL}/events/participants/rsvp`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -303,7 +303,7 @@ class EventsItem extends Component {
         participantPic: participant.photourl,
       }),
     })
-    .then((data) => {
+    .then(() => {
       this.getParticipantsAndStatus();
     })
     .catch(err => console.log(err));
@@ -340,10 +340,10 @@ class EventsItem extends Component {
         </View>
         <View style={{ flexDirection: 'row' }}>
           <View style={styles.textContainer}>
-            <Icon type="font-awesome" name="user" size={20} color="#e67e22"/><Text style={styles.otherText}>{username}</Text>
+            <Icon type="font-awesome" name="user" size={20} color="#e67e22" /><Text style={styles.otherText}>{username}</Text>
           </View>
           <View style={styles.textContainer}>
-            <Icon type="font-awesome" name="location-arrow" size={20} color="#e67e22"/><Text style={styles.otherText}>{location === null || location === undefined ? 'NO LOCATION' : location}</Text>
+            <Icon type="font-awesome" name="location-arrow" size={20} color="#e67e22" /><Text style={styles.otherText}>{location === null || location === undefined ? 'NO LOCATION' : location}</Text>
           </View>
         </View>
         <View style={{ flexDirection: 'row' }}>
@@ -365,11 +365,11 @@ class EventsItem extends Component {
           Contending Activities
         </Text>
         <ScrollView>
-          {this.createActivities()}
+          {this.displayActivities()}
         </ScrollView>
         <Text style={styles.inviteeTitle}>Invitees Status</Text>
         <ScrollView>
-          {this.createParticipants()}
+          {this.displayParticipants()}
         </ScrollView>
         <View>
           <Text style={styles.inviteeTitle}>
